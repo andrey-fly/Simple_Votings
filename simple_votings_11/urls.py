@@ -16,6 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from simple_voting import views
+from django.contrib.auth import views as auth_views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index),
+    path('available_voting/', views.available_voting),
+    path('login/', auth_views.LoginView.as_view()),
 ]
