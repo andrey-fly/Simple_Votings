@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 from simple_voting.forms import Complain
-
+from .models import *
 
 def index(request):
     context = {}
@@ -16,6 +16,8 @@ def index(request):
 def available_voting(request):
     context = {}
     context['data'] = datetime.datetime.now()
+
+    context['votings'] = Voting.objects.all()
 
     return render(request, 'available_voting.html', context)
 
