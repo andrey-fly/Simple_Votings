@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your complains</title>
+</head>
+<body>
+    <h1>Complains</h1>
+    <h2>Make your complain</h2>
+    {% if form.errors %}
+        <ul>
+            {% for key, value in form.errors.items %}
+            <li>Field {{ key|escape }}: {{ value} }}</li>
+        </ul>
+    {% for item in form %}
+
+</body>
+</html>

@@ -55,7 +55,9 @@ ROOT_URLCONF = 'simple_votings_11.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            './simple_voting/templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
