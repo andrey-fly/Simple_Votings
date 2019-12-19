@@ -19,4 +19,5 @@ from .views import *
 urlpatterns = [
     path('', index),
     path('available_voting/', available_voting),
+    path('design/', design)
 ]
