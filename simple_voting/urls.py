@@ -20,5 +20,5 @@ urlpatterns = [
     path('', index),
     path('available_voting/', available_voting),
     path('design/', design),
-    path('voting/', voting)
+    path('create_voting/', create_voting)
 ]

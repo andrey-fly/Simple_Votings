@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
-from simple_voting.forms import Complain
+from simple_voting.forms import Complain, VotingForm, OptionForm
 from .models import *
 
 def index(request):
@@ -44,8 +44,18 @@ def design(request):
     return render(request, 'design.html', context)
 
 
-def voting(request):
+@login_required()
+def create_voting(request):
     context = {}
+    voting_form = VotingForm(request.POST)
+    context['voting_form'] = voting_form
 
+    if request.method == 'POST':
+        if voting_form.is_valid():
+            item = Voting(
+                question=voting_form.data['question'],
+                author=request.user.id,
+                description=voting_form.data['description'])
+            item.save()
 
-    return render(request, 'voting.html', context)
+    return render(request, 'create_voting.html', context)

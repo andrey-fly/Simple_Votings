@@ -4,7 +4,8 @@ from django.db import models
 
 class Voting(models.Model):
     question = models.CharField(max_length=255)
-    author = models.IntegerField()
+    author = models.IntegerField(null=True)
+    description = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

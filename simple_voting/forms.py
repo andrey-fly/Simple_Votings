@@ -8,16 +8,22 @@ class Complain(forms.Form):
     date = forms.DateField(label='Date: ')
 
 
-class Voting(forms.Form):
+class VotingForm(forms.Form):
     question = forms.CharField(
         label='Вопрос',
-        min_length=1,
-        max_length=100,
+        min_length=5,
+        max_length=25,
         required=True
+    )
+    description = forms.CharField(
+        label = 'Дополнительное описание',
+        max_length=255,
+        required=False,
+        widget=forms.Textarea
     )
 
 
-class Option(forms.Form):
+class OptionForm(forms.Form):
     option = forms.CharField(
         label='Ответ',
         required=True
