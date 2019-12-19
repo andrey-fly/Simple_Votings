@@ -42,3 +42,10 @@ def design(request):
     context = {}
 
     return render(request, 'design.html', context)
+
+
+def voting(request):
+    context = {}
+
+
+    return render(request, 'voting.html', context)
