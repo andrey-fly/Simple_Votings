@@ -25,7 +25,7 @@
         </div>
 
         {% load crispy_forms_tags%}
-        <form action='/edit_voting/' method="POST" style="text-align: center; margin-top: 5%; margin-left: 25%; margin-right: 25%">
+        <form action='/create_voting/' method="POST" style="text-align: center; margin-top: 5%; margin-left: 25%; margin-right: 25%">
             {% csrf_token %}
             <div class="col col-md-12">
                 {{voting_form|crispy }}

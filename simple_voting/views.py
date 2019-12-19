@@ -49,7 +49,6 @@ def create_voting(request):
     context = {}
     voting_form = VotingForm(request.POST)
     context['voting_form'] = voting_form
-
     if request.method == 'POST':
         if voting_form.is_valid():
             item = Voting(
@@ -57,5 +56,12 @@ def create_voting(request):
                 author=request.user.id,
                 description=voting_form.data['description'])
             item.save()
-
+            edit_voting(request)
+            return render(request, 'edit_voting.html', context)
     return render(request, 'create_voting.html', context)
+
+
+def edit_voting(request):
+    context = {}
+
+    return render(request, 'edit_voting.html', context)
