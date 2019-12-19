@@ -36,3 +36,9 @@ def complain(request):
             context['form'] = cmpl
 
     return render(request, 'complain.html', context)
+
+
+def design(request):
+    context = {}
+
+    return render(request, 'design.html', context)
