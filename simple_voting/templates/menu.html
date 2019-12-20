@@ -6,12 +6,17 @@
         <li class="nav-item">
             <a class="nav-link" href="/login" role="button">Авторизация</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/create_voting" role="button">Создание опроса</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/available_voting" role="button">Голосования</a>
-        </li>
+
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Опрос
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="/create_voting">Создать</a>
+            <a class="dropdown-item" href="#">Редактировать</a>
+            <a class="dropdown-item" href="/available_voting">Список</a>
+        </div>
+      </li>
         <li class="nav-item">
             <a class="nav-link" href="#" role="button">Об авторах</a>
         </li>
