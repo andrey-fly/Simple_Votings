@@ -66,7 +66,7 @@ def create_voting(request):
                     return render(request, 'create_voting.html', context)
 
             item.save()
-            request.session['id_voting'] = len(data) + 1
+            request.session['id_voting'] = item.id
             return edit_voting(request)
             # return render(request, 'edit_voting.html', context)
     return render(request, 'create_voting.html', context)
