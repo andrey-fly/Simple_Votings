@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from simple_voting.forms import Complain, VotingForm, OptionForm
 from .models import *
 
+
 def index(request):
     context = {}
     context['data'] = datetime.datetime.now()
@@ -16,9 +17,7 @@ def index(request):
 def available_voting(request):
     context = {}
     context['data'] = datetime.datetime.now()
-
     context['votings'] = Voting.objects.all()
-
     return render(request, 'available_voting.html', context)
 
 
