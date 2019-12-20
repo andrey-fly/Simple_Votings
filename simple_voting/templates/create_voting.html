@@ -20,18 +20,18 @@
         <div class="row">
 
             <div class="col col-md-12" style="text-align: center">
-                <h1>Создание голосования</h1>
+                <h1>Создать голосование</h1>
             </div>
         </div>
 
         {% load crispy_forms_tags%}
-        <form action='/create_voting/' method="POST" style="text-align: center; margin-top: 5%; margin-left: 25%; margin-right: 25%">
+        <form class="form-group" action='/create_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
             {% csrf_token %}
-            <div class="col col-md-12">
+            <div >
                 {{voting_form|crispy }}
             </div>
-            <div class="col col-md-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div >
+            <button type="submit" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
             </div>
         </form>
 
