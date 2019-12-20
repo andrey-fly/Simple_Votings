@@ -21,7 +21,7 @@ class VotingForm(forms.Form):
         label = 'Дополнительное описание',
         max_length=255,
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radigius: 8px'})
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
     )
 
 
