@@ -17,6 +17,22 @@
                 <h1>Редактор голосования</h1>
             </div>
         </div>
+         <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h3>{{voting.question}}</h3>
+            </div>
+        </div>
+
+        {% load crispy_forms_tags%}
+        <form class="form-group" action='/edit_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+            {% csrf_token %}
+            <div>
+                {{option.form|crispy}}
+            </div>
+            <div>
+            <button type="submit" class="btn btn-primary btn-md" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
+            </div>
+        </form>
 
 <!--        <form>-->
 <!--            <div class="row">-->

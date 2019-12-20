@@ -71,11 +71,25 @@ def create_voting(request):
 
 
 def edit_voting(request):
+    print(request)
     context = {}
+    option_form = OptionForm(request.POST)
+
+    question = request.GET.get('question', 'error')
+
+    user = request.user.id;
+    votings = Voting.objects.all().values('id', 'created').filter(author=user)
+    print(user)
+    print(votings)
 
     voting = {}
-    voting['question'] = 'ThisIsQuestion'
-    voting['description'] = 'description description description description '
+    voting['question'] = question
+    voting['description'] = 'description description description description'
+
+    option = {}
+    option['form'] = option_form
+
 
     context['voting'] = voting
+    context['option'] = option
     return render(request, 'edit_voting.html', context)
