@@ -8,9 +8,13 @@
     <h1>Log in</h1>
     <form action="/login/" method="POST">
         {% csrf_token %}
-        {{ form }}
-        <br>
+        {{form.username.label}} : {{form.username}} <br>
+        {{form.password.label}} : {{form.password}} <br>
         <input type="submit" value="Log in">
     </form>
+    <hr>
+    {% if form.errors %}
+        {{form.errors}}
+    {% endif %}
 </body>
 </html>
