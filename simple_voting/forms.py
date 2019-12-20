@@ -14,14 +14,14 @@ class VotingForm(forms.Form):
         min_length=5,
         max_length=25,
         required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Question'})
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
 
     )
     description = forms.CharField(
         label = 'Дополнительное описание',
         max_length=255,
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description'})
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radigius: 8px'})
     )
 
 
