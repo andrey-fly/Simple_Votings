@@ -73,4 +73,9 @@ def create_voting(request):
 def edit_voting(request):
     context = {}
 
+    voting = {}
+    voting['question'] = 'ThisIsQuestion'
+    voting['description'] = 'description description description description '
+
+    context['voting'] = voting
     return render(request, 'edit_voting.html', context)
