@@ -66,11 +66,14 @@ def create_voting(request):
                     return render(request, 'create_voting.html', context)
 
             item.save()
-            return render(request, 'edit_voting.html', context)
+            return edit_voting(request)
+            # return render(request, 'edit_voting.html', context)
     return render(request, 'create_voting.html', context)
 
 
 def edit_voting(request):
+    voting_form = VotingForm(request.POST)
+    print(voting_form.data['question'])
     print(request)
     context = {}
     option_form = OptionForm(request.POST)
@@ -79,8 +82,8 @@ def edit_voting(request):
 
     user = request.user.id;
     votings = Voting.objects.all().values('id', 'created').filter(author=user)
-    print(user)
-    print(votings)
+    # print(user)
+    # print(votings)
 
     voting = {}
     voting['question'] = question
