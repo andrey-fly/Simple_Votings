@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Log in</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Log in</h1>
-    <form action="/login/" method="POST">
-        {% csrf_token %}
-        {{form.username.label}} : {{form.username}} <br>
-        {{form.password.label}} : {{form.password}} <br>
-        <input type="submit" value="Log in">
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Log in</button>
     </form>
-    <hr>
-    {% if form.errors %}
-        {{form.errors}}
-    {% endif %}
-</body>
+    <p>Don't have an account yet? <a href="/register">Registration</a></p>
+  </body>
 </html>
