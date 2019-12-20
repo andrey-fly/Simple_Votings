@@ -28,5 +28,7 @@ class VotingForm(forms.Form):
 class OptionForm(forms.Form):
     option = forms.CharField(
         label='Ответ',
-        required=True
+        required=True,
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
     )

@@ -1,7 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from simple_voting.forms import Complain, VotingForm, OptionForm
 from .models import *
@@ -66,33 +66,45 @@ def create_voting(request):
                     return render(request, 'create_voting.html', context)
 
             item.save()
+            request.session['id_voting'] = len(data) + 1
             return edit_voting(request)
             # return render(request, 'edit_voting.html', context)
     return render(request, 'create_voting.html', context)
 
 
 def edit_voting(request):
-    voting_form = VotingForm(request.POST)
-    print(voting_form.data['question'])
-    print(request)
     context = {}
+
+    id_voting = request.session.get('id_voting', -1)
+    user = request.user.id
+
     option_form = OptionForm(request.POST)
+    if request.method == 'POST' and id_voting > 0:
+        if option_form.is_valid():
+            item = Option(text=option_form.data['option'], voting=Voting.objects.get(id=id_voting))
+            item.save()
 
-    question = request.GET.get('question', 'error')
+    if id_voting > 0:
+        voting = Voting.objects.all().filter(id=id_voting).values('question', 'description')
+        question = voting[0]['question']
+        description = voting[0]['description']
+    else:
+        question = 'question'
+        description = 'description'
 
-    user = request.user.id;
-    votings = Voting.objects.all().values('id', 'created').filter(author=user)
-    # print(user)
-    # print(votings)
+    voting_context = {}
+    voting_context['question'] = question
+    voting_context['description'] = description
 
-    voting = {}
-    voting['question'] = question
-    voting['description'] = 'description description description description'
+    option_context = {}
+    option_context['form'] = option_form
 
-    option = {}
-    option['form'] = option_form
+    context['voting'] = voting_context
+    context['option'] = option_context
 
+    if request.POST.get('status') == 'Save':
+        if id_voting > 0:
+            del request.session['id_voting']
+        return redirect('/')
 
-    context['voting'] = voting
-    context['option'] = option
     return render(request, 'edit_voting.html', context)
