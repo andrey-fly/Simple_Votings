@@ -55,6 +55,16 @@ def create_voting(request):
                 question=voting_form.data['question'],
                 author=request.user.id,
                 description=voting_form.data['description'])
+
+            data = Voting.objects.all().values('question', 'author')
+            for row in data:
+                if row['question'] == voting_form.data['question'] and row['author'] == request.user.id:
+                    error = dict()
+                    error['message'] = 'Вы уже создали опрос с таким названием'
+                    error['question'] = voting_form.data['question']
+                    context['error'] = error
+                    return render(request, 'create_voting.html', context)
+
             item.save()
             edit_voting(request)
             return render(request, 'edit_voting.html', context)

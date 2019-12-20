@@ -22,6 +22,14 @@
             <div class="col col-md-12" style="text-align: center">
                 <h1>Создать голосование</h1>
             </div>
+            {% if error %}
+            <div class="col col-md-12" style="text-align: center; color: darkred">
+                <p>{{ error.message }}:</p>
+                <p>{{ error.question }}</p>
+                <p>Отредактируйте или создайте новый</p>
+            </div>
+            {% endif %}
+
         </div>
 
         {% load crispy_forms_tags%}
