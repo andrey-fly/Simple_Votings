@@ -4,6 +4,8 @@ from django.http import HttpResponseRedirect
 from django.views import View
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 
 class Complain(forms.Form):
@@ -18,16 +20,16 @@ class Complain(forms.Form):
 #     password = forms.CharField(label='Password: ', required=True)
 
 
-class RegisterFormView(FormView):
-    form_class = UserCreationForm
-
-    success_url = "/login/"
-    template_name = "register.html"
-
-    def form_valid(self, form):
-        form.save()
-
-        return super(RegisterFormView, self).form_valid(form)
+# class RegisterFormView(FormView):
+#     form_class = UserCreationForm
+#
+#     success_url = "/login/"
+#     template_name = "register.html"
+#
+#     def form_valid(self, form):
+#         form.save()
+#
+#         return super(RegisterFormView, self).form_valid(form)
 
 
 class LoginFormView(FormView):
@@ -42,3 +44,10 @@ class LoginFormView(FormView):
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
+
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(max_length=250, help_text='Обязательное поле.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
