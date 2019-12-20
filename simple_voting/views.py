@@ -66,7 +66,6 @@ def create_voting(request):
                     return render(request, 'create_voting.html', context)
 
             item.save()
-            edit_voting(request)
             return render(request, 'edit_voting.html', context)
     return render(request, 'create_voting.html', context)
 
