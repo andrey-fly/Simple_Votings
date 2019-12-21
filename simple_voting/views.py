@@ -19,6 +19,7 @@ def available_voting(request):
     context = {}
     context['data'] = datetime.datetime.now()
     context['votings'] = Voting.objects.all()
+    context['user'] = User.objects.get(id=request.user.id)
 
     if request.method == 'POST':
         print(request.POST.get('id'))

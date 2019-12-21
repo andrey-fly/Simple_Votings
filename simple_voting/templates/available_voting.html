@@ -4,19 +4,23 @@
 {% endblock %}
 {% block content %}
     <main>
-        Date is: {{ data }}
-
+        <div class="row" style="text-align: center; margin-top: 2%">
+            <div class="col-md-12">
+                <p> Hello, {{user.username}}, today is: {{ data }}
+            </div>
+        </div>
         {% for voting in votings %}
-        <hr>
-          <p style="text-align: center"> Вопрос: {{voting.question}} Автор: {{voting.author.username}}</p>
-<!--            {% for option in voting.options %}-->
-<!--                <li>{{option.text}}</li>-->
-<!--            {% endfor %}-->
-        <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-            {% csrf_token %}
-            <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Пройти</button>
-        </form>
-        <hr>
+        <div class="row">
+            <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                <hr>
+                <p style="text-align: center"> Вопрос: {{voting.question}} | Автор: {{voting.author.username}}</p>
+                 <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+                     {% csrf_token %}
+                     <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Пройти</button>
+                </form>
+            </div>
+                <hr>
+        </div>
     </main>
 {% endfor %}
 {% endblock %}
