@@ -4,15 +4,11 @@
 {% endblock %}
 {% block content %}
     <main>
-        Date is: {{ data }}
-
         {% for voting in votings %}
-        <hr>
-          <p> Вопрос: {{voting.question}} Автор: {{voting.author}}</p>
+        <div> Вопрос: {{voting.question}} Автор: {{voting.author}}</div>
             {% for option in voting.options %}
                 <li>{{option.text}}</li>
             {% endfor %}
-        <hr>
     </main>
 {% endfor %}
 {% endblock %}

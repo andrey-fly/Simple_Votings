@@ -3,12 +3,12 @@
     <title>Registration</title>
 {% endblock %}
 {% block content %}
-<body>
+<main>
     <h1>Registration</h1>
     <form action="/register/" method="POST">
         {% csrf_token %}
         {{ user_form.as_p }}
       <button type="submit">Create account</button>
     </form>
-    <hr>
+</main>
 {% endblock %}
