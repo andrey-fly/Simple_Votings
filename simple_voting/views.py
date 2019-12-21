@@ -125,10 +125,17 @@ def vote(request):
             voting['description'] = 'Отсутствует'
         context['voting'] = dict([('question', voting['question']),('description', voting['description'])])
 
-        context['options'] = Option.objects.all().filter(voting=voting_id)
+        class Data:
+            def __init__(self, left, right):
+                self.left = left
+                self.right = right
 
-    form = VoteFormCheckBox(request.POST)
-    context['choice_form'] = form
-
+        options = Option.objects.all().filter(voting=voting_id).values('id', 'text')
+        options_context = []
+        for option in options:
+            options_context.append(Data(option['text'], VoteFormCheckBox(request.POST)))
+            # options_context[option['text']] = VoteFormCheckBox(request.POST)
+        context['options'] = options_context
+        print(options_context)
 
     return render(request, 'vote.html', context)
