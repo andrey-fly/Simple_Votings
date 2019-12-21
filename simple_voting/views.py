@@ -75,7 +75,6 @@ def edit_voting(request):
     context = {}
 
     id_voting = request.session.get('id_voting', -1)
-    user = request.user.id
 
     option_form = OptionForm(request.POST)
     if request.method == 'POST' and id_voting > 0:
@@ -112,30 +111,41 @@ def edit_voting(request):
 @login_required()
 def vote(request):
     context = {}
+    voting_id = None
+    choices = []
+    form_vote = VoteFormCheckBox(request.POST)
 
-    if len(request.GET) == 0:
-        return redirect('/')
-    else:
+    if request.method == 'POST':
+        options = dict(form_vote.data)['items']
+        print(options)
+        for option in options:
+            print(option)
+            item = Vote(
+                option_id=Option.objects.get(id=option),
+                author_id=User.objects.get(id=request.user.id)
+            )
+            item.save()
+
+    if len(request.GET) > 0 and request.method == 'GET':
         voting_id = request.GET.get('voting', 'error')
         if voting_id == 'error':
             return redirect('/')
-        voting = Voting.objects.all().filter(id=voting_id).values('question', 'description', 'author')
-        voting = voting[0]
-        if voting['description'] is None:
-            voting['description'] = 'Отсутствует'
-        context['voting'] = dict([('question', voting['question']),('description', voting['description'])])
 
-        class Data:
-            def __init__(self, left, right):
-                self.left = left
-                self.right = right
+        voting = Voting.objects.filter(id=voting_id)[0]
+        context['question'] = voting.question
+        context['description'] = voting.description
+        if context['description'] is None:
+            context['description'] = 'Отсутствует'
 
-        options = Option.objects.all().filter(voting=voting_id).values('id', 'text')
-        options_context = []
-        for option in options:
-            options_context.append(Data(option['text'], VoteFormCheckBox(request.POST)))
-            # options_context[option['text']] = VoteFormCheckBox(request.POST)
-        context['options'] = options_context
-        print(options_context)
+        options = Option.objects.filter(voting=voting_id)
+        for i in range(len(options)):
+            choices.append(('{}'.format(options[i].id), '{}'.format(options[i].text)))
+
+        form_vote.fields['items'].choices = choices
+        print(form_vote.fields['items'].choices)
+        context['form_vote'] = form_vote
+
+    if len(request.GET) == 0:
+        return redirect('/')
 
     return render(request, 'vote.html', context)

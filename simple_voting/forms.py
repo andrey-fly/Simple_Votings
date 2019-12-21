@@ -35,4 +35,6 @@ class OptionForm(forms.Form):
 
 
 class VoteFormCheckBox(forms.Form):
-    checkbox = forms.BooleanField(required=False, label="Check this")
+    items = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple
+    )
