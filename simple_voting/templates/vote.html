@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12" style="text-align: center">
+        <h1>Голосование</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6" style="text-align: right">
+        <p>Вопрос:</p>
+    </div>
+    <div class="col-md-6" style="text-align: left">
+        <p>{{ voting.question }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6" style="text-align: right">
+        <p>Описание:</p>
+    </div>
+    <div class="col-md-6" style="text-align: left">
+        <p>{{ voting.description }}</p>
+    </div>
+</div>
+
+<!--цикл-->
+<div class="row">
+    <div class="col-md-12" style="text-align: center">
+        {% for option in options %}
+        <hr>
+            <p> Вариант: {{option.text}}</p>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+<!--конец цикла-->
+
+{% endblock %}

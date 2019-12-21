@@ -32,3 +32,7 @@ class OptionForm(forms.Form):
         widget=forms.TextInput(
             attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
     )
+
+
+class VoteFormCheckBox(forms.Form):
+    checkbox = forms.BooleanField(required=False, label="Check this")

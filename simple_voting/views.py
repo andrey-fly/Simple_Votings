@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from simple_voting.forms import Complain, VotingForm, OptionForm
+from simple_voting.forms import Complain, VotingForm, OptionForm, VoteFormCheckBox
 from .models import *
 
 
@@ -107,3 +107,28 @@ def edit_voting(request):
         return redirect('/')
 
     return render(request, 'edit_voting.html', context)
+
+
+@login_required()
+def vote(request):
+    context = {}
+
+    if len(request.GET) == 0:
+        return redirect('/')
+    else:
+        voting_id = request.GET.get('voting', 'error')
+        if voting_id == 'error':
+            return redirect('/')
+        voting = Voting.objects.all().filter(id=voting_id).values('question', 'description', 'author')
+        voting = voting[0]
+        if voting['description'] is None:
+            voting['description'] = 'Отсутствует'
+        context['voting'] = dict([('question', voting['question']),('description', voting['description'])])
+
+        context['options'] = Option.objects.all().filter(voting=voting_id)
+
+    form = VoteFormCheckBox(request.POST)
+    context['choice_form'] = form
+
+
+    return render(request, 'vote.html', context)
