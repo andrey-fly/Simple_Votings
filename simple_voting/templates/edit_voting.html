@@ -28,7 +28,17 @@
             </div>
         </div>
 
-        {% load crispy_forms_tags%}
+
+        {% for opt in option_list %}
+        <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h3>вариант ответа {{opt.text}}</h3>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
         <form class="form-group" action='/edit_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
             {% csrf_token %}
             <div class="row">

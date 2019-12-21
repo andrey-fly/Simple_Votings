@@ -19,11 +19,11 @@
 
         </div>
 
-        {% load crispy_forms_tags%}
+
         <form class="form-group" action='/create_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
             {% csrf_token %}
             <div>
-                {{voting_form|crispy }}
+                {{voting_form }}
             </div>
             <div>
             <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
