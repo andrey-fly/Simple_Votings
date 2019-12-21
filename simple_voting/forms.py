@@ -45,9 +45,16 @@ class LoginFormView(FormView):
         return super(LoginFormView, self).form_valid(form)
 
 
-class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=250, help_text='Обязательное поле.')
+class UserRegistrationForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+    def clean_password2(self):
+        cd = self.data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cd['password2']

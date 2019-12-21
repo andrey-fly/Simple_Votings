@@ -22,5 +22,5 @@ urlpatterns = [
     path('', index),
     path('available_voting/', available_voting),
     path('design/', design),
-    # path('register/', forms.RegisterFormView.as_view()),
+    path('register/', signup)
 ]

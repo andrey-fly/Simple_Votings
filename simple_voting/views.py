@@ -1,8 +1,9 @@
 import datetime
 
 from django.contrib.auth import login, authenticate
-from simple_voting.forms import SignUpForm
-from django.contrib.auth.decorators import login_required
+
+from simple_voting.forms import UserRegistrationForm
+
 from django.shortcuts import render, redirect
 
 from simple_voting.forms import Complain
@@ -49,14 +50,15 @@ def design(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('/')
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save()
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password2'])
+            # Save the User object
+            new_user.save()
+            return render(request, 'index.html', {'username': user_form.data['username']})
     else:
-        form = SignUpForm()
-    return render(request, 'register.html', {'form': form})
+        user_form = UserRegistrationForm()
+    return render(request, 'register.html', {'user_form': user_form})

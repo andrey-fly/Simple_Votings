@@ -24,6 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('simple_voting.urls')),
     path('login/', auth_views.LoginView.as_view()),
-    path('logout/', auth_views.LogoutView.as_view()),
-    path('register/', views.signup)
+    path('logout/', auth_views.LogoutView.as_view())
 ]

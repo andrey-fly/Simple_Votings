@@ -7,6 +7,9 @@
 <body>
     <h1>Main page</h1>
     {% include 'menu.html' %}
+    {% if username %}
+    <h2>HELLO, {{username}}</h2>
+    {% endif %}
     <p>Current time is: {{ data }}</p>
 </body>
 </html>
