@@ -8,10 +8,14 @@
 
         {% for voting in votings %}
         <hr>
-          <p> Вопрос: {{voting.question}} Автор: {{voting.author}}</p>
-            {% for option in voting.options %}
-                <li>{{option.text}}</li>
-            {% endfor %}
+          <p style="text-align: center"> Вопрос: {{voting.question}} Автор: {{voting.author.username}}</p>
+<!--            {% for option in voting.options %}-->
+<!--                <li>{{option.text}}</li>-->
+<!--            {% endfor %}-->
+        <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+            {% csrf_token %}
+            <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Пройти</button>
+        </form>
         <hr>
     </main>
 {% endfor %}

@@ -19,6 +19,11 @@ def available_voting(request):
     context = {}
     context['data'] = datetime.datetime.now()
     context['votings'] = Voting.objects.all()
+
+    if request.method == 'POST':
+        print(request.POST.get('id'))
+        return redirect('/vote?voting={}'.format(request.POST.get('id')))
+
     return render(request, 'available_voting.html', context)
 
 
