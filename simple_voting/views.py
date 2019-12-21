@@ -129,7 +129,7 @@ def vote(request):
                     item.save()
     if len(request.GET) > 0 and request.method == 'GET':
         voting_id = request.GET.get('voting', 'error')
-        if voting_id == 'error' or int(voting_id) > len(Voting.objects.annotate(Count('id'))):
+        if voting_id == 'error':
             return redirect('/')
 
         voting = Voting.objects.filter(id=voting_id)[0]
