@@ -1,5 +1,10 @@
 import datetime
 
+from django.contrib.auth import login, authenticate
+
+from simple_voting.forms import UserRegistrationForm
+
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
@@ -107,3 +112,19 @@ def edit_voting(request):
         return redirect('/')
 
     return render(request, 'edit_voting.html', context)
+
+
+def signup(request):
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
+        if user_form.is_valid():
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password2'])
+            # Save the User object
+            new_user.save()
+            return render(request, 'index.html', {'username': user_form.data['username']})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'register.html', {'user_form': user_form})
