@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from simple_voting.forms import Complain, VotingForm, OptionForm, VoteFormCheckBox
 from .models import *
 
+from django.db.models import Count
 
 def index(request):
     context = {}
@@ -116,19 +117,19 @@ def vote(request):
     form_vote = VoteFormCheckBox(request.POST)
 
     if request.method == 'POST':
-        options = dict(form_vote.data)['items']
-        print(options)
-        for option in options:
-            print(option)
-            item = Vote(
-                option_id=Option.objects.get(id=option),
-                author_id=User.objects.get(id=request.user.id)
-            )
-            item.save()
-
+        options = dict(form_vote.data).get('items')
+        if options is not None:
+            if len(options) > 0:
+                for option in options:
+                    print(option)
+                    item = Vote(
+                        option_id=Option.objects.get(id=option),
+                        author_id=User.objects.get(id=request.user.id)
+                    )
+                    item.save()
     if len(request.GET) > 0 and request.method == 'GET':
         voting_id = request.GET.get('voting', 'error')
-        if voting_id == 'error':
+        if voting_id == 'error' or int(voting_id) > len(Voting.objects.annotate(Count('id'))):
             return redirect('/')
 
         voting = Voting.objects.filter(id=voting_id)[0]
