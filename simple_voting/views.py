@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from simple_voting.forms import Complain, VotingForm, OptionForm
+from simple_voting.forms import Complain, VotingForm, OptionForm, VoteFormCheckBox
 from .models import *
 
 
@@ -130,3 +130,35 @@ def signup(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'register.html', {'user_form': user_form})
+
+
+@login_required()
+def vote(request):
+    context = {}
+
+    if len(request.GET) == 0:
+        return redirect('/')
+    else:
+        voting_id = request.GET.get('voting', 'error')
+        if voting_id == 'error':
+            return redirect('/')
+        voting = Voting.objects.all().filter(id=voting_id).values('question', 'description', 'author')
+        voting = voting[0]
+        if voting['description'] is None:
+            voting['description'] = 'Отсутствует'
+        context['voting'] = dict([('question', voting['question']),('description', voting['description'])])
+
+        class Data:
+            def __init__(self, left, right):
+                self.left = left
+                self.right = right
+
+        options = Option.objects.all().filter(voting=voting_id).values('id', 'text')
+        options_context = []
+        for option in options:
+            options_context.append(Data(option['text'], VoteFormCheckBox(request.POST)))
+            # options_context[option['text']] = VoteFormCheckBox(request.POST)
+        context['options'] = options_context
+        print(options_context)
+
+    return render(request, 'vote.html', context)

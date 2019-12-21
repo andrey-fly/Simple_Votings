@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class Voting(models.Model):
     question = models.CharField(max_length=255)
-    author = models.IntegerField(null=False, default=0) #TODO: Сменить на форейнки для стандартного юзера
-    description = models.CharField(max_length=255)
+    author = models.IntegerField(null=False) #TODO: Сменить на форейнки для стандартного юзера
+    description = models.CharField(max_length=255, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -18,5 +18,7 @@ class Option(models.Model):
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
 
 
-
-
+class Vote(models.Model):
+    option_id = models.ForeignKey(to=Option, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
