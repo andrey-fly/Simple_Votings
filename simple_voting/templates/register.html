@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
+{% extends 'base.html' %}
+{% block title %}
+    <title>Registration</title>
+{% endblock %}
+{% block content %}
 <body>
     <h1>Registration</h1>
     <form action="/register/" method="POST">
@@ -12,5 +11,4 @@
       <button type="submit">Create account</button>
     </form>
     <hr>
-</body>
-</html>
+{% endblock %}
