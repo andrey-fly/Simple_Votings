@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Voting(models.Model):
     question = models.CharField(max_length=255)
-    author = models.IntegerField(null=False) #TODO: Сменить на форейнки для стандартного юзера
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

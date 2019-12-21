@@ -62,7 +62,7 @@ def create_voting(request):
 
             data = Voting.objects.all().values('question', 'author')
             for row in data:
-                if row['question'] == voting_form.data['question'] and row['author'] == request.user.id:
+                if row['question'] == voting_form.data['question'] and row['author'] == request.User.id:
                     error = dict()
                     error['message'] = 'Вы уже создали опрос с таким названием'
                     error['question'] = voting_form.data['question']

@@ -5,7 +5,6 @@
 {% block content %}
 
         <div class="row">
-
             <div class="col col-md-12" style="text-align: center">
                 <h1>Создать голосование</h1>
             </div>
@@ -16,9 +15,7 @@
                 <p>Отредактируйте или создайте новый</p>
             </div>
             {% endif %}
-
         </div>
-
 
         <form class="form-group" action='/create_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
             {% csrf_token %}
@@ -29,6 +26,5 @@
             <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
             </div>
         </form>
-
 
 {% endblock %}
