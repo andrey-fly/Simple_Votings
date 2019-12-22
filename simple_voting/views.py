@@ -133,6 +133,7 @@ def signup(request):
             new_user.set_password(user_form.cleaned_data['password2'])
             # Save the User object
             new_user.save()
+            login(request, new_user)
             return render(request, 'index.html', {'username': user_form.data['username']})
     else:
         user_form = UserRegistrationForm()
