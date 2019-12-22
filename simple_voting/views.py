@@ -13,6 +13,7 @@ from .models import *
 
 from django.db.models import Count
 
+
 def index(request):
     context = {}
     context['data'] = datetime.datetime.now()
