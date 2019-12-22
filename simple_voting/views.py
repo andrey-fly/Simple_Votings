@@ -153,8 +153,8 @@ def vote(request):
                 for option in options:
                     print(option)
                     item = Vote(
-                        option_id=Option.objects.get(id=option),
-                        author_id=User.objects.get(id=request.user.id)
+                        option=Option.objects.get(id=option),
+                        author=User.objects.get(id=request.user.id)
                     )
                     item.save()
     if len(request.GET) > 0 and request.method == 'GET':
@@ -168,7 +168,7 @@ def vote(request):
         if context['description'] is None:
             context['description'] = 'Отсутствует'
 
-        options = Option.objects.filter(voting=voting_id)
+        options = Option.objects.filter(voting_id=voting_id)
         for i in range(len(options)):
             choices.append(('{}'.format(options[i].id), '{}'.format(options[i].text)))
 
