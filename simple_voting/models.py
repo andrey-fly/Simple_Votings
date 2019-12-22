@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Voting(models.Model):
     question = models.CharField(max_length=255)
     author = models.ForeignKey(to=User, null=False, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, null=True)
+    description = models.CharField(max_length=255, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
