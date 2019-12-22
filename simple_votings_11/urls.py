@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import include,path
+from django.urls import include, path
 
 from simple_voting import views
 from django.contrib.auth import views as auth_views

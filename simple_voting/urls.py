@@ -28,5 +28,5 @@ urlpatterns = [
     path('register/', signup),
     path('edit_voting/', edit_voting),
     path('vote/', vote),
-    path('profile/',dashboard)
+    path('profile/', profile)
 ]

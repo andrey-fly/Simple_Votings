@@ -181,11 +181,12 @@ def vote(request):
 
     return render(request, 'vote.html', context)
 
+
 @login_required()
-def dashboard(request):
+def profile(request):
     context = {}
     voting_items = Voting.objects.filter(author_id=User.objects.get(id=request.user.id))
     context['voting_items'] = voting_items
     context['user'] = User.objects.get(id=request.user.id)
 
-    return render(request, 'dashboard.html', context)
+    return render(request, 'profile.html', context)
