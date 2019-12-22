@@ -11,7 +11,7 @@
         <p>Вопрос:</p>
     </div>
     <div class="col-md-6" style="text-align: left">
-        <p>{{ voting.question }}</p>
+        <p>{{ question }}</p>
     </div>
 </div>
 
@@ -20,34 +20,70 @@
         <p>Описание:</p>
     </div>
     <div class="col-md-6" style="text-align: left">
-        <p>{{ voting.description }}</p>
+        <p>{{ description }}</p>
     </div>
 </div>
 
-<!--цикл-->
 <div class="row">
-    <div class="col-md-12" style="text-align: center">
-        <form class="form-group" action='/vote/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+    <div class="col-md-12" style="text-align: right">
+        <form class="form-group" action='/vote/' method="POST" style="text-align: left; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
         {% csrf_token %}
-        {% for option in options %}
-        <hr>
+<!--        {{ form_vote }}-->
+        {% for i in form_vote %}
         <div class="row">
-            <div class="col-md-6" style="text-align: right">
-                <p>{{option.left}}</p>
-            </div>
-            <div class="col-md-6" style="text-align: left">
-                {{option.right.checkbox}}
+            <div class="col-md-12" style="text-align: left;  margin-left: 40%">
+                {{ i }}
             </div>
         </div>
-        <hr>
         {% endfor %}
-        <div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Send</button>
+         <div class="row">
+            <div class="col-md-12" style="text-align: center; ">
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Send</button>
+            </div>
         </div>
-        </form>
 
+    </form>
     </div>
 </div>
-<!--конец цикла-->
+
+<!--    <form class="form-group" action='/vote/' method="POST" style="text-align: left; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">-->
+<!--        {% csrf_token %}-->
+<!--&lt;!&ndash;        {{ form_vote }}&ndash;&gt;-->
+<!--        {% for i in form_vote %}-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12" >-->
+<!--                {{ i }}-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--        <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Send</button>-->
+<!--    </form>-->
+
+
+<!--&lt;!&ndash;цикл&ndash;&gt;-->
+<!--<div class="row">-->
+<!--    <div class="col-md-12" style="text-align: center">-->
+<!--        <form class="form-group" action='/vote/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">-->
+<!--        {% csrf_token %}-->
+<!--        {% for option in options %}-->
+<!--        <hr>-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-6" style="text-align: right">-->
+<!--                <p>{{option.left}}</p>-->
+<!--            </div>-->
+<!--            <div class="col-md-6" style="text-align: left">-->
+<!--                {{option.right.checkbox}}-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <hr>-->
+<!--        {% endfor %}-->
+<!--        <div>-->
+<!--            <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Send</button>-->
+<!--        </div>-->
+<!--        </form>-->
+
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;конец цикла&ndash;&gt;-->
 
 {% endblock %}
