@@ -64,12 +64,12 @@ def create_voting(request):
         if voting_form.is_valid():
             item = Voting(
                 question=voting_form.data['question'],
-                author=request.user.id,
+                author=User.objects.get(id=request.user.id),
                 description=voting_form.data['description'])
 
             data = Voting.objects.all().values('question', 'author')
             for row in data:
-                if row['question'] == voting_form.data['question'] and row['author'] == request.User.id:
+                if row['question'] == voting_form.data['question'] and row['author'] == request.user.id:
                     error = dict()
                     error['message'] = 'Вы уже создали опрос с таким названием'
                     error['question'] = voting_form.data['question']
