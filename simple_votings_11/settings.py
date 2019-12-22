@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'simple_voting',
+    'crispy_forms',
+    # 'django_forms_bootstrap'
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

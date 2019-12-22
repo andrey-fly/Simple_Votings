@@ -1,0 +1,23 @@
+#Requirements for project
+## Minimal requirements:
+* Django 2.7
+* asgiref 3.2.3
+* django-crispy-forms 1.8.1
+* django-forms-bootstrap 3.1.0
+* pip 9.0.1
+* pkg-resources 0.0.0
+* pytz 2019.3
+* setuptools 39.0.1
+* sqlparse 0.3.0
+
+
+##Recommended requirements:
+* Django 3.0
+* asgiref 3.2.3
+* django-crispy-forms 1.8.1
+* django-forms-bootstrap 3.1.0
+* pip 19.3.1
+* pkg-resources 0.0.0
+* pytz 2019.3
+* setuptools 42.0.2
+* sqlparse 0.3.0

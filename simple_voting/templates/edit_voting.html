@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Edit voting</title>
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container-fluid" style="overflow-x: hidden">
+        <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h1>Редактор голосования</h1>
+            </div>
+        </div>
+         <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h3>Вопрос: {{voting.question}}</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h3>Описание: {{voting.description}}</h3>
+            </div>
+        </div>
+
+        {% for opt in option_list %}
+        <div class="row">
+            <div class="col-md-12" style="text-align: center">
+                <h3>Вариант ответа: {{opt.text}}</h3>
+            </div>
+        </div>
+        {% endfor %}
+
+        <form class="form-group" action='/edit_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-4" style="text-align: right">
+                    <h3>Добавить ответ:</h3>
+                </div>
+                <div class="col-md-6">
+                    {{option.form.option}}
+                </div>
+                <div class="col-md-2">
+                    <input type="submit" class="btn btn-primary btn-md" name="status" value="Add" style="width: 25%; border-radius: 16px; min-width: 100px"></input>
+                </div>
+            </div>
+        </form>
+
+        <form class="form-group" action='/edit_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="submit" class="btn btn-primary btn-md" name="status" value="Save" style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}
