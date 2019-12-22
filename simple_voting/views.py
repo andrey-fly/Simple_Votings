@@ -179,3 +179,12 @@ def vote(request):
         return redirect('/')
 
     return render(request, 'vote.html', context)
+
+@login_required()
+def dashboard(request):
+    context = {}
+    voting_items = Voting.objects.filter(author_id=User.objects.get(id=request.user.id))
+    context['voting_items'] = voting_items
+    context['user'] = User.objects.get(id=request.user.id)
+
+    return render(request, 'dashboard.html', context)

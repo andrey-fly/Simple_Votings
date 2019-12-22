@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Profile</title>
+{% endblock %}
+{% block content %}
+<main>
+    <div>
+        HELLO, {{ user.username }}
+    </div>
+    <div>
+        <ul>
+        {% for item in voting_items %}
+            <li>{{ item.question }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+</main>
+{% endblock %}
