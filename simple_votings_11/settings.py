@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'simple_voting',
     'crispy_forms',
-    'django_forms_bootstrap'
+    # 'django_forms_bootstrap'
 ]
 
 MIDDLEWARE = [
