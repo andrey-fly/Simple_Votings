@@ -88,5 +88,11 @@ class OptionForm(forms.Form):
 
 class VoteFormCheckBox(forms.Form):
     items = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-    )
+        widget=forms.CheckboxSelectMultiple,)
+
+
+class ChangeInfoForm(forms.Form):
+    username = forms.CharField(label='Username',  min_length=3, required=False)
+    first_name = forms.CharField(label='First name',  min_length=3, required=False)
+    last_name = forms.CharField(label='Last name', min_length=3, required=False)
+    email = forms.EmailField(label='Email', required=False)

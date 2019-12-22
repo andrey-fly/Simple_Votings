@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Change information</title>
+{% endblock %}
+{% block content %}
+<main>
+    <h1>Change information</h1>
+    <form action="/change_info/" method="POST">
+        {% for field in form %}
+            {% csrf_token %}
+            <div class="col-md-3" style="margin:5px; background-color:#aaf0d1; paddin:7px; border-radius:5px">
+                {{ field.label }}: {{ field }}
+            </div>
+        {% endfor %}
+        <div class="row2">
+            <input type="submit" class="btn btn-primary btn-md" name="status" value="Save" style="width: 25%; border-radius: 16px; min-width: 100px"/>
+        </div>
+    </form>
+</main>
+{% endblock %}

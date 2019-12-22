@@ -7,7 +7,18 @@
     <div>
         <h1>Welcome to your profile, {{ user.username }}!</h1>
     </div>
-
+    <div>
+        <h2>Информация:</h2>
+        <ul>
+            <li> Последний вход: {{ user.last_login }} </li>
+            <li> Имя: {{ user.first_name}} </li>
+            <li> Фамилия: {{ user.last_name}} </li>
+        </ul>
+    <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
+        {% csrf_token %}
+        <button type="submit" name="id" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию</button>
+    </form>
+    </div>
     <div>
         {% for voting in voting_items %}
         <div class="row">
