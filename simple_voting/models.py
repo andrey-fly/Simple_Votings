@@ -19,6 +19,6 @@ class Option(models.Model):
 
 
 class Vote(models.Model):
-    option_id = models.ForeignKey(to=Option, on_delete=models.CASCADE)
-    author_id = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
