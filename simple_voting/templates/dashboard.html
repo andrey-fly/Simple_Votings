@@ -5,14 +5,44 @@
 {% block content %}
 <main>
     <div>
-        HELLO, {{ user.username }}
+        <h1>Welcome to your profile, {{ user.username }}!</h1>
     </div>
+
     <div>
-        <ul>
-        {% for item in voting_items %}
-            <li>{{ item.question }}</li>
-        {% endfor %}
-        </ul>
+        {% for voting in voting_items %}
+        <div class="row">
+            <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                <hr>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center"> Вопрос: {{voting.question}}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center"> Описание: {{voting.description}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center"> Дата создания: {{voting.created}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center"> Дата последнего изменения: {{voting.updated}}</p>
+                    </div>
+                </div>
+                 <form class="form-group" action='#' method="POST" style="text-align: center">
+                     {% csrf_token %}
+                     <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Редактировать</button>
+                </form>
+            </div>
+                <hr>
+        </div>
+    {% endfor %}
     </div>
 </main>
 {% endblock %}
