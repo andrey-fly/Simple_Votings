@@ -13,6 +13,7 @@
             <li> Последний вход: {{ user.last_login }} </li>
             <li> Имя: {{ user.first_name}} </li>
             <li> Фамилия: {{ user.last_name}} </li>
+            <li> email: {{ user.email}} </li>
         </ul>
     <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
         {% csrf_token %}

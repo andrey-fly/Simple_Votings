@@ -4,17 +4,38 @@
 {% endblock %}
 {% block content %}
 <main>
-    <h1>Change information</h1>
-    <form action="/change_info/" method="POST">
-        {% for field in form %}
-            {% csrf_token %}
-            <div class="col-md-3" style="margin:5px; background-color:#aaf0d1; paddin:7px; border-radius:5px">
-                {{ field.label }}: {{ field }}
-            </div>
-        {% endfor %}
-        <div class="row2">
-            <input type="submit" class="btn btn-primary btn-md" name="status" value="Save" style="width: 25%; border-radius: 16px; min-width: 100px"/>
+    <div class="row">
+        <div class="col-md-12" style="margin-left: 1%">
+            <h1>Change information</h1>
         </div>
-    </form>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3" style="background-color:#aaf0d1; padding-bottom: 12px; border-radius: 12px; margin-left: 1.5%">
+
+            <div class="row">
+                <div class="col-md-12" style="color: darkred">
+                    {{form.errors}}
+                </div>
+            </div>
+
+            <form action="/change_info/" method="POST">
+                {% for field in form %}
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12" style="margin:5px; paddin:7px; border-radius:5px">
+                        {{ field.label }}:
+                    </div>
+                    <div class="col-md-12" style="margin:5px; paddin:7px; border-radius:5px">
+                        {{ field }}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="row2">
+                    <input type="submit" class="btn btn-primary btn-md" name="status" value="Save" style="width: 25%; border-radius: 16px; min-width: 100px; margin-top: 5%"/>
+                </div>
+            </form>
+        </div>
+    </div>
 </main>
 {% endblock %}
