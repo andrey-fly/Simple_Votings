@@ -94,6 +94,7 @@ def edit_voting(request):
         if option_form.is_valid():
             item = Option(text=option_form.data['option'], voting=Voting.objects.get(id=id_voting))
             item.save()
+            return redirect('/edit_voting/')
 
     if id_voting > 0:
         voting = Voting.objects.all().filter(id=id_voting).values('question', 'description')
