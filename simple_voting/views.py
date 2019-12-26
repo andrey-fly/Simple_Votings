@@ -2,7 +2,7 @@ import datetime
 
 from django.contrib.auth import login, authenticate
 
-from simple_voting.forms import UserRegistrationForm
+from simple_voting.forms import *
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -191,3 +191,40 @@ def profile(request):
     context['user'] = User.objects.get(id=request.user.id)
 
     return render(request, 'profile.html', context)
+
+@login_required()
+def change_info(request):
+    form = ChangeInfoForm(request.POST)
+    context = {}
+    context['form'] = form
+    current_user = User.objects.get(id=request.user.id)
+
+    if request.method == 'POST':
+        if request.POST.get('old_password'):
+            old_password = request.POST.get('old_password')
+            if current_user.check_password('{}'.format(old_password)) is False:
+                form.set_old_password_flag()
+                return render(request, 'change_info.html', {'form': form})
+        if form.is_valid():
+            if request.POST.get('username'):
+                current_user.username = request.POST.get('username')
+            if request.POST.get('first_name'):
+                current_user.first_name = request.POST.get('first_name')
+            if request.POST.get('last_name'):
+                current_user.last_name = request.POST.get('last_name')
+            if request.POST.get('email'):
+                current_user.email = request.POST.get('email')
+            if request.POST.get('old_password'):
+                old_password = request.POST.get('old_password')
+                if current_user.check_password('{}'.format(old_password)) is False:
+                    form.set_old_password_flag()
+                    return render(request, 'change_info.html', {'form': form})
+                else:
+                    current_user.set_password('{}'.format(form.data['new_password2']))
+            current_user.save()
+            login(request, current_user)
+        else:
+            return render(request, 'change_info.html', context)
+    if request.POST.get('status') == 'Save':
+        return redirect('/profile')
+    return render(request, 'change_info.html', context)

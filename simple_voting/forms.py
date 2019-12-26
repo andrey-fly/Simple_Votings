@@ -88,5 +88,38 @@ class OptionForm(forms.Form):
 
 class VoteFormCheckBox(forms.Form):
     items = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-    )
+        widget=forms.CheckboxSelectMultiple,)
+
+
+class ChangeInfoForm(forms.Form):
+    username = forms.CharField(label='Username',  min_length=3, required=False)
+    first_name = forms.CharField(label='First name',  min_length=3, required=False)
+    last_name = forms.CharField(label='Last name', min_length=3, required=False)
+    email = forms.EmailField(label='Email', required=False)
+    old_password = forms.CharField(label='Old password', widget=forms.PasswordInput, required=False, initial=None)
+    new_password = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8, required=False, initial=None)
+    new_password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput, required=False, initial=None)
+
+    old_password_flag = True
+
+    def set_old_password_flag(self):
+        self.old_password_flag = False
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get('old_password')
+
+        if not old_password and self.data.get('new_password'):
+            print('Not')
+            raise forms.ValidationError("You must enter your old password.")
+
+        if self.old_password_flag is False:
+            raise forms.ValidationError("The old password that you have entered is wrong.")
+
+        return old_password
+
+    def clean_new_password2(self):
+        new_password = self.cleaned_data.get('new_password')
+        new_password2 = self.cleaned_data.get('new_password2')
+        if new_password != new_password2:
+            raise forms.ValidationError('New passwords don\'t match.')
+        return new_password2

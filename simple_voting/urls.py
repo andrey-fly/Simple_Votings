@@ -28,5 +28,6 @@ urlpatterns = [
     path('register/', signup),
     path('edit_voting/', edit_voting),
     path('vote/', vote),
-    path('profile/', profile)
+    path('profile/', profile),
+    path('change_info/', change_info)
 ]
