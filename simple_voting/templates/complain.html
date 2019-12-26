@@ -1,15 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Complain</title>
+    <title>Your complains</title>
 {% endblock %}
 {% block content %}
 <main>
-    <h1>Complains</h1>
-    <h2>Make your complain</h2>
-    {% if form.errors %}
-        <ul>
-            {% for key, value in form.errors.items %}
-            <li>Field {{ key|escape }}: {{ value} }}</li>
-        </ul>
-</main>
+    {% if complain_form %}
+        <h1>Complains</h1>
+        {% include 'menu.html' %}
+        <h2>Make your complain</h2>
+        <form action="/complain/" method="post">
+            {% csrf_token %}
+            {{ complain_form.as_p }}
+            <button type="submit">Send</button>
+        </form>
+    {% else %}
+        <h3>Your complaint has been accepted</h3>
+        <p> <a href="/">To the main page</a></p>
+    {% endif %}
 {% endblock %}

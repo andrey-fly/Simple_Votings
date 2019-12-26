@@ -8,13 +8,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
-class Complain(forms.Form):
-    username = forms.IntegerField(label='Your username: ', required=True)
-    complain_type = forms.IntegerField(label='Your complain type: ', required=True)
-    description = forms.IntegerField(label='Describe your problem: ', required=False)
-    date = forms.DateField(label='Date: ')
-
-
 # class LogInForm(forms.Form):
 #     username = forms.CharField(label='Login: ', required=True)
 #     password = forms.CharField(label='Password: ', required=True)
@@ -123,3 +116,19 @@ class ChangeInfoForm(forms.Form):
         if new_password != new_password2:
             raise forms.ValidationError('New passwords don\'t match.')
         return new_password2
+
+class Complain(forms.Form):
+    name = forms.CharField(
+        label='Your username',
+        widget=forms.TextInput
+    )
+
+    email = forms.EmailField(
+        label='Your email',
+        widget=forms.EmailInput
+    )
+
+    message = forms.CharField(
+        label='Describe your problem',
+        widget=forms.Textarea
+    )
