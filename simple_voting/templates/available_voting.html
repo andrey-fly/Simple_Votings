@@ -26,6 +26,14 @@
                     </div>
                 </div>
 
+                {% for count in voting.options %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <p style="text-align: center"> Голоса: {{ count.vote_count }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
                  <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
                      {% csrf_token %}
                      <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Пройти</button>
