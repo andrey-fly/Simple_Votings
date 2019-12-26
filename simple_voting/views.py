@@ -45,22 +45,6 @@ def available_voting(request):
     return render(request, 'available_voting.html', context)
 
 
-# def complain(request):
-#     context = {}
-#     if request.method == 'POST':
-#         cmpl = Complain(request.POST)
-#         if cmpl.is_valid():
-#             context['username'] = cmpl.username
-#             context['complain_type'] = cmpl.complain_type
-#             context['description'] = cmpl.description
-#             context['date'] = cmpl.date
-#             context['form'] = cmpl
-#         else:
-#             context['form'] = cmpl
-#
-#     return render(request, 'complain.html', context)
-
-
 def design(request):
     context = {}
 
@@ -200,7 +184,7 @@ def vote(request):
     if len(request.GET) > 0 and request.method == 'GET':
         voting_id = request.GET.get('voting', 'error')
         if voting_id == 'error':
-            return redirect('/')
+            return redirect('/available_voting')
 
         voting = Voting.objects.filter(id=voting_id)[0]
         context['question'] = voting.question
@@ -217,7 +201,7 @@ def vote(request):
         context['form_vote'] = form_vote
 
     if len(request.GET) == 0:
-        return redirect('/')
+        return redirect('/available_voting')
 
     return render(request, 'vote.html', context)
 
