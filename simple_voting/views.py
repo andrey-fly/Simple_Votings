@@ -123,7 +123,7 @@ def edit_voting(request):
     if request.POST.get('status') == 'Save':
         if id_voting > 0:
             del request.session['id_voting']
-        return redirect('/')
+        return redirect('/available_voting')
 
     return render(request, 'edit_voting.html', context)
 
