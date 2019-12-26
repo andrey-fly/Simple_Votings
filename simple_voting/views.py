@@ -31,6 +31,13 @@ def available_voting(request):
     context['votings'] = Voting.objects.all()
     context['user'] = User.objects.get(id=request.user.id)
 
+    counting_index = 0
+    for option in Option.objects.all():
+        option.vote_count = option.votes().count()
+        counting_index += 1
+        option.save()
+    context['options'] = Voting.objects.all()
+
     if request.method == 'POST':
         print(request.POST.get('id'))
         return redirect('/vote?voting={}'.format(request.POST.get('id')))

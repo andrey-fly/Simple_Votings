@@ -16,6 +16,10 @@ class Voting(models.Model):
 class Option(models.Model):
     text = models.CharField(max_length=50)
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
+    vote_count = models.IntegerField(default=0)
+
+    def votes(self):
+        return Vote.objects.filter(option=self)
 
 
 class Vote(models.Model):
