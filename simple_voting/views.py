@@ -317,6 +317,11 @@ def edit_voting(request):
         if request.POST.get('status') == 'GO BACK':
             return redirect('../profile')
 
+        if request.POST.get('status') == 'DELETE':
+            Voting.objects.get(id=vote_id).delete()
+            print("DONE")
+            return redirect('/profile/')
+
     return render(request, 'edit_voting.html', context)
 
 
