@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="en" style="">
 
 <head>
     <meta charset="UTF-8">
@@ -11,10 +11,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 </head>
 
-<body class="container-fluid" style="margin: 0px; padding: 0px">
+<body class="container-fluid" style="margin: 0px; padding: 0px; display: flex; flex-direction: column; height: 100%; height: -webkit-fill-available;">
     {% include 'menu.html' %}
+    <div style="flex: 1 0 auto;">
     {% block content %}
     {% endblock %}
+    </div>
     {% include 'footer.html' %}
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

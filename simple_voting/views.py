@@ -190,6 +190,16 @@ def vote(request):
         voting_id = request.GET.get('voting', 'error')
         if voting_id == 'error':
             return redirect('/available_voting')
+        voting = Voting.objects.get(id=voting_id)
+        opts = Option.objects.filter(voting=voting)
+        for item in opts:
+            vts = item.votes()
+            for jtem in vts:
+                username = User.objects.get(id=request.user.id).username
+                if jtem.author.username == username:
+                    context['error'] = "You are already voted"
+                    print(context['error'])
+                    return render(request, 'vote.html', context)
 
         voting = Voting.objects.filter(id=voting_id)[0]
         context['question'] = voting.question
@@ -306,6 +316,11 @@ def edit_voting(request):
 
         if request.POST.get('status') == 'GO BACK':
             return redirect('../profile')
+
+        if request.POST.get('status') == 'DELETE':
+            Voting.objects.get(id=vote_id).delete()
+            print("DONE")
+            return redirect('/profile/')
 
     return render(request, 'edit_voting.html', context)
 

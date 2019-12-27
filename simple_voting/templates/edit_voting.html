@@ -75,9 +75,13 @@
 
     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
         <div class="row">
-            <div class="col-12" style="margin: auto; text-align: center">
+            <div class="col-6" style="margin: auto; text-align: right">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary btn-md" name="status" value="GO BACK" style="width: 25%; border-radius: 16px; min-width: 100px"/>
+            </div>
+            <div class="col-6" style="margin: auto; text-align: left">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary btn-md" name="status" value="DELETE" style="width: 25%; border-radius: 16px; min-width: 100px"/>
             </div>
         </div>
     </form>
