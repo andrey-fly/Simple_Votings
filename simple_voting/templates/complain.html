@@ -17,7 +17,10 @@
         </form>
     {% else %}
         <h3>Your complaint has been accepted</h3>
-    <div class="btn btn-lg btn-success"> <a href="/">To the main page</a></div>
+    <form class="form-group" action='/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+            {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-lg">Return to the main page</button>
+    </form>
     {% endif %}
 </main>
 {% endblock %}
