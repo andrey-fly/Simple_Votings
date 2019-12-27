@@ -23,6 +23,7 @@ from django.contrib.auth.models import User
 #         form.save()
 #
 #         return super(RegisterFormView, self).form_valid(form)
+from simple_voting.models import Voting
 
 
 class LoginFormView(FormView):
@@ -117,6 +118,7 @@ class ChangeInfoForm(forms.Form):
             raise forms.ValidationError('New passwords don\'t match.')
         return new_password2
 
+
 class Complain(forms.Form):
     name = forms.CharField(
         label='Your username',
@@ -132,3 +134,23 @@ class Complain(forms.Form):
         label='Describe your problem',
         widget=forms.Textarea
     )
+
+
+class EditVotingForm(forms.Form):
+    question = forms.CharField(
+        label='Вопрос',
+        min_length=5,
+        max_length=25,
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
+
+    )
+    description = forms.CharField(
+        label = 'Дополнительное описание',
+        max_length=255,
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
+    )
+
+    class Meta:
+        model = Voting

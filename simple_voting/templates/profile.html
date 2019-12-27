@@ -47,7 +47,7 @@
                         <p style="text-align: center"> Дата последнего изменения: {{voting.updated}}</p>
                     </div>
                 </div>
-                 <form class="form-group" action='#' method="POST" style="text-align: center">
+                 <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                      {% csrf_token %}
 
                     <input type="submit" class="btn btn-primary btn-md" name="{{ voting.id }}" value="Edit"

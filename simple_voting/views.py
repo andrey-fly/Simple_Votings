@@ -74,12 +74,12 @@ def create_voting(request):
 
             item.save()
             request.session['id_voting'] = item.id
-            return edit_voting(request)
-            # return render(request, 'edit_voting.html', context)
+            return generate_voting(request)
+            # return render(request, 'generate_voting.html', context)
     return render(request, 'create_voting.html', context)
 
 
-def edit_voting(request):
+def generate_voting(request):
     context = {}
 
     id_voting = request.session.get('id_voting', -1)
@@ -89,7 +89,7 @@ def edit_voting(request):
         if option_form.is_valid():
             item = Option(text=option_form.data['option'], voting=Voting.objects.get(id=id_voting))
             item.save()
-            return redirect('/edit_voting/')
+            return redirect('/generate_voting/')
 
     if id_voting > 0:
         voting = Voting.objects.all().filter(id=id_voting).values('question', 'description')
@@ -116,7 +116,7 @@ def edit_voting(request):
             del request.session['id_voting']
         return redirect('/available_voting')
 
-    return render(request, 'edit_voting.html', context)
+    return render(request, 'generate_voting.html', context)
 
 
 def signup(request):
@@ -251,3 +251,49 @@ def change_info(request):
     if request.POST.get('status') == 'Save':
         return redirect('/profile')
     return render(request, 'change_info.html', context)
+
+
+@login_required()
+def edit_voting(request):
+    context = {}
+    vote_id = None
+    voting_form = EditVotingForm(request.POST)
+    context['voting_form'] = voting_form
+
+    if request.method == 'POST':
+        # del request.session['id_voting']
+        if request.session.get('id_voting', 'error') == 'error':
+            votes_id = request.POST
+            for vid in votes_id:
+                vote_id = vid
+            request.session['id_voting'] = vote_id
+
+        vote_id = request.session.get('id_voting', 'error')
+        print(vote_id)
+
+        if voting_form.is_valid():
+            new_question = voting_form.cleaned_data.get('question')
+            new_desc = voting_form.cleaned_data.get('description')
+            print(new_question)
+            print(new_desc)
+
+            voting = Voting.objects.get(id=vote_id)
+
+            if new_question:
+                voting.question = new_question
+                voting.save()
+
+            if new_desc:
+                voting.description = new_desc
+                voting.save()
+
+            if request.POST.get('status') == 'Save':
+                print("save")
+
+            # if request.POST.get('status_question') == 'Save':
+            #     print("question")
+            #
+            # if request.POST.get('status_desc') == 'Save':
+            #     print("desc")
+
+    return render(request, 'edit_voting.html', context)

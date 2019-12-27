@@ -23,12 +23,11 @@ urlpatterns = [
     path('available_voting/', available_voting),
     path('design/', design),
     path('create_voting/', create_voting),
-    path('edit_voting/', edit_voting),
-    path('design/', design),
+    path('generate_voting/', generate_voting),
     path('register/', signup),
-    path('edit_voting/', edit_voting),
     path('vote/', vote),
     path('profile/', profile),
     path('change_info/', change_info),
-    path('complain/', complain)
+    path('complain/', complain),
+    path('edit_voting/', edit_voting)
 ]
