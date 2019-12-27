@@ -19,6 +19,7 @@ from django.core.mail import send_mail
 
 
 def index(request):
+    clear_session(request)
     context = {}
     context['data'] = datetime.datetime.now()
 
@@ -26,6 +27,7 @@ def index(request):
 
 
 def available_voting(request):
+    clear_session(request)
     context = {}
     context['data'] = datetime.datetime.now()
     context['votings'] = Voting.objects.all()
@@ -46,6 +48,7 @@ def available_voting(request):
 
 
 def design(request):
+    clear_session(request)
     context = {}
 
     return render(request, 'design.html', context)
@@ -74,12 +77,12 @@ def create_voting(request):
 
             item.save()
             request.session['id_voting'] = item.id
-            return edit_voting(request)
-            # return render(request, 'edit_voting.html', context)
+            return generate_voting(request)
+            # return render(request, 'generate_voting.html', context)
     return render(request, 'create_voting.html', context)
 
 
-def edit_voting(request):
+def generate_voting(request):
     context = {}
 
     id_voting = request.session.get('id_voting', -1)
@@ -89,7 +92,7 @@ def edit_voting(request):
         if option_form.is_valid():
             item = Option(text=option_form.data['option'], voting=Voting.objects.get(id=id_voting))
             item.save()
-            return redirect('/edit_voting/')
+            return redirect('/generate_voting/')
 
     if id_voting > 0:
         voting = Voting.objects.all().filter(id=id_voting).values('question', 'description')
@@ -116,10 +119,11 @@ def edit_voting(request):
             del request.session['id_voting']
         return redirect('/available_voting')
 
-    return render(request, 'edit_voting.html', context)
+    return render(request, 'generate_voting.html', context)
 
 
 def signup(request):
+    clear_session(request)
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
@@ -138,7 +142,7 @@ def signup(request):
 
 def complain(request):
     context = {}
-
+    clear_session(request)
     if request.method == 'GET':
         context.update(csrf(request))
         context['complain_form'] = Complain()
@@ -165,6 +169,7 @@ def complain(request):
 
 @login_required()
 def vote(request):
+    clear_session(request)
     context = {}
     voting_id = None
     choices = []
@@ -208,6 +213,7 @@ def vote(request):
 
 @login_required()
 def profile(request):
+    clear_session(request)
     context = {}
     voting_items = Voting.objects.filter(author_id=User.objects.get(id=request.user.id))
     context['voting_items'] = voting_items
@@ -217,6 +223,7 @@ def profile(request):
 
 @login_required()
 def change_info(request):
+    clear_session(request)
     form = ChangeInfoForm(request.POST)
     context = {}
     context['form'] = form
@@ -251,3 +258,58 @@ def change_info(request):
     if request.POST.get('status') == 'Save':
         return redirect('/profile')
     return render(request, 'change_info.html', context)
+
+
+@login_required()
+def edit_voting(request):
+    context = {}
+
+    voting_form = EditVotingForm(request.POST)
+    context['voting_form'] = voting_form
+    option_form = OptionForm(request.POST)
+    context['option_form'] = option_form
+
+    if request.method == 'POST':
+        if request.session.get('id_voting', 'error') == 'error':
+            votes_id = request.POST
+            for vid in votes_id:
+                vote_id = vid
+            request.session['id_voting'] = vote_id
+
+        vote_id = request.session.get('id_voting', 'error')
+        print(vote_id)
+
+        if voting_form.is_valid():
+            new_question = voting_form.cleaned_data.get('question')
+            new_desc = voting_form.cleaned_data.get('description')
+
+            voting = Voting.objects.get(id=vote_id)
+
+            if new_question:
+                voting.question = new_question
+                voting.save()
+
+            if new_desc:
+                voting.description = new_desc
+                voting.save()
+
+        options = Option.objects.filter(voting=Voting.objects.get(id=vote_id))
+        context['options'] = options
+        delete = request.POST.get('Delete')
+        if delete:
+            Option.objects.get(id=delete).delete()
+
+        if option_form.is_valid():
+            new_option = option_form.data['option']
+            new_option = Option(text=new_option, voting=Voting.objects.get(id=vote_id))
+            new_option.save()
+
+        if request.POST.get('status') == 'GO BACK':
+            return redirect('../profile')
+
+    return render(request, 'edit_voting.html', context)
+
+
+def clear_session(request):
+    if request.session.get('id_voting', None):
+        del request.session['id_voting']

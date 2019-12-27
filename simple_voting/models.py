@@ -16,6 +16,8 @@ class Voting(models.Model):
 class Option(models.Model):
     text = models.CharField(max_length=50)
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     vote_count = models.IntegerField(default=0)
 
     def votes(self):
