@@ -4,6 +4,10 @@
 {% endblock %}
 {% block content %}
 
+{% if error%}
+<h1 style="color: darkred; margin: auto; text-align: center">{{error}}</h1>
+
+{% else %}
 <div class="row">
     <div class="col-md-12" style="text-align: center">
         <h1>Голосование</h1>
@@ -48,4 +52,6 @@
     </form>
     </div>
 </div>
+{% endif %}
+
 {% endblock %}
