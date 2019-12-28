@@ -125,17 +125,17 @@
 }
 
 .header2 .h2-nav .navbar-nav .nav-item {
-  margin: 0 20px;
+  margin: 0 9px;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1330px) {
   .header2 .navbar-nav > .dropdown .dropdown-menu {
     min-width: 210px;
     margin-top: 0px;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1330px) {
   .header2 .dropdown-submenu:hover > .dropdown-menu {
     display: block;
   }
@@ -145,7 +145,7 @@
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1330px) {
   .header2 .hover-dropdown .navbar-nav > .dropdown:hover > .dropdown-menu {
     display: block;
     margin-top: 0px;
