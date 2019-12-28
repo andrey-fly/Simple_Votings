@@ -7,14 +7,20 @@
                     <ul>
                         <li><a href="/">Главная</a></li>
                         <li><a href="/profile">Профиль</a></li>
-                        <li><a href="/available_votings">Опросы</a></li>
+                        <li><a href="/available_voting">Опросы</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-3 item">
                     <h3>Другое</h3>
                     <ul>
-                        <li><a href="/login">Авторизация</a></li>
-                        <li><a href="/register">Регистрация</a></li>
+                        {% if not user.is_authenticated %}
+                            <li><a href="/login">Авторизация</a></li>
+                            <li><a href="/register">Регистрация</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li><a href="/profile">Профиль</a></li>
+                            <li><a href="/logout">Выход</a></li>
+                        {% endif %}
                         <li><a href="#">О нас</a></li>
                     </ul>
                 </div>
