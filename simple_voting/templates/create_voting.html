@@ -9,7 +9,7 @@
                 <h1>Создать голосование</h1>
             </div>
             {% if error %}
-            <div class="col col-md-12" style="text-align: center; color: darkred">
+            <div class="col col-md-12 " style="text-align: center; color: darkred">
                 <p>{{ error.message }}:</p>
                 <p>{{ error.question }}</p>
                 <p>Отредактируйте или создайте новый</p>
@@ -23,7 +23,7 @@
                 {{voting_form }}
             </div>
             <div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
+            <button type="submit" class="btn btn-primary btn-lg mt-3" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
             </div>
         </form>
 
