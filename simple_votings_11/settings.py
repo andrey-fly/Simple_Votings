@@ -128,12 +128,14 @@ STATICFILES_DIRS = [
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-# данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
-# EMAIL_HOST = 'smtp.example.com'          # Сервер для отправки сообщений
-# EMAIL_HOST_USER = 'info@example.com'     # имя пользователя
-# EMAIL_HOST_PASSWORD = 'password123'      # пароль от ящика
-# EMAIL_PORT = 2525                        # порт для подключения
-# EMAIL_USE_TLS = True                     # использование протокола шифрования
-# DEFAULT_FROM_EMAIL = 'info@example.com'  # email, с которого будет отправлено письмо
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
+
+EMAIL_HOST = 'smtp.example.com'          # Сервер для отправки сообщений
+EMAIL_HOST_USER = 'info@example.com'     # имя пользователя
+EMAIL_HOST_PASSWORD = 'password123'      # пароль от ящика
+EMAIL_PORT = 2525                        # порт для подключения
+EMAIL_USE_TLS = True                     # использование протокола шифрования
+DEFAULT_FROM_EMAIL = 'info@example.com'  # email, с которого будет отправлено письмо
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
