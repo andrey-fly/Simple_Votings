@@ -163,8 +163,7 @@ def complain(request):
                          (form.cleaned_data['name'], form.cleaned_data['email'], form.cleaned_data['message'])
 
             # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
-            # send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
-            #           fail_silently=False)
+            send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],fail_silently=False)
 
     return render(request, 'complain.html', context)
 
