@@ -1,21 +1,13 @@
 import datetime
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from django.views import View
 
 from simple_voting.forms import *
-
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-
-from simple_voting.forms import Complain, VotingForm, OptionForm, VoteFormCheckBox
 from simple_votings_11 import settings
 from .models import *
-from django.db.models import Count
-from django.views import View
-from django.core.mail import send_mail
 
 
 def index(request):
@@ -163,7 +155,8 @@ def complain(request):
                          (form.cleaned_data['name'], form.cleaned_data['email'], form.cleaned_data['message'])
 
             # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
-            send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],fail_silently=False)
+            send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
+                      fail_silently=False)
 
     return render(request, 'complain.html', context)
 
@@ -171,32 +164,10 @@ def complain(request):
 @login_required()
 def question(request):
     context = {}
-    clear_session(request)
-    if request.method == 'GET':
-        context.update(csrf(request))
-        context['question_form'] = Question()
-
-        return render(request, 'question.html', context)
-    elif request.method == 'POST':
-
-        form = Question(request.POST)
-        if form.is_valid():
-            email_subject = 'EVILEG :: Сообщение через контактную форму '
-            email_body = "С сайта отправлено новое сообщение\n\n" \
-                         "Имя отправителя: %s \n" \
-                         "E-mail отправителя: %s \n\n" \
-                         "Сообщение: \n" \
-                         "%s " % \
-                         (form.cleaned_data['name'], form.cleaned_data['email'], form.cleaned_data['message'])
-
-            # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
-            # send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
-            #           fail_silently=False)
-
+    # TODO:Здесь нужно реализовать систему вопрос-ответ примерно как в EduApp
     return render(request, 'question.html', context)
 
 
-@login_required()
 def vote(request):
     clear_session(request)
     context = {}
@@ -259,6 +230,7 @@ def profile(request):
     context['user'] = User.objects.get(id=request.user.id)
 
     return render(request, 'profile.html', context)
+
 
 @login_required()
 def change_info(request):
