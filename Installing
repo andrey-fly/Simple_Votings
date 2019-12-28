@@ -1,8 +1,10 @@
 #How to start our project:
 1. Установить Django.
 2. *Установить Crispy_forms(pip install django-crispy-forms).
-3. Запустить manage.py с атрибутом runserver.
-4. Открыть браузер по [ссылке](http://127.0.0.1:8000).
+3. Удалить базу данных и все файлы из папки migrations ***кроме*** __init__.py
+4. Написать команды ```python manage.py makemigration``` и ```python manage.py migrate```
+5. Запустить manage.py с атрибутом runserver.
+6. Открыть браузер по [ссылке](http://127.0.0.1:8000).
 
 \* Если произошла ошибка в установке Crispy_forms то нужно:
 * Закомментировать ``` crispy_forms ``` в settings.py/INSTALLED_APPS

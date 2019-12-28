@@ -29,5 +29,6 @@ urlpatterns = [
     path('profile/', profile),
     path('change_info/', change_info),
     path('complain/', complain),
-    path('edit_voting/', edit_voting)
+    path('edit_voting/', edit_voting),
+    path('question/', question),
 ]

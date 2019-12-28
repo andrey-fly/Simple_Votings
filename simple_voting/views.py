@@ -26,6 +26,7 @@ def index(request):
     return render(request, 'index.html', context)
 
 
+@login_required()
 def available_voting(request):
     clear_session(request)
     context = {}
@@ -140,6 +141,7 @@ def signup(request):
     return render(request, 'register.html', {'user_form': user_form})
 
 
+@login_required()
 def complain(request):
     context = {}
     clear_session(request)
@@ -165,6 +167,34 @@ def complain(request):
             #           fail_silently=False)
 
     return render(request, 'complain.html', context)
+
+
+@login_required()
+def question(request):
+    context = {}
+    clear_session(request)
+    if request.method == 'GET':
+        context.update(csrf(request))
+        context['question_form'] = Question()
+
+        return render(request, 'question.html', context)
+    elif request.method == 'POST':
+
+        form = Question(request.POST)
+        if form.is_valid():
+            email_subject = 'EVILEG :: Сообщение через контактную форму '
+            email_body = "С сайта отправлено новое сообщение\n\n" \
+                         "Имя отправителя: %s \n" \
+                         "E-mail отправителя: %s \n\n" \
+                         "Сообщение: \n" \
+                         "%s " % \
+                         (form.cleaned_data['name'], form.cleaned_data['email'], form.cleaned_data['message'])
+
+            # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
+            # send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
+            #           fail_silently=False)
+
+    return render(request, 'question.html', context)
 
 
 @login_required()

@@ -136,6 +136,23 @@ class Complain(forms.Form):
     )
 
 
+class Question(forms.Form):
+    name = forms.CharField(
+        label='Your username',
+        widget=forms.TextInput
+    )
+
+    email = forms.EmailField(
+        label='Your email',
+        widget=forms.EmailInput
+    )
+
+    message = forms.CharField(
+        label='Describe your question',
+        widget=forms.Textarea
+    )
+
+
 class EditVotingForm(forms.Form):
     question = forms.CharField(
         label='Вопрос',

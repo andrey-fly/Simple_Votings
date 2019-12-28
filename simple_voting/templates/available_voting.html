@@ -25,10 +25,15 @@
                         <p style="text-align: center"> Описание: {{voting.description}}</p>
                     </div>
                 </div>
-
+                <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample_{{voting.id}}" aria-expanded="false" aria-controls="collapseExample">
+                        Открыть статистику
+                    </button>
+                </form>
                 {% for count in voting.options %}
                 <div class="row">
-                    <div class="col-md-12" style="text-align: center">
+
+                    <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
                         <p style="text-align: center"> Вопрос: {{ count.text }}</p>
                         <p> Голоса: {{ count.vote_count }}</p>
                     </div>
