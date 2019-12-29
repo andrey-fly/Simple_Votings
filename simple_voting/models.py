@@ -8,9 +8,16 @@ class Voting(models.Model):
     description = models.CharField(max_length=255, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    like_count = models.IntegerField(default=0)
 
     def options(self):
         return Option.objects.filter(voting=self)
+
+    def likes(self):
+        return Like.objects.filter(voting=self)
+
+    def comments(self):
+        return Comment.objects.filter(voting=self)
 
 
 class Option(models.Model):
@@ -28,3 +35,14 @@ class Vote(models.Model):
     option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Like(models.Model):
+    voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
+
+
+class Comment(models.Model):
+    text = models.CharField(max_length=255)
+    voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)

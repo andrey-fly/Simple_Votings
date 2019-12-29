@@ -31,7 +31,12 @@ def available_voting(request):
         option.vote_count = option.votes().count()
         counting_index += 1
         option.save()
-    context['options'] = Voting.objects.all()
+
+    counting_index = 0
+    for voting in Voting.objects.all():
+        voting.like_count = voting.likes().count()
+        counting_index += 1
+        voting.save()
 
     if request.method == 'POST':
         print(request.POST.get('id'))
