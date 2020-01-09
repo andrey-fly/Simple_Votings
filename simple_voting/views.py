@@ -233,30 +233,46 @@ def vote(request):
 @login_required()
 def like_comment(request):
     context = {}
-    voting_id = None
     if request.method=='GET':
         context.update(csrf(request))
         context['like_form'] = LikeForm()
         context['comment_form'] = CommentForm()
         voting_id = request.GET.get('voting')
+        request.session['id_voting'] = voting_id
+        # return render(request, 'like_comment.html', context)
 
-        return render(request, 'like_comment.html', context)
-    elif request.method=='POST':
+    voting_id = request.session.get('id_voting', None)
+    if request.method=='POST' and voting_id:
         liked = request.POST.get('like')
         if liked:
-            like_item = Like(
-                voting = voting_id,
-                author = User.objects.get(id=request.user.id)
-            )
-            like_item.save()
+            likes = Like.objects.filter(author=User.objects.get(id=request.user.id))
+            already_like = False
+            del_like = None
+            for like in likes:
+                if like.voting == Voting.objects.get(id=voting_id):
+                    already_like = True
+                    del_like = like
+                    break
+            if not already_like:
+                like_item = Like(
+                    voting = Voting.objects.get(id=voting_id),
+                    author = User.objects.get(id=request.user.id)
+                )
+                like_item.save()
+            if already_like:
+                del_like.delete()
+
         if len(request.POST.get('comment'))>0:
             text = request.POST.get('comment')
             comment_item = Comment(
                 text = text,
-                voting = voting_id,
+                voting = Voting.objects.get(id=voting_id),
                 author = User.objects.get(id=request.user.id)
             )
+            print("COMMENT")
             comment_item.save()
+        clear_session(request)
+        return redirect('/available_voting')
 
     return render(request, 'like_comment.html', context)
 
