@@ -39,8 +39,12 @@ def available_voting(request):
         voting.save()
 
     if request.method == 'POST':
-        print(request.POST.get('id'))
-        return redirect('/vote?voting={}'.format(request.POST.get('id')))
+        if not(request.POST.get('id')==None):
+            print(request.POST.get('id'))
+            return redirect('/vote?voting={}'.format(request.POST.get('id')))
+        elif not(request.POST.get('id_advanced')==None):
+            print(request.POST.get('id_advanced'))
+            return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
 
     return render(request, 'available_voting.html', context)
 
@@ -224,6 +228,37 @@ def vote(request):
         return redirect('/available_voting')
 
     return render(request, 'vote.html', context)
+
+
+@login_required()
+def like_comment(request):
+    context = {}
+    voting_id = None
+    if request.method=='GET':
+        context.update(csrf(request))
+        context['like_form'] = LikeForm()
+        context['comment_form'] = CommentForm()
+        voting_id = request.GET.get('voting')
+
+        return render(request, 'like_comment.html', context)
+    elif request.method=='POST':
+        liked = request.POST.get('like')
+        if liked:
+            like_item = Like(
+                voting = voting_id,
+                author = User.objects.get(id=request.user.id)
+            )
+            like_item.save()
+        if len(request.POST.get('comment'))>0:
+            text = request.POST.get('comment')
+            comment_item = Comment(
+                text = text,
+                voting = voting_id,
+                author = User.objects.get(id=request.user.id)
+            )
+            comment_item.save()
+
+    return render(request, 'like_comment.html', context)
 
 
 @login_required()

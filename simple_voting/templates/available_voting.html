@@ -48,6 +48,7 @@
                  <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
                      {% csrf_token %}
                      <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Пройти</button>
+                     <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно</button>
                 </form>
             </div>
                 <hr>

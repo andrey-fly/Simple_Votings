@@ -31,4 +31,5 @@ urlpatterns = [
     path('complain/', complain),
     path('edit_voting/', edit_voting),
     path('question/', question),
+    path('like_comment/', like_comment),
 ]

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Comment </title>
+{% endblock %}
+{% block content %}
+<main>
+    {% if like_form %}
+        <form action="/like_comment/" method="post">
+            {% csrf_token %}
+            {{ like_form.as_p }}
+            <h1>Comment this:</h1>
+            {{ comment_form.as_p }}
+            <div>
+                <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
+                           style="width: 100px; border-radius: 16px"/>
+            </div>
+        </form>
+    {% else %}
+        <form action="/like_comment/" method="post">
+            {% csrf_token %}
+            <h3>You have already liked this</h3>
+            <h1>Comment this:</h1>
+            {{ comment_form.as_p }}
+            <div>
+                <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
+                           style="width: 100px; border-radius: 16px"/>
+            </div>
+        </form>
+    {% endif %}
+</main>
+{% endblock %}

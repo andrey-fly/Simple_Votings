@@ -85,6 +85,18 @@ class VoteFormCheckBox(forms.Form):
         widget=forms.CheckboxSelectMultiple,)
 
 
+class LikeForm(forms.Form):
+    like = forms.BooleanField(required=False)
+
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(
+        label='Discuss this voting here:',
+        widget=forms.Textarea,
+        required=False
+    )
+
+
 class ChangeInfoForm(forms.Form):
     username = forms.CharField(label='Username',  min_length=3, required=False)
     first_name = forms.CharField(label='First name',  min_length=3, required=False)
