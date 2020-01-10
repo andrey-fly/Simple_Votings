@@ -86,13 +86,13 @@ class VoteFormCheckBox(forms.Form):
 
 
 class LikeForm(forms.Form):
-    like = forms.BooleanField(required=False)
+    like = forms.BooleanField(required=False, label='Добавить в избранное: ')
 
 
 class CommentForm(forms.Form):
     comment = forms.CharField(
         label='Discuss this voting here:',
-        widget=forms.Textarea,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'}),
         required=False
     )
 
