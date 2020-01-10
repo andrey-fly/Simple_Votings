@@ -233,12 +233,13 @@ def vote(request):
 @login_required()
 def like_comment(request):
     context = {}
-    if request.method=='GET':
+    if request.method == 'GET':
         context.update(csrf(request))
         context['like_form'] = LikeForm()
         context['comment_form'] = CommentForm()
         voting_id = request.GET.get('voting')
         request.session['id_voting'] = voting_id
+        context['comments'] = Comment.objects.filter(voting=Voting.objects.get(id=voting_id))
         # return render(request, 'like_comment.html', context)
 
     voting_id = request.session.get('id_voting', None)
