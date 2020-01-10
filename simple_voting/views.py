@@ -182,6 +182,7 @@ def vote(request):
     print(request.META.get('REMOTE_ADDR', None))
     print(request.META.get('HTTP_X_FORWARDED_FOR', ''))
     print(request.user.is_anonymous)
+    print(request.META['HTTP_USER_AGENT'])
     print('----------')
     context = {}
     choices = []
@@ -208,6 +209,7 @@ def vote(request):
                         option=Option.objects.get(id=option),
                         author=user,
                         ip=user_ip,
+                        useragent=request.META['HTTP_USER_AGENT'] or None
                     )
                     item.save()
     if len(request.GET) > 0 and request.method == 'GET':
