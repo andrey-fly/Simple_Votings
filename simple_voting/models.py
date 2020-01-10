@@ -27,7 +27,7 @@ class Option(models.Model):
 
 class Vote(models.Model):
     option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, default='Anonymous')
     created = models.DateTimeField(auto_now_add=True)
     anonymous = models.BooleanField(default=False)
     useragent = models.CharField(max_length=25, null=True, default=None)

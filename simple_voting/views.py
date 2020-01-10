@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
@@ -177,9 +178,18 @@ def question(request):
 
 def vote(request):
     # clear_session(request)
+    print('----------')
+    print(request.META.get('REMOTE_ADDR', None))
+    print(request.user.is_anonymous)
+    print('----------')
     context = {}
     choices = []
     form_vote = VoteFormCheckBox(request.POST)
+    user_ip = request.META.get('REMOTE_ADDR', None)
+    user = None
+
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
 
     if request.method == 'POST':
         options = dict(form_vote.data).get('items')
@@ -194,7 +204,8 @@ def vote(request):
                     print(option)
                     item = Vote(
                         option=Option.objects.get(id=option),
-                        author=User.objects.get(id=request.user.id)
+                        author=user,
+                        ip=user_ip,
                     )
                     item.save()
     if len(request.GET) > 0 and request.method == 'GET':
@@ -207,10 +218,16 @@ def vote(request):
         for item in opts:
             vts = item.votes()
             for jtem in vts:
-                username = User.objects.get(id=request.user.id).username
-                if jtem.author.username == username:
-                    context['error'] = "You are already voted"
-                    return render(request, 'vote.html', context)
+                if not request.user.is_anonymous:
+                    username = User.objects.get(id=request.user.id).username
+                    if jtem.author.username == username or user_ip == jtem.ip:
+                        context['error'] = "You are already voted"
+                        return render(request, 'vote.html', context)
+                else:
+                    if user_ip == jtem.ip:
+                        context['error'] = "You are already voted"
+                        return render(request, 'vote.html', context)
+
 
         voting = Voting.objects.filter(id=voting_id)[0]
         context['question'] = voting.question
