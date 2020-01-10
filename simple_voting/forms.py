@@ -69,6 +69,10 @@ class VotingForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
     )
+    isSingle = forms.BooleanField(
+        label='Один вариант ответа',
+        required=False,
+    )
 
 
 class OptionForm(forms.Form):

@@ -54,10 +54,17 @@ def create_voting(request):
     context['voting_form'] = voting_form
     if request.method == 'POST':
         if voting_form.is_valid():
+
+            is_single = False
+            if request.POST.get('isSingle', None):
+                is_single = True
+
             item = Voting(
                 question=voting_form.data['question'],
                 author=User.objects.get(id=request.user.id),
-                description=voting_form.data['description'])
+                description=voting_form.data['description'],
+                single=is_single
+            )
 
             data = Voting.objects.all().values('question', 'author')
             for row in data:
