@@ -8,6 +8,7 @@ class Voting(models.Model):
     description = models.CharField(max_length=255, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    single = models.BooleanField(default=False)
 
     def options(self):
         return Option.objects.filter(voting=self)
