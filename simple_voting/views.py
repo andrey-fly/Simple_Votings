@@ -176,15 +176,24 @@ def question(request):
 
 
 def vote(request):
-    clear_session(request)
+    # clear_session(request)
     context = {}
-    voting_id = None
     choices = []
     form_vote = VoteFormCheckBox(request.POST)
 
     if request.method == 'POST':
         options = dict(form_vote.data).get('items')
         if options is not None:
+            voting_id = request.session.get('id_voting', None)
+            print('--------')
+            print(len(options))
+            print(options)
+            print('--------')
+            if len(options) > 1 and Voting.objects.get(id=voting_id):
+                context['error'] = "You can choose the only one answer!"
+                print(context['error'])
+                return render(request, 'vote.html', context)
+
             if len(options) > 0:
                 for option in options:
                     print(option)
@@ -197,6 +206,7 @@ def vote(request):
         voting_id = request.GET.get('voting', 'error')
         if voting_id == 'error':
             return redirect('/available_voting')
+        request.session['id_voting'] = voting_id
         voting = Voting.objects.get(id=voting_id)
         opts = Option.objects.filter(voting=voting)
         for item in opts:
