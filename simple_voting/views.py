@@ -180,14 +180,14 @@ def vote(request):
     # clear_session(request)
     print('----------')
     print(request.META.get('REMOTE_ADDR', None))
+    print(request.META.get('HTTP_X_FORWARDED_FOR', ''))
     print(request.user.is_anonymous)
-    ip = ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
-    print(ip)
     print('----------')
     context = {}
     choices = []
     form_vote = VoteFormCheckBox(request.POST)
-    user_ip = request.META.get('REMOTE_ADDR', None)
+    user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    print(user_ip)
     user = None
 
     if not request.user.is_anonymous:
@@ -228,7 +228,6 @@ def vote(request):
                     if user_ip == jtem.ip:
                         context['error'] = "You are already voted"
                         return render(request, 'vote.html', context)
-
 
         voting = Voting.objects.filter(id=voting_id)[0]
         context['question'] = voting.question
