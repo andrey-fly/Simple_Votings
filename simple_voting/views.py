@@ -181,6 +181,8 @@ def vote(request):
     print('----------')
     print(request.META.get('REMOTE_ADDR', None))
     print(request.user.is_anonymous)
+    ip = ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    print(ip)
     print('----------')
     context = {}
     choices = []
@@ -218,9 +220,8 @@ def vote(request):
         for item in opts:
             vts = item.votes()
             for jtem in vts:
-                if not request.user.is_anonymous:
-                    username = User.objects.get(id=request.user.id).username
-                    if jtem.author.username == username or user_ip == jtem.ip:
+                if not request.user.is_anonymous and jtem.author is not None:
+                    if jtem.author.username == User.objects.get(id=request.user.id).username and user_ip == jtem.ip:
                         context['error'] = "You are already voted"
                         return render(request, 'vote.html', context)
                 else:
