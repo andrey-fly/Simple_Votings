@@ -185,13 +185,8 @@ def vote(request):
         options = dict(form_vote.data).get('items')
         if options is not None:
             voting_id = request.session.get('id_voting', None)
-            print('--------')
-            print(len(options))
-            print(options)
-            print('--------')
-            if len(options) > 1 and Voting.objects.get(id=voting_id):
+            if len(options) > 1 and Voting.objects.get(id=voting_id).single:
                 context['error'] = "You can choose the only one answer!"
-                print(context['error'])
                 return render(request, 'vote.html', context)
 
             if len(options) > 0:
@@ -215,7 +210,6 @@ def vote(request):
                 username = User.objects.get(id=request.user.id).username
                 if jtem.author.username == username:
                     context['error'] = "You are already voted"
-                    print(context['error'])
                     return render(request, 'vote.html', context)
 
         voting = Voting.objects.filter(id=voting_id)[0]
@@ -229,7 +223,6 @@ def vote(request):
             choices.append(('{}'.format(options[i].id), '{}'.format(options[i].text)))
 
         form_vote.fields['items'].choices = choices
-        print(form_vote.fields['items'].choices)
         context['form_vote'] = form_vote
 
     if len(request.GET) == 0:
