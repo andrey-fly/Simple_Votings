@@ -40,9 +40,11 @@ class Vote(models.Model):
 class Like(models.Model):
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
+    created = models.DateTimeField(auto_now_add=True)
 
 
 class Comment(models.Model):
     text = models.CharField(max_length=255)
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
+    created = models.DateTimeField(auto_now_add=True)

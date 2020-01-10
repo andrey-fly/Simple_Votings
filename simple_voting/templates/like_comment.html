@@ -32,10 +32,27 @@
         </div>
         {% if comments %}
         <div class="col-6">
+            <div class="row mt-3 text-middle">
+                <div class="col-8 text-center">
+                    <h1>Comments:</h1>
+                </div>
+            </div>
             {% for comment in comments %}
-            <div class="row mt-3">
-                <div class="col-6 alert alert-info text-center" role="alert">
-                  {{comment.text}}
+            <div class="row mt-3" >
+                <div class="col-8 alert alert-info text-center" role="alert">
+                    <div class="row mb-3">
+                        <div class="col-6" style="border-bottom: 1px solid lightgray">
+                            <p>{{comment.author}}</p>
+                        </div>
+                        <div class="col-6" style="border-left:1px solid lightgray; border-bottom: 1px solid lightgray">
+                            <p>{{comment.created}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="text-break">{{comment.text}}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% endfor %}
