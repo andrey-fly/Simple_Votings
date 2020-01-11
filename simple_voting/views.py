@@ -283,8 +283,16 @@ def profile(request):
     clear_session(request)
     context = {}
     voting_items = Voting.objects.filter(author_id=User.objects.get(id=request.user.id))
+    likes = Like.objects.filter(author_id=User.objects.get(id=request.user.id))
     context['voting_items'] = voting_items
     context['user'] = User.objects.get(id=request.user.id)
+    context['likes'] = likes
+
+    if request.method == 'POST':
+        if request.POST.get('id_advanced'):
+            return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
+        if request.POST.get('link'):
+            return redirect('/vote?voting={}'.format(request.POST.get('link')))
 
     return render(request, 'profile.html', context)
 
