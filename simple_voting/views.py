@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
@@ -63,10 +64,17 @@ def create_voting(request):
     context['voting_form'] = voting_form
     if request.method == 'POST':
         if voting_form.is_valid():
+
+            is_single = False
+            if request.POST.get('isSingle', None):
+                is_single = True
+
             item = Voting(
                 question=voting_form.data['question'],
                 author=User.objects.get(id=request.user.id),
-                description=voting_form.data['description'])
+                description=voting_form.data['description'],
+                single=is_single
+            )
 
             data = Voting.objects.all().values('question', 'author')
             for row in data:
@@ -178,37 +186,59 @@ def question(request):
 
 
 def vote(request):
-    clear_session(request)
+    # clear_session(request)
+    print('----------')
+    print(request.META.get('REMOTE_ADDR', None))
+    print(request.META.get('HTTP_X_FORWARDED_FOR', ''))
+    print(request.user.is_anonymous)
+    print(request.META['HTTP_USER_AGENT'])
+    print('----------')
     context = {}
-    voting_id = None
     choices = []
     form_vote = VoteFormCheckBox(request.POST)
+    user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    print(user_ip)
+    user = None
+
+    if not request.user.is_anonymous:
+        user = User.objects.get(id=request.user.id)
 
     if request.method == 'POST':
         options = dict(form_vote.data).get('items')
         if options is not None:
+            voting_id = request.session.get('id_voting', None)
+            if len(options) > 1 and Voting.objects.get(id=voting_id).single:
+                context['error'] = "You can choose the only one answer!"
+                return render(request, 'vote.html', context)
+
             if len(options) > 0:
                 for option in options:
                     print(option)
                     item = Vote(
                         option=Option.objects.get(id=option),
-                        author=User.objects.get(id=request.user.id)
+                        author=user,
+                        ip=user_ip,
+                        useragent=request.META['HTTP_USER_AGENT'] or None
                     )
                     item.save()
     if len(request.GET) > 0 and request.method == 'GET':
         voting_id = request.GET.get('voting', 'error')
         if voting_id == 'error':
             return redirect('/available_voting')
+        request.session['id_voting'] = voting_id
         voting = Voting.objects.get(id=voting_id)
         opts = Option.objects.filter(voting=voting)
         for item in opts:
             vts = item.votes()
             for jtem in vts:
-                username = User.objects.get(id=request.user.id).username
-                if jtem.author.username == username:
-                    context['error'] = "You are already voted"
-                    print(context['error'])
-                    return render(request, 'vote.html', context)
+                if not request.user.is_anonymous and jtem.author is not None:
+                    if jtem.author.username == User.objects.get(id=request.user.id).username and user_ip == jtem.ip:
+                        context['error'] = "You are already voted"
+                        return render(request, 'vote.html', context)
+                else:
+                    if user_ip == jtem.ip:
+                        context['error'] = "You are already voted"
+                        return render(request, 'vote.html', context)
 
         voting = Voting.objects.filter(id=voting_id)[0]
         context['question'] = voting.question
@@ -221,7 +251,6 @@ def vote(request):
             choices.append(('{}'.format(options[i].id), '{}'.format(options[i].text)))
 
         form_vote.fields['items'].choices = choices
-        print(form_vote.fields['items'].choices)
         context['form_vote'] = form_vote
 
     if len(request.GET) == 0:

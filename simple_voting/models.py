@@ -8,6 +8,7 @@ class Voting(models.Model):
     description = models.CharField(max_length=255, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    single = models.BooleanField(default=False)
     like_count = models.IntegerField(default=0)
 
     def options(self):
@@ -33,8 +34,11 @@ class Option(models.Model):
 
 class Vote(models.Model):
     option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, default='Anonymous')
     created = models.DateTimeField(auto_now_add=True)
+    anonymous = models.BooleanField(default=False)
+    useragent = models.CharField(max_length=25, null=True, default=None)
+    ip = models.CharField(max_length=15, null=False)
 
 
 class Like(models.Model):
