@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.safestring import SafeString
 
 
 class Voting(models.Model):
@@ -13,6 +14,19 @@ class Voting(models.Model):
 
     def options(self):
         return Option.objects.filter(voting=self)
+
+    def labels(self):
+        labels = []
+        for i in self.options():
+            labels.append(i.text)
+        return SafeString(labels)
+
+    def vote_data(self):
+        votes = []
+        for i in self.options():
+            votes.append(len(i.votes()))
+        return SafeString(votes)
+
 
     def likes(self):
         return Like.objects.filter(voting=self)

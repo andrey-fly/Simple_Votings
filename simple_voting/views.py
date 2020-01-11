@@ -2,6 +2,8 @@ import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
+from django.utils.safestring import SafeString
+
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
@@ -240,9 +242,10 @@ def vote(request):
                         context['error'] = "You are already voted"
                         return render(request, 'vote.html', context)
 
-        voting = Voting.objects.filter(id=voting_id)[0]
+        voting = Voting.objects.filter(id=voting_id)[0]  # todo: objects.get
         context['question'] = voting.question
         context['description'] = voting.description
+        context['single'] = SafeString(str(voting.single).lower())
         if context['description'] is None:
             context['description'] = 'Отсутствует'
 
