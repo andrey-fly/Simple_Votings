@@ -14,10 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path
+
+from . import forms
 from .views import *
 
 urlpatterns = [
     path('', index),
     path('available_voting/', available_voting),
-    path('design/', design)
+    path('design/', design),
+    path('create_voting/', create_voting),
+    path('generate_voting/', generate_voting),
+    path('register/', signup),
+    path('vote/', vote),
+    path('profile/', profile),
+    path('change_info/', change_info),
+    path('complain/', complain),
+    path('edit_voting/', edit_voting),
+    path('question/', question),
+    path('like_comment/', like_comment),
 ]

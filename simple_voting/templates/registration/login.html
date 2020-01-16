@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
+{% extends 'base.html' %}
+{% block title %}
     <title>Log in</title>
-</head>
-<body>
+{% endblock %}
+{% block content %}
+<main>
     <h1>Log in</h1>
-    <form action="/login/" method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <br>
-        <input type="submit" value="Log in">
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-primary btn-md">Log in</button>
     </form>
-</body>
-</html>
+    <div>Don't have an account yet?
+        <form action="/register/" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary btn-md">Регистрация</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

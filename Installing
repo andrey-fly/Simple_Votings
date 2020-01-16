@@ -1,0 +1,22 @@
+#How to start our project:
+1. Установить Django.
+2. *Установить Crispy_forms(pip install django-crispy-forms).
+3. Удалить базу данных и все файлы из папки migrations ***кроме*** __init__.py
+4. Написать команды ```python manage.py makemigration``` и ```python manage.py migrate```
+5. Запустить manage.py с атрибутом runserver.
+6. Открыть браузер по [ссылке](http://127.0.0.1:8000).
+
+\* Если произошла ошибка в установке Crispy_forms то нужно:
+* Закомментировать ``` crispy_forms ``` в settings.py/INSTALLED_APPS
+* Убрать ``` {% load crispy_forms_tags%} ``` в файле create_voting.html
+* Заменить ```{{voting_form|crispy }}``` на ```{{voting_form }}```
+* Заменить в файле edit_voting.html ```{% load crispy_forms_tags%}``` на 
+```
+ {% for opt in option_list %}
+ <div class="row">
+ <div class="col-md-12" style="text-align: center">
+ <h3>вариант ответа {{opt.text}}</h3>
+ </div>
+ </div>
+ {% endfor %}
+```

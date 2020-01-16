@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Profile</title>
+{% endblock %}
+{% block content %}
+<main>
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>Welcome to your profile, {{ user.username }}!</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Информация:</h2>
+        </div>
+        <div class="col-12">
+            <div class="row pr-5 mr-5">
+                <div class="col-6 text-right" style="margin: 0; padding: 0">
+                    <ul style="list-style-type: none">
+                        <li> Последний вход: </li>
+                        <li> Имя:            </li>
+                        <li> Фамилия:        </li>
+                        <li> email:          </li>
+                    </ul>
+                </div>
+                <div class="col-6 text-left" style="margin: 0; padding: 0">
+                    <ul style="list-style-type: none">
+                        <li> {{ user.last_login }} </li>
+                        <li> {{ user.first_name}}  </li>
+                        <li> {{ user.last_name}}   </li>
+                        <li> {{ user.email}}       </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-12 ">
+                    <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+                            <button type="submit" name="id" class="btn btn-primary" style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 mb-3" style="border-right: 1px solid lightgray">
+            <hr>
+            <h2 class="text-center">Ваши опросы:</h2>
+            {% for voting in voting_items %}
+                <div class="row">
+                    <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                            <p style="text-align: center"> Вопрос: {{voting.question}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Описание: {{voting.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Дата создания: {{voting.created}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Дата последнего изменения: {{voting.updated}}</p>
+                        </div>
+                    </div>
+                    <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+
+                        <input type="submit" class="btn btn-primary btn-md" name="{{ voting.id }}" value="Edit"
+                                               style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                    </form>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-6 mb-3">
+            <hr>
+            <h2 class="text-center">Избранные опросы:</h2>
+            {% for like in likes %}
+                <div class="row">
+                    <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                            <p style="text-align: center"> Вопрос: {{like.voting.question}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Описание: {{like.voting.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Дата создания: {{like.voting.created}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Дата последнего изменения: {{like.voting.updated}}</p>
+                        </div>
+                    </div>
+<!--                    <form class="form-group" action='/profile/' method="POST" style="text-align: center">-->
+                        <form class="form-group" action='/profile/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary btn-md" name="id_advanced" value="{{like.voting.id }}"
+                                               style="width: 25%; border-radius: 16px; min-width: 100px">Open</button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-primary btn-md" name="link" value="{{like.voting.id }}"
+                                               style="width: 25%; border-radius: 16px; min-width: 100px">Link</button>
+                                </div>
+                            </div>
+
+
+                    </form>
+                </div>
+                <hr>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</main>
+{% endblock %}

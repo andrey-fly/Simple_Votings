@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="footer-dark">
+    <footer style="flex: 0 0 auto;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Основные</h3>
+                    <ul>
+                        <li><a href="/">Главная</a></li>
+                        <li><a href="/profile">Профиль</a></li>
+                        <li><a href="/available_voting">Опросы</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3 item">
+                    <h3>Другое</h3>
+                    <ul>
+                        {% if not user.is_authenticated %}
+                            <li><a href="/login">Авторизация</a></li>
+                            <li><a href="/register">Регистрация</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <li><a href="/profile">Профиль</a></li>
+                            <li><a href="/logout">Выход</a></li>
+                        {% endif %}
+                        <li><a href="#">О нас</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6 item text">
+                    <h3>BombIt Team</h3>
+                    <p>Добро пожаловать:)</p>
+                </div>
+                <!--<div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-instagram"></i></a></div> -->
+            </div>
+            <p class="copyright">BombIt Team © 2019</p>
+        </div>
+    </footer>
+</div>
