@@ -1,4 +1,5 @@
 import datetime
+from random import randint
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate
@@ -425,6 +426,49 @@ def edit_voting(request):
 
 def recovery_password(request):
     context = {}
+    context['step'] = '1'
+    user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    if request.method == 'POST':
+        if request.POST.get('start_procedure'):
+            data = request.POST.get('start_procedure')
+            target_user = None
+            if User.objects.filter(username=data):
+                target_user = User.objects.get(username=data)
+            elif User.objects.filter(email=data):
+                target_user = User.objects.get(email=data)
+            if target_user:
+                code = '{}{}{}{}{}{}'.format(
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9)
+                )
+                send_recovery_code(code, target_user)
+                rec = Recovery(target_user=target_user, from_ip=user_ip, code=code)
+                rec.save()
+                context['step'] = '2'
+            else:
+                context['error'] = 'Пользователь не найден'
+
+        if request.POST.get('code'):
+            code = request.POST.get('code')
+            target_user = None
+
+            if Recovery.objects.filter(code=code):
+                data = Recovery.objects.filter(code=code)
+                for item in data:
+                    if user_ip == item.from_ip:
+                        target_user = item.target_user
+                        context['step'] = '3'
+                        print("НАШЕЛСЯ")
+                        print(target_user)
+
+            if target_user is None:
+                context['step'] = '2'
+                context['error'] = 'Неверный код'
+
 
     return render(request, 'recovery_password.html', context)
 
@@ -432,3 +476,11 @@ def recovery_password(request):
 def clear_session(request):
     if request.session.get('id_voting', None):
         del request.session['id_voting']
+
+
+def send_recovery_code(code, user):
+    email_subject = 'EVILEG :: Сообщение через контактную форму '
+    email_body = "Код для восстановления пароля: {}".format(code)
+    # данный код можно будет использовать, когда станет возможным отправлять сообщения на сервер и на почту
+    send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['{}'.format(user.email)],
+              fail_silently=False)
