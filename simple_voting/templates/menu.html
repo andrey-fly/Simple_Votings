@@ -16,6 +16,9 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="#">О нас</a></li>
                     <li class="nav-item"><a class="nav-link" href="/complain">Ваши жалобы</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="/other_users_review">Пользователи</a></li>
+                    {% endif %}
                 </ul>
                 {% if not user.is_authenticated %}
                     <ul class="navbar-nav ml-auto">
@@ -30,7 +33,7 @@
                         <li class="nav-item active"><a class="nav-link" href="/profile">{{user}}</a></li>
                         <li class="nav-item"><a class="btn rounded-pill btn-dark py-2 px-4" href="/logout">Выход</a></li>
                     </ul>
-            {% endif %}
+                {% endif %}
 
     </div>
     </nav>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+
+
+<h1>Список пользователей сайта</h1>
+
+    <div class="row2">
+        {% for item in users %}
+         <li><a href="/available_voting"> {{ item }} (количество опросов: {{ votes_count }}) </a></li>
+        {% endfor %}
+    </div>
+
+</main>
+{% endblock %}

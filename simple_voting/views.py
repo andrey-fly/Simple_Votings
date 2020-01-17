@@ -42,10 +42,10 @@ def available_voting(request):
         voting.save()
 
     if request.method == 'POST':
-        if not(request.POST.get('id')==None):
+        if not (request.POST.get('id') == None):
             print(request.POST.get('id'))
             return redirect('/vote?voting={}'.format(request.POST.get('id')))
-        elif not(request.POST.get('id_advanced')==None):
+        elif not (request.POST.get('id_advanced') == None):
             print(request.POST.get('id_advanced'))
             return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
 
@@ -275,7 +275,7 @@ def like_comment(request):
         # return render(request, 'like_comment.html', context)
 
     voting_id = request.session.get('id_voting', None)
-    if request.method=='POST' and voting_id:
+    if request.method == 'POST' and voting_id:
         liked = request.POST.get('like')
         if liked:
             likes = Like.objects.filter(author=User.objects.get(id=request.user.id))
@@ -288,19 +288,19 @@ def like_comment(request):
                     break
             if not already_like:
                 like_item = Like(
-                    voting = Voting.objects.get(id=voting_id),
-                    author = User.objects.get(id=request.user.id)
+                    voting=Voting.objects.get(id=voting_id),
+                    author=User.objects.get(id=request.user.id)
                 )
                 like_item.save()
             if already_like:
                 del_like.delete()
 
-        if len(request.POST.get('comment'))>0:
+        if len(request.POST.get('comment')) > 0:
             text = request.POST.get('comment')
             comment_item = Comment(
-                text = text,
-                voting = Voting.objects.get(id=voting_id),
-                author = User.objects.get(id=request.user.id)
+                text=text,
+                voting=Voting.objects.get(id=voting_id),
+                author=User.objects.get(id=request.user.id)
             )
             print("COMMENT")
             comment_item.save()
@@ -421,6 +421,17 @@ def edit_voting(request):
             return redirect('/profile/')
 
     return render(request, 'edit_voting.html', context)
+
+
+@login_required()
+def other_users_review(request):
+    clear_session(request)
+    context = {}
+    users = User.objects.all()
+    context['users'] = users
+    votes_count = 1 #здесь нужно получить от каждого пользователя количество опросов (я пока не знаю, как получить id пользователя)
+    context['votes_count'] = votes_count
+    return render(request, 'other_users_review.html', context)
 
 
 def clear_session(request):
