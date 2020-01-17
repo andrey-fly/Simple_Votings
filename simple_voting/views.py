@@ -428,7 +428,9 @@ def recovery_password(request):
     context = {}
     context['step'] = '1'
     user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    form = RecoveryPass(request.POST)
     if request.method == 'POST':
+        print(request.POST)
         if request.POST.get('start_procedure'):
             data = request.POST.get('start_procedure')
             target_user = None
@@ -462,6 +464,8 @@ def recovery_password(request):
                     if user_ip == item.from_ip:
                         target_user = item.target_user
                         context['step'] = '3'
+                        context['form'] = form
+                        request.session['id_user'] = target_user.id
                         print("НАШЕЛСЯ")
                         print(target_user)
 
@@ -469,6 +473,23 @@ def recovery_password(request):
                 context['step'] = '2'
                 context['error'] = 'Неверный код'
 
+        if request.POST.get('password'):
+            if form.is_valid():
+                target_user = request.session.get('id_user')
+                new_pass = form.data['password']
+                target_user = User.objects.get(id=target_user)
+                target_user.set_password(new_pass)
+                target_user.save()
+                login(request, target_user)
+                data_for_delete = Recovery.objects.filter(target_user=target_user)
+                print(data_for_delete)
+                for item in data_for_delete:
+                    item.delete()
+                context['step'] = '4'
+            else:
+                context['step'] = '3'
+                context['form'] = form
+                context['error'] = 'Ошибка при заполнении полей'
 
     return render(request, 'recovery_password.html', context)
 
@@ -476,6 +497,8 @@ def recovery_password(request):
 def clear_session(request):
     if request.session.get('id_voting', None):
         del request.session['id_voting']
+    if request.session.get('id_user', None):
+        del request.session['id_user']
 
 
 def send_recovery_code(code, user):

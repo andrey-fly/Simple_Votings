@@ -187,3 +187,18 @@ class EditVotingForm(forms.Form):
 
     class Meta:
         model = Voting
+
+
+class RecoveryPass(forms.Form):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}), min_length=8, required=True)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': 'Repeat password'}), required=True)
+
+    class Meta:
+        model = User
+        fields = ()
+
+    def clean_password2(self):
+        cd = self.data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cd['password2']
