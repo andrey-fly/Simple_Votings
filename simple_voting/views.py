@@ -361,7 +361,76 @@ def other_users_review(request):
     context['votes_count'] = votes_count
     return render(request, 'other_users_review.html', context)
 
+def recovery_password(request):
+    context = {}
+    context['step'] = '1'
+    user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
+    form = RecoveryPass(request.POST)
+    if request.method == 'POST':
+        if request.POST.get('start_procedure'):
+            data = request.POST.get('start_procedure')
+            target_user = None
+            if User.objects.filter(username=data):
+                target_user = User.objects.get(username=data)
+            elif User.objects.filter(email=data):
+                target_user = User.objects.get(email=data)
+            if target_user:
+                code = '{}{}{}{}{}{}'.format(
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9),
+                    randint(0, 9)
+                )
+                send_recovery_code(code, target_user)
+                rec = Recovery(target_user=target_user, from_ip=user_ip, code=code)
+                rec.save()
+                context['step'] = '2'
+            else:
+                context['error'] = 'Пользователь не найден'
+        if request.POST.get('code'):
+            code = request.POST.get('code')
+            target_user = None
+            if Recovery.objects.filter(code=code):
+                data = Recovery.objects.filter(code=code)
+                for item in data:
+                    if user_ip == item.from_ip:
+                        target_user = item.target_user
+                        context['step'] = '3'
+                        context['form'] = form
+                        request.session['id_user'] = target_user.id
+            if target_user is None:
+                context['step'] = '2'
+                context['error'] = 'Неверный код'
+        if request.POST.get('password'):
+            if form.is_valid():
+                target_user = request.session.get('id_user')
+                new_pass = form.data['password']
+                target_user = User.objects.get(id=target_user)
+                target_user.set_password(new_pass)
+                target_user.save()
+                login(request, target_user)
+                data_for_delete = Recovery.objects.filter(target_user=target_user)
+                for item in data_for_delete:
+                    item.delete()
+                context['step'] = '4'
+            else:
+                context['step'] = '3'
+                context['form'] = form
+                context['error'] = 'Ошибка при заполнении полей'
+    return render(request, 'recovery_password.html', context)
+
 
 def clear_session(request):
     if request.session.get('id_voting', None):
         del request.session['id_voting']
+    if request.session.get('id_user', None):
+        del request.session['id_user']
+
+
+def send_recovery_code(code, user):
+    email_subject = 'EVILEG :: Сообщение через контактную форму '
+    email_body = "Код для восстановления пароля: {}".format(code)
+    send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['{}'.format(user.email)],
+              fail_silently=False)

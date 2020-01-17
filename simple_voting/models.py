@@ -65,3 +65,11 @@ class Comment(models.Model):
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Recovery(models.Model):
+    target_user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    from_ip = models.CharField(max_length=15, null=False, default=None)
+    code = models.CharField(max_length=10)
+    created = models.DateTimeField(auto_now_add=True)
+
