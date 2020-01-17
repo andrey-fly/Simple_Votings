@@ -351,6 +351,17 @@ def edit_voting(request):
     return render(request, 'edit_voting.html', context)
 
 
+@login_required()
+def other_users_review(request):
+    clear_session(request)
+    context = {}
+    users = User.objects.all()
+    context['users'] = users
+    votes_count = 1 #здесь нужно получить от каждого пользователя количество опросов (я пока не знаю, как получить id пользователя)
+    context['votes_count'] = votes_count
+    return render(request, 'other_users_review.html', context)
+
+
 def clear_session(request):
     if request.session.get('id_voting', None):
         del request.session['id_voting']
