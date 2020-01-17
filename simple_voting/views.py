@@ -423,6 +423,12 @@ def edit_voting(request):
     return render(request, 'edit_voting.html', context)
 
 
+def recovery_password(request):
+    context = {}
+
+    return render(request, 'recovery_password.html', context)
+
+
 def clear_session(request):
     if request.session.get('id_voting', None):
         del request.session['id_voting']
