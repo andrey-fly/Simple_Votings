@@ -27,7 +27,6 @@ class Voting(models.Model):
             votes.append(len(i.votes()))
         return SafeString(votes)
 
-
     def likes(self):
         return Like.objects.filter(voting=self)
 

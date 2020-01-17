@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Registration</title>
+<title>Registration</title>
 {% endblock %}
 {% block content %}
 <main>
@@ -8,7 +8,7 @@
     <form action="/register/" method="POST">
         {% csrf_token %}
         {{ user_form.as_p }}
-      <button type="submit" class="btn btn-primary btn-md">Create account</button>
+        <button type="submit" class="btn btn-primary btn-md">Create account</button>
     </form>
 </main>
 {% endblock %}

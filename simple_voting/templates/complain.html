@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Your complains</title>
+<title>Your complains</title>
 {% endblock %}
 {% block content %}
 <main>
     {% if complain_form %}
-        <h1>Complains</h1>
-        <h2>Make your complain</h2>
-        <form action="/complain/" method="post">
-            {% csrf_token %}
-            {{ complain_form.as_p }}
-            <div>
-                <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
-                           style="width: 100px; border-radius: 16px"/>
-            </div>
-        </form>
+    <h1>Complains</h1>
+    <h2>Make your complain</h2>
+    <form action="/complain/" method="post">
+        {% csrf_token %}
+        {{ complain_form.as_p }}
+        <div>
+            <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
+                   style="width: 100px; border-radius: 16px"/>
+        </div>
+    </form>
     {% else %}
-        <h3>Your complaint has been accepted</h3>
-    <form class="form-group" action='/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-            {% csrf_token %}
+    <h3>Your complaint has been accepted</h3>
+    <form class="form-group" action='/' method="POST"
+          style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+        {% csrf_token %}
         <button type="submit" class="btn btn-primary btn-lg">Return to the main page</button>
     </form>
     {% endif %}

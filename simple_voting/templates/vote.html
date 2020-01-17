@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Vote </title>
+<title>Vote </title>
 {% endblock %}
 {% block content %}
 
@@ -33,23 +33,26 @@
 
 <div class="row">
     <div class="col-md-12" style="text-align: right">
-        <form class="form-group" action='/vote/' method="POST" style="text-align: left; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-        {% csrf_token %}
-<!--        {{ form_vote }}-->
-        {% for i in form_vote %}
-        <div class="row">
-            <div class="col-md-12" style="text-align: left;  margin-left: 40%">
-                {{ i }}
+        <form class="form-group" action='/vote/' method="POST"
+              style="text-align: left; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+            {% csrf_token %}
+            <!--        {{ form_vote }}-->
+            {% for i in form_vote %}
+            <div class="row">
+                <div class="col-md-12" style="text-align: left;  margin-left: 40%">
+                    {{ i }}
+                </div>
             </div>
-        </div>
-        {% endfor %}
-         <div class="row">
-            <div class="col-md-12" style="text-align: center; ">
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 25%; border-radius: 16px; min-width: 100px">Send</button>
+            {% endfor %}
+            <div class="row">
+                <div class="col-md-12" style="text-align: center; ">
+                    <button type="submit" class="btn btn-primary btn-lg"
+                            style="width: 25%; border-radius: 16px; min-width: 100px">Send
+                    </button>
+                </div>
             </div>
-        </div>
 
-    </form>
+        </form>
     </div>
 </div>
 
@@ -66,6 +69,7 @@
             allitems[i].type = 'radio'
         }
     }
+
 
 
 </script>

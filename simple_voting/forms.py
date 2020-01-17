@@ -1,28 +1,9 @@
 from django import forms
-from django.contrib.auth import login, logout
-from django.http import HttpResponseRedirect
-from django.views import View
-from django.views.generic.edit import FormView
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.views.generic.edit import FormView
 
-
-# class LogInForm(forms.Form):
-#     username = forms.CharField(label='Login: ', required=True)
-#     password = forms.CharField(label='Password: ', required=True)
-
-
-# class RegisterFormView(FormView):
-#     form_class = UserCreationForm
-#
-#     success_url = "/login/"
-#     template_name = "register.html"
-#
-#     def form_valid(self, form):
-#         form.save()
-#
-#         return super(RegisterFormView, self).form_valid(form)
 from simple_voting.models import Voting
 
 
@@ -34,7 +15,6 @@ class LoginFormView(FormView):
 
     def form_valid(self, form):
         self.user = form.get_user()
-
         login(self.request, self.user)
         return super(LoginFormView, self).form_valid(form)
 
@@ -60,14 +40,16 @@ class VotingForm(forms.Form):
         min_length=5,
         max_length=25,
         required=True,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
 
     )
     description = forms.CharField(
-        label = 'Дополнительное описание',
+        label='Дополнительное описание',
         max_length=255,
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
     )
     isSingle = forms.BooleanField(
         label='Один вариант ответа',
@@ -86,7 +68,7 @@ class OptionForm(forms.Form):
 
 class VoteFormCheckBox(forms.Form):
     items = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,)
+        widget=forms.CheckboxSelectMultiple, )
 
 
 class LikeForm(forms.Form):
@@ -96,20 +78,21 @@ class LikeForm(forms.Form):
 class CommentForm(forms.Form):
     comment = forms.CharField(
         label='Discuss this voting here:',
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'}),
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'}),
         required=False
     )
 
 
 class ChangeInfoForm(forms.Form):
-    username = forms.CharField(label='Username',  min_length=3, required=False)
-    first_name = forms.CharField(label='First name',  min_length=3, required=False)
+    username = forms.CharField(label='Username', min_length=3, required=False)
+    first_name = forms.CharField(label='First name', min_length=3, required=False)
     last_name = forms.CharField(label='Last name', min_length=3, required=False)
     email = forms.EmailField(label='Email', required=False)
     old_password = forms.CharField(label='Old password', widget=forms.PasswordInput, required=False, initial=None)
-    new_password = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8, required=False, initial=None)
+    new_password = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8, required=False,
+                                   initial=None)
     new_password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput, required=False, initial=None)
-
     old_password_flag = True
 
     def set_old_password_flag(self):
@@ -117,14 +100,11 @@ class ChangeInfoForm(forms.Form):
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get('old_password')
-
         if not old_password and self.data.get('new_password'):
             print('Not')
             raise forms.ValidationError("You must enter your old password.")
-
         if self.old_password_flag is False:
             raise forms.ValidationError("The old password that you have entered is wrong.")
-
         return old_password
 
     def clean_new_password2(self):
@@ -175,14 +155,16 @@ class EditVotingForm(forms.Form):
         min_length=5,
         max_length=25,
         required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
+        widget=forms.TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
 
     )
     description = forms.CharField(
-        label = 'Дополнительное описание',
+        label='Дополнительное описание',
         max_length=255,
         required=False,
-        widget=forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
     )
 
     class Meta:
