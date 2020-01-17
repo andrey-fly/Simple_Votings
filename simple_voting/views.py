@@ -12,8 +12,7 @@ from .models import *
 
 def index(request):
     clear_session(request)
-    context = {}
-    context['data'] = datetime.datetime.now()
+    context = {'data': datetime.datetime.now()}
     return render(request, 'index.html', context)
 
 
@@ -34,10 +33,8 @@ def available_voting(request):
         voting.save()
     if request.method == 'POST':
         if not (request.POST.get('id') is None):
-            print(request.POST.get('id'))
             return redirect('/vote?voting={}'.format(request.POST.get('id')))
         elif not (request.POST.get('id_advanced') is None):
-            print(request.POST.get('id_advanced'))
             return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
     return render(request, 'available_voting.html', context)
 

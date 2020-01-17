@@ -5,11 +5,11 @@
 
 <h1>Список пользователей сайта</h1>
 
-    <div class="row2">
+    <ul class="list-group">
         {% for item in users %}
-         <li><a href="/available_voting"> {{ item }} (количество опросов: {{ votes_count }}) </a></li>
+        <li class="list-group-item"><a style="color: color:#008761">{{ item }} (количество опросов: {{ votes_count }})</a></li>
         {% endfor %}
-    </div>
+    </ul>
 
 </main>
 {% endblock %}

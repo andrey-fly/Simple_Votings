@@ -6,22 +6,32 @@
 <main>
     {% if complain_form %}
     <h1>Complains</h1>
-    <h2>Make your complain</h2>
-    <form action="/complain/" method="post">
-        {% csrf_token %}
-        {{ complain_form.as_p }}
-        <div>
-            <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
-                   style="width: 100px; border-radius: 16px"/>
+    <div class="card border-success mb-3 text-center" style="max-width: 18rem;">
+        <div class="card-header text-center">Make your complain</div>
+        <div class="card-body text-success text-center">
+            <div class="card-text">
+                <form action="/complain/" method="post">
+                    {% csrf_token %}
+                    {{ complain_form.as_p }}
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
+                           style="width: 100px; border-radius: 16px"/>
+                </form>
+            </div>
         </div>
-    </form>
+    </div>
     {% else %}
-    <h3>Your complaint has been accepted</h3>
-    <form class="form-group" action='/' method="POST"
-          style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary btn-lg">Return to the main page</button>
-    </form>
-    {% endif %}
+    <div class="card border-success mb-3" style="max-width: 18rem;">
+        <div class="card-header">Your complaint has been accepted</div>
+        <div class="card-body text-success">
+            <div class="card-text">
+                <form class="form-group" action='/' method="POST"
+                      style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-lg">Return to the main page</button>
+                </form>
+            </div>
+        </div>
+    </div>
+        {% endif %}
 </main>
 {% endblock %}

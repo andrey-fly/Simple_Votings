@@ -19,7 +19,6 @@
                     {{form.errors}}
                 </div>
             </div>
-
             <form action="/change_info/" method="POST">
                 {% for field in form %}
                 {% csrf_token %}
@@ -33,7 +32,7 @@
                 </div>
                 {% endfor %}
                 <div class="row2">
-                    <input type="submit" class="btn btn-primary btn-md" name="status" value="Save"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Save"
                            style="width: 25%; border-radius: 16px; min-width: 100px; margin-top: 5%"/>
                 </div>
             </form>

@@ -37,7 +37,7 @@
                 <div class="col-12 ">
                     <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
                         {% csrf_token %}
-                        <button type="submit" name="id" class="btn btn-primary"
+                        <button type="submit" name="id" class="btn btn-outline-success"
                                 style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию
                         </button>
                     </form>
@@ -45,7 +45,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-6 mb-3" style="border-right: 1px solid lightgray">
             <hr>
@@ -79,7 +78,7 @@
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
 
-                        <input type="submit" class="btn btn-primary btn-md" name="{{ voting.id }}" value="Edit"
+                        <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Edit"
                                style="width: 25%; border-radius: 16px; min-width: 100px"/>
                     </form>
                 </div>
@@ -87,7 +86,6 @@
             </div>
             {% endfor %}
         </div>
-
         <div class="col-6 mb-3">
             <hr>
             <h2 class="text-center">Избранные опросы:</h2>
@@ -95,7 +93,6 @@
             <div class="row">
                 <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
                     <hr>
-
                     <div class="row">
                         <div class="col-md-12">
                             <p style="text-align: center"> Вопрос: {{like.voting.question}}</p>
@@ -117,33 +114,29 @@
                             <p style="text-align: center"> Дата последнего изменения: {{like.voting.updated}}</p>
                         </div>
                     </div>
-                    <!--                    <form class="form-group" action='/profile/' method="POST" style="text-align: center">-->
                     <form class="form-group" action='/profile/' method="POST" style="text-align: center">
                         {% csrf_token %}
 
                         <div class="row">
                             <div class="col-6">
-                                <button type="submit" class="btn btn-primary btn-md" name="id_advanced"
+                                <button type="submit" class="btn btn-outline-success btn-md" name="id_advanced"
                                         value="{{like.voting.id }}"
                                         style="width: 25%; border-radius: 16px; min-width: 100px">Open
                                 </button>
                             </div>
                             <div class="col-6">
-                                <button type="submit" class="btn btn-primary btn-md" name="link"
+                                <button type="submit" class="btn btn-outline-success btn-md" name="link"
                                         value="{{like.voting.id }}"
                                         style="width: 25%; border-radius: 16px; min-width: 100px">Link
                                 </button>
                             </div>
                         </div>
-
-
                     </form>
                 </div>
                 <hr>
             </div>
             {% endfor %}
         </div>
-
     </div>
 </main>
 {% endblock %}

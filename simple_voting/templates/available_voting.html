@@ -32,7 +32,7 @@
                 </div>
             </div>
             <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-                <button class="btn btn-primary" type="button" data-toggle="collapse"
+                <button class="btn btn-outline-success" type="button" data-toggle="collapse"
                         data-target="#collapseExample_{{voting.id}}" aria-expanded="false"
                         aria-controls="collapseExample">
                     Открыть статистику
@@ -41,12 +41,9 @@
             </form>
             {% for count in voting.options %}
             <div class="row">
-
                 <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
                     <p style="text-align: center"> Вопрос: {{ count.text }}</p>
                     <p> Голоса: {{ count.vote_count }}</p>
-
-
                 </div>
                 <script>
 
@@ -93,10 +90,10 @@
 
             <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
                 {% csrf_token %}
-                <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary"
+                <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success"
                         style="width: 25%; border-radius: 16px; min-width: 100px">Пройти
                 </button>
-                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-primary"
+                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success"
                         style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
                 </button>
             </form>
