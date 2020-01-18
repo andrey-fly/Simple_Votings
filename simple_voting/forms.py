@@ -136,23 +136,6 @@ class ChangeInfoForm(forms.Form):
         return new_password2
 
 
-class Complain(forms.Form):
-    name = forms.CharField(
-        label='Your username',
-        widget=forms.TextInput
-    )
-
-    email = forms.EmailField(
-        label='Your email',
-        widget=forms.EmailInput
-    )
-
-    message = forms.CharField(
-        label='Describe your problem',
-        widget=forms.Textarea
-    )
-
-
 class Question(forms.Form):
     name = forms.CharField(
         label='Your username',
