@@ -12,13 +12,13 @@
                 <form action="/complain/" method="post">
                     {% csrf_token %}
                     <label for="Your_username">Your username</label>
-                    <input class="form-control" type="text" id="Your_username" value="{{username}}">
+                    <input class="form-control" type="text" id="Your_username" name="username" value="{{username}}">
                     <br>
                     <label for="Your_email">Your email</label>
-                    <input class="form-control" type="text" id="Your_email" value="{{email}}">
+                    <input class="form-control" type="text" id="Your_email" name="email" value="{{email}}">
                     <br>
                     <label for="Describe_your_problem">Describe your problem</label>
-                    <textarea class="form-control" type="Textarea" id="Describe_your_problem" placeholder="Describe_your_problem" rows="5" style="resize: none; "></textarea>
+                    <textarea class="form-control" type="Textarea" id="Describe_your_problem" name="complain" placeholder="Describe_your_problem" rows="5" style="resize: none; "></textarea>
                     <br>
                     <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
                            style="width: 100px; border-radius: 16px"/>

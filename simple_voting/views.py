@@ -128,18 +128,18 @@ def complain(request):
         context['email'] = user.email
 
     elif request.method == 'POST':
-        pass
-        # form = Complain(request.POST)
-        # if form.is_valid():
-        #     email_subject = 'EVILEG :: Сообщение через контактную форму '
-        #     email_body = "С сайта отправлено новое сообщение\n\n" \
-        #                  "Имя отправителя: %s \n" \
-        #                  "E-mail отправителя: %s \n\n" \
-        #                  "Сообщение: \n" \
-        #                  "%s " % \
-        #                  (form.cleaned_data['name'], form.cleaned_data['email'], form.cleaned_data['message'])
-        #     send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
-        #               fail_silently=False)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        complain = request.POST.get('complain')
+        email_subject = 'EVILEG :: Сообщение через контактную форму '
+        email_body = "С сайта отправлено новое сообщение\n\n" \
+                     "Имя отправителя: %s \n" \
+                     "E-mail отправителя: %s \n\n" \
+                     "Сообщение: \n" \
+                     "%s " % \
+                     (username, email, complain)
+        send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
+                  fail_silently=False)
     return render(request, 'complain.html', context)
 
 
