@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.forms import Textarea
+from django.forms.widgets import Input
 from django.views.generic.edit import FormView
 
 from simple_voting.models import Voting
@@ -20,12 +22,20 @@ class LoginFormView(FormView):
 
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), min_length=8)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
+        widgets = {
+            'username': Input(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}),
+            'first_name': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'email': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+        }
+    #     widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}
+    # password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}), min_length=8, required=True)
 
     def clean_password2(self):
         cd = self.data
