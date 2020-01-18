@@ -58,6 +58,16 @@
                         style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
                 </button>
             </form>
+
+            {% if user.id == voting.author_id %}
+
+            <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
+                {% csrf_token %}
+
+                <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Edit"
+                       style="width: 25%; border-radius: 16px; min-width: 100px"/>
+            </form>
+            {% endif %}
         </div>
         <hr>
     </div>
