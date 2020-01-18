@@ -4,11 +4,90 @@
 {% endblock %}
 {% block content %}
 <main>
-    <h1>Registration</h1>
-    <form action="/register/" method="POST">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        <button type="submit" class="btn btn-outline-success btn-md">Create account</button>
-    </form>
+    <div class="card mt-3 mb-3 border-success" style="width: 18rem; margin: 0 auto">
+        <div class="card-body text-center ">
+            <h2 class="card-title text-center">Registration</h2>
+            <form action="/register/" method="POST">
+                {% csrf_token %}
+<!--                {{ user_form.as_p }}-->
+                <hr>
+                {% if user_form.errors %}
+                <div class="row">
+                    {% if user_form.errors.password2 %}
+                    <div class="col-12">
+                        {{user_form.errors.password2}}
+                    </div>
+                    {%endif%}
+                    {% if user_form.errors.username %}
+                    <div class="col-12">
+                        {{user_form.errors.username}}
+                    </div>
+                    {%endif%}
+                    {% if user_form.errors.email %}
+                    <div class="col-12">
+                        {{user_form.errors.email}}
+                    </div>
+                    {%endif%}
+                </div>
+                {%endif%}
+                <div class="row">
+                    <div class="col-12">
+                        {{user_form.username.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.username}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        {{user_form.first_name.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.first_name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        {{user_form.last_name.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.last_name}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        {{user_form.email.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.email}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        {{user_form.password.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.password}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        {{user_form.password2.label}}
+                    </div>
+                    <div class="col-12 mt-2">
+                        {{user_form.password2}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mt-3">
+                        <button type="submit" class="btn btn-outline-success btn-md">Create account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 </main>
 {% endblock %}

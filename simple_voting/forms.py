@@ -33,6 +33,20 @@ class UserRegistrationForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
+    def clean_username(self):
+        cd = self.data
+        if len(cd['username']) < 6:
+            raise forms.ValidationError('Username must have 6 or more symbols')
+        return cd['username']
+
+    def clean_email(self):
+        cd = self.data
+        users = User.objects.all()
+        for user in users:
+            if user.email == cd['email']:
+                raise forms.ValidationError('This email is already in use')
+        return cd['email']
+
 
 class VotingForm(forms.Form):
     question = forms.CharField(
