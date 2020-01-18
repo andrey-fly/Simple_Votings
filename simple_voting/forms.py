@@ -34,8 +34,6 @@ class UserRegistrationForm(forms.ModelForm):
             'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Second name'}),
             'email': Input(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
-    #     widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}
-    # password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}), min_length=8, required=True)
 
     def clean_password2(self):
         cd = self.data
