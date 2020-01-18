@@ -23,16 +23,16 @@ class LoginFormView(FormView):
 
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), min_length=8)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repeat password'}))
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
         widgets = {
-            'username': Input(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}),
-            'first_name': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
-            'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
-            'email': Input(attrs={'class': 'form-control', 'placeholder': 'Password'}),
+            'username': Input(attrs={'class': 'form-control', 'placeholder': 'Username', 'autofocus': ''}),
+            'first_name': Input(attrs={'class': 'form-control', 'placeholder': 'First name'}),
+            'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Second name'}),
+            'email': Input(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
     #     widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}
     # password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}), min_length=8, required=True)
