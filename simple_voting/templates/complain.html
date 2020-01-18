@@ -12,7 +12,15 @@
             <div class="card-text">
                 <form action="/complain/" method="post">
                     {% csrf_token %}
-                    {{ complain_form.as_p }}
+                    <label for="Your_username">Your username</label>
+                    <input type="text" id="Your_username" value="Your_username">
+                    <br>
+                    <label for="Your_email">Your email</label>
+                    <input type="text" id="Your_email" value="Your_email">
+                    <br>
+                    <label for="Describe_your_problem">Describe your problem</label>
+                    <input type="Textarea" id="Describe_your_problem" placeholder="text" rows="5">
+                    <br>
                     <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
                            style="width: 100px; border-radius: 16px"/>
                 </form>
