@@ -25,20 +25,21 @@
                         {{ form.password }}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-md btn-block mt-3">Log in</button>
+                <button type="submit" class="btn btn-outline-success btn-md btn-block mt-3">Log in</button>
             </form>
+            <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
-                    <p style="margin: 0">Don't have an account yet?</p>
                     <form action="/register/" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-primary btn-md btn-block">Регистрация</button>
+                        <button type="submit" class="btn btn-outline-success btn-md btn-block">Don't have an account yet?</button>
                     </form>
                 </div>
             </div>
+            <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
-                    <a href="../recovery_password/" style="margin: 0">Forgot your password?</a>
+                    <a class="btn btn-outline-success" href="../recovery_password/" style="margin: 0">Forgot your password?</a>
                 </div>
             </div>
         </div>
