@@ -1,48 +1,48 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Comment </title>
+<title>Comment </title>
 {% endblock %}
 {% block content %}
 <main>
     <div class="row">
         <div class="col-6 text-center">
             {% if like_form %}
-                <form action="/like_comment/" method="post">
-                    {% csrf_token %}
-                    <div class="row  mt-3 text-middle" >
-                        <div class="col-12">
-                            <h1>Comment this:</h1>
-                        </div>
-                        <div class="col-12 mt-3 w-50 h-50 pl-5 pr-5">
-                            {{ comment_form.comment }}
-                        </div>
+            <form action="/like_comment/" method="post">
+                {% csrf_token %}
+                <div class="row  mt-3 text-middle">
+                    <div class="col-12">
+                        <h1>Comment this:</h1>
+                    </div>
+                    <div class="col-12 mt-3 w-50 h-50 pl-5 pr-5">
+                        {{ comment_form.comment }}
+                    </div>
+                </div>
+
+
+                <div class="row mt-3 ">
+                    <div class="col-6  mt-1">
+                        {{like_form.like.label}}
+                        {{like_form.like}}
                     </div>
 
 
-                    <div class="row mt-3 ">
-                        <div class="col-6  mt-1">
-                            {{like_form.like.label}}
-                            {{like_form.like}}
-                        </div>
-
-
-                        <div class="col-6">
-                            <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
-                                       style="width: 100px; border-radius: 16px"/>
-                        </div>
+                    <div class="col-6">
+                        <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
+                               style="width: 100px; border-radius: 16px"/>
                     </div>
-                </form>
+                </div>
+            </form>
             {% else %}
-                <form action="/like_comment/" method="post">
-                    {% csrf_token %}
-                    <h3>You have already liked this</h3>
-                    <h1>Comment this:</h1>
-                    {{ comment_form.as_p }}
-                    <div>
-                        <input type="submit" class="btn btn-primary btn-md" name="status" value="Send"
-                                   style="width: 100px; border-radius: 16px"/>
-                    </div>
-                </form>
+            <form action="/like_comment/" method="post">
+                {% csrf_token %}
+                <h3>You have already liked this</h3>
+                <h1>Comment this:</h1>
+                {{ comment_form.as_p }}
+                <div>
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
+                           style="width: 100px; border-radius: 16px"/>
+                </div>
+            </form>
             {% endif %}
         </div>
         {% if comments %}
@@ -53,7 +53,7 @@
                 </div>
             </div>
             {% for comment in comments %}
-            <div class="row mt-3" >
+            <div class="row mt-3">
                 <div class="col-8 alert alert-info text-center" role="alert">
                     <div class="row mb-3">
                         <div class="col-6" style="border-bottom: 1px solid lightgray">

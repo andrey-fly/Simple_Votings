@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.safestring import SafeString
 
 
 class Voting(models.Model):
@@ -8,10 +9,23 @@ class Voting(models.Model):
     description = models.CharField(max_length=255, default=None)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    single = models.BooleanField(default=False)
     like_count = models.IntegerField(default=0)
 
     def options(self):
         return Option.objects.filter(voting=self)
+
+    def labels(self):
+        labels = []
+        for i in self.options():
+            labels.append(i.text)
+        return SafeString(labels)
+
+    def vote_data(self):
+        votes = []
+        for i in self.options():
+            votes.append(len(i.votes()))
+        return SafeString(votes)
 
     def likes(self):
         return Like.objects.filter(voting=self)
@@ -33,8 +47,11 @@ class Option(models.Model):
 
 class Vote(models.Model):
     option = models.ForeignKey(to=Option, on_delete=models.CASCADE)
-    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=True, default='Anonymous')
     created = models.DateTimeField(auto_now_add=True)
+    anonymous = models.BooleanField(default=False)
+    useragent = models.CharField(max_length=25, null=True, default=None)
+    ip = models.CharField(max_length=15, null=False)
 
 
 class Like(models.Model):
@@ -48,3 +65,11 @@ class Comment(models.Model):
     voting = models.ForeignKey(to=Voting, on_delete=models.CASCADE)
     author = models.ForeignKey(to=User, on_delete=models.CASCADE, null=False)
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Recovery(models.Model):
+    target_user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    from_ip = models.CharField(max_length=15, null=False, default=None)
+    code = models.CharField(max_length=10)
+    created = models.DateTimeField(auto_now_add=True)
+

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<main>
+
+
+<h1>Список пользователей сайта</h1>
+
+    <ul class="list-group">
+        {% for item in users %}
+        <li class="list-group-item"><a style="color: color:#008761">{{ item }} (количество опросов: {{ votes_count }})</a></li>
+        {% endfor %}
+    </ul>
+
+</main>
+{% endblock %}

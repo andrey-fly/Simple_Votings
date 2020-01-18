@@ -179,14 +179,3 @@
   border-radius: 0.25rem;
   display: none;
 }
-
-.btn {
-  border-color: #00abad;
-  background-color: #1dcca3;
-  color: #10494a;
-}
-
-.btn:hover {
-  border-color: #02dade;
-  background-color: #1dccb8;
-}

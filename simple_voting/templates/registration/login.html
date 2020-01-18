@@ -1,20 +1,47 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Log in</title>
+<title>Log in</title>
 {% endblock %}
 {% block content %}
 <main>
-    <h1>Log in</h1>
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="btn btn-primary btn-md">Log in</button>
-    </form>
-    <div>Don't have an account yet?
-        <form action="/register/" method="post">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-primary btn-md">Регистрация</button>
-        </form>
+    <div class="card mt-3 border-success" style="width: 18rem; margin: 0 auto">
+        <div class="card-body">
+            <h2 class="card-title text-center">Log in</h2>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 text-center">
+                        {{ form.username.label }}
+                    </div>
+                    <div class="col-12 text-center">
+                        {{ form.username }}
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        {{ form.password.label }}
+                    </div>
+                    <div class="col-12 text-center">
+                        {{ form.password }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-md btn-block mt-3">Log in</button>
+            </form>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <p style="margin: 0">Don't have an account yet?</p>
+                    <form action="/register/" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary btn-md btn-block">Регистрация</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12 text-center">
+                    <a href="../recovery_password/" style="margin: 0">Forgot your password?</a>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 {% endblock %}

@@ -1,30 +1,33 @@
 {% extends 'base.html' %}
 {% block title %}
-    <title>Votings</title>
+<title>Votings</title>
 {% endblock %}
 {% block content %}
 
-        <div class="row">
-            <div class="col col-md-12" style="text-align: center">
-                <h1>Создать голосование</h1>
-            </div>
-            {% if error %}
-            <div class="col col-md-12 " style="text-align: center; color: darkred">
-                <p>{{ error.message }}:</p>
-                <p>{{ error.question }}</p>
-                <p>Отредактируйте или создайте новый</p>
-            </div>
-            {% endif %}
-        </div>
-        {% load crispy_forms_tags%}
-        <form class="form-group" action='/create_voting/' method="POST" style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-            {% csrf_token %}
-            <div>
-                {{voting_form|crispy }}
-            </div>
-            <div>
-            <button type="submit" class="btn btn-primary btn-lg mt-3" style="width: 25%; border-radius: 16px; min-width: 100px">Submit</button>
-            </div>
-        </form>
+<div class="row">
+    <div class="col col-md-12" style="text-align: center">
+        <h1>Создать голосование</h1>
+    </div>
+    {% if error %}
+    <div class="col col-md-12 " style="text-align: center; color: darkred">
+        <p>{{ error.message }}:</p>
+        <p>{{ error.question }}</p>
+        <p>Отредактируйте или создайте новый</p>
+    </div>
+    {% endif %}
+</div>
+{% load crispy_forms_tags%}
+<form class="form-group" action='/create_voting/' method="POST"
+      style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
+    {% csrf_token %}
+    <div>
+        {{voting_form|crispy }}
+    </div>
+    <div>
+        <button type="submit" class="btn btn-outline-success btn-lg mt-3"
+                style="width: 25%; border-radius: 16px; min-width: 100px">Submit
+        </button>
+    </div>
+</form>
 
 {% endblock %}
