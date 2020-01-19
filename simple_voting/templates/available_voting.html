@@ -4,99 +4,156 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 {% endblock %}
 {% block content %}
-<main>
-    <div class="row" style="text-align: center; margin-top: 2%">
-        <div class="col-md-12">
-            <p> Hello, {{user.username}}, today is: {{ data }}
+    <main>
+        <div class="row" style="text-align: center; margin-top: 2%">
+            <div class="col-md-12">
+                <p> Hello, {{user.username}}, today is: {{ data }}
+            </div>
         </div>
-    </div>
-    {% for voting in votings %}
-    <div class="row">
-        <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
-            <hr>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Вопрос: {{voting.question}} | Автор: {{voting.author.username}}</p>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Описание: {{voting.description}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Лайки: {{voting.like_count}}</p>
-                </div>
-            </div>
-            <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-                <button class="btn btn-outline-success" type="button" data-toggle="collapse"
-                        data-target="#collapseExample_{{voting.id}}" aria-expanded="false"
-                        aria-controls="collapseExample">
-                    Открыть статистику
-                </button>
-            </form>
-
-            <div class="row">
-                <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
-                    <div class="row card border-success mb-3">
-                    <div class="card-body"><canvas id="myChart_{{voting.id}}"></canvas></div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-                {% csrf_token %}
-                <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success"
-                        style="width: 25%; border-radius: 16px; min-width: 100px">Пройти
-                </button>
-                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success"
-                        style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
-                </button>
-            </form>
+        <div id="block">
         </div>
-        <hr>
-    </div>
 
-    <script>
-        var ctx = document.getElementById('myChart_{{voting.id}}').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels:
-                {{voting.labels}},
+    </main>
 
-        datasets: [{label: '# of Votes', data: {{voting.vote_data}},
-        backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-        ],
-            borderColor:
-        [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-        ],
-            borderWidth: 1
-                }]
-        },
-            options: {}
-        });
-    </script>
+        <script type="text/javascript">
+            let block_count = 0;
+            for (let i = 0; i<2; i++) {
+                do_scroll();
+            }
+            window.addEventListener("scroll", function(){do_scroll();});
+            function do_scroll() {
+                let data = '{{ data|escapejs }}';
+                let user = '{{ user|escapejs }}';
 
 
-</main>
-{% endfor %}
+                let questions = '{{ questions|escapejs }}';
+                questions = questions.split(`\", \"`);
+                questions[0] = questions[0].slice(2,questions[0].length);
+                let len = questions.length;
+                questions[len-1] = questions[len-1].slice(0,questions[len-1].length-2);
+
+                let authors = '{{ authors|escapejs }}';
+                authors = authors.split(`\", \"`);
+                authors[0] = authors[0].slice(2,authors[0].length);
+                authors[len-1] = authors[len-1].slice(0,authors[len-1].length-2);
+
+                let descriptions = '{{ descriptions|escapejs }}';
+                descriptions = descriptions.split(`\", \"`);
+                descriptions[0] = descriptions[0].slice(2,descriptions[0].length);
+                descriptions[len-1] = descriptions[len-1].slice(0,descriptions[len-1].length-2);
+
+                let like_counts = '{{ like_counts|escapejs }}';
+                like_counts = like_counts.slice(1,like_counts.length-1);
+                like_counts = like_counts.split(", ");
+
+                let ids = '{{ ids|escapejs }}';
+                ids = ids.slice(1,ids.length-1);
+                ids = ids.split(", ");
+
+                let labels = '{{ labels|escapejs }}';
+                labels = labels.slice(2,labels.length-2);
+                labels = labels.split(`\", \"`);
+
+                let vote_datas = '{{ vote_datas|escapejs }}';
+                vote_datas = vote_datas.slice(2,vote_datas.length-2);
+                vote_datas = vote_datas.split(`\", \"`);
+
+            if (block_count < len) {
+                let question = `<div class=\"row\">\r\n
+                                    <div class=\"col-md-12\">\r\n
+                                        <p style=\"text-align: center\"> Вопрос: ${questions[block_count]} | Автор: ${authors[block_count]}</p>\r\n
+                                    </div>\r\n
+                                </div>\r\n`;
+
+                let description = `<div class=\"row\">\r\n
+                                       <div class=\"col-md-12\">\r\n
+                                           <p style=\"text-align: center\"> Описание: ${descriptions[block_count]}</p>\r\n
+                                       </div>\r\n
+                                   </div>\r\n`;
+
+                let like = `<div class="row">\r\n
+                                <div class="col-md-12">\r\n
+                                    <p style="text-align: center"> Лайки: ${like_counts[block_count]}</p>\r\n
+                                </div>\r\n
+                            </div>\r\n`;
+
+                let stat = `<form class=\"form-group\" action=\'/available_voting/\' method=\"POST\" style=\"text-align: center\">\r\n
+                                <button class=\"btn btn-outline-success\" type=\"button\" data-toggle=\"collapse\"\r\n
+                                    data-target=\"#collapseExample_${ids[block_count]}\" aria-expanded=\"false\"\r\n
+                                    aria-controls=\"collapseExample\" action=\"do_chart_${ids[block_count]}();\">\r\n
+                                    Открыть статистику\r\n
+                                </button>\r\n
+                            </form>\r\n
+                            <div class=\"row\">\r\n
+                                <div class=\"col-md-12 collapse\" id=\"collapseExample_${ids[block_count]}\" style=\"text-align: center\">\r\n
+                                    <div class=\"row card border-success mb-3\">\r\n
+                                        <div class=\"card-body\"><canvas id=\"myChart_${ids[block_count]}\"></canvas></div>\r\n
+                                    </div>\r\n
+                                </div>\r\n
+                            </div>`;
+                let stat_script = `<script>
+
+                                    let ctx = document.getElementById('myChart_${ids[block_count]}').getContext('2d');
+                                    let myChart = new Chart(ctx, {
+                                        type: 'pie',
+                                        data: {
+                                            labels: ${labels[block_count]},
+
+                                            datasets: [{label: '# of Votes', data: ${vote_datas[block_count]},
+                                            backgroundColor: [
+                                                'rgba(255, 99, 132, 0.2)',
+                                                'rgba(54, 162, 235, 0.2)',
+                                                'rgba(255, 206, 86, 0.2)',
+                                                'rgba(75, 192, 192, 0.2)',
+                                                'rgba(153, 102, 255, 0.2)',
+                                                'rgba(255, 159, 64, 0.2)'
+                                            ],
+                                            borderColor: [
+                                                'rgba(255, 99, 132, 1)',
+                                                'rgba(54, 162, 235, 1)',
+                                                'rgba(255, 206, 86, 1)',
+                                                'rgba(75, 192, 192, 1)',
+                                                'rgba(153, 102, 255, 1)',
+                                                'rgba(255, 159, 64, 1)'
+                                            ],
+                                            borderWidth: 1
+                                        }]
+                                    },
+                                    options: {}
+                                });
+
+                                </scri`;
+                let end_script = `pt>\r\n`;
+                let post = `    <form class=\"form-group\" action=\'/available_voting/\' method=\"POST\" style=\"text-align: center\">\r\n
+                                    {% csrf_token %}\r\n
+                                    <button type=\"submit\" name=\"id\" value=\"${ids[block_count]}\" class=\"btn btn-primary\" style=\"width: 25%; border-radius: 16px; min-width: 100px\">Пройти</button>\r\n
+                                    <button type=\"submit\" name=\"id_advanced\" value=\"${ids[block_count]}\" class=\"btn btn-primary\" style=\"width: 25%; border-radius: 16px; min-width: 100px\">Дополнительно</button>\r\n
+                                </form>\r\n
+
+                                </div>\r\n
+                                </main>\r\n
+
+                                `;
+
+                let beginner = `<div class=\"row\">
+                                    <div class=\"col-md-12\" style=\"padding-right: 25%; padding-left: 25%;\">\r\n
+                                    <hr>\r\n`;
+                let ender = `</div>\r\n`;
+                let contentHeight = block.offsetHeight;
+                let yOffset       = window.pageYOffset;
+                let window_height = window.innerHeight;
+                let y             = yOffset + window_height;
+                if(y >= contentHeight)
+                {
+                    block.innerHTML = block.innerHTML + beginner + stat_script + end_script + question + description + like + stat + post + ender;
+                    block_count = block_count + 1;
+                }
+            }
+            }
+
+        </script>
+
+
 
 {% endblock %}
