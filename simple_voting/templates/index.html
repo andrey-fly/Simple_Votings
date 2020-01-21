@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block content %}
 <main style="text-align:center;">
-    <section class="section intro-section">
-        <div class="container">
+    <section style="margin-top: 10%; margin-bottom: 10%">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col col-md-8 text-center text-md-left">
-                    <div class="jumbotron">
-                        <h1 class="display-4">Hello {% if user.is_authenticated %} {{username}} {% endif %}</h1>
-                        <p class="lead">"Simple voting" - сервис, предоставляющий систему проведения опросов.</p>
-                        <hr class="my-4">
-                        <p>"Simple voting" поможет вам работать с опросами</p>
-                        <p class="lead">
-                            <a class="btn btn-lg btn-dark" href="#" role="button">Learn more</a>
-                        </p>
+                <div class="col col-md-8 text-center text-md-left ml-5">
+                    <div class="card jumbotron">
+                        <div class="card-body">
+                            <h1 class="display-4 card-title">Hello {% if user.is_authenticated %} {{username}} {% endif %}</h1>
+                            <p class="lead">"Simple voting" - сервис, предоставляющий систему проведения опросов.</p>
+                            <hr class="my-4">
+                            <p>"Simple voting" поможет вам работать с опросами</p>
+                            <p class="lead">
+                                <a class="btn btn-lg btn-outline-success" href="#" role="button">Learn more</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
