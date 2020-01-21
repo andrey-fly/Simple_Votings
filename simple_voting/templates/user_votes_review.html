@@ -7,64 +7,112 @@
 <main>
     <div class="row" style="text-align: center; margin-top: 2%">
         <div class="col-md-12">
-            <p> У пользователя {{ user_review }} данное количество опросов: {{ votes_count }}
+            <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px; padding-bottom: 10px; padding-top: 10px">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Количество опросов у пользователя <span class="font-italic">{{ user_review }}</span> : <span class="font-weight-bold">{{ votes_count }}</span></h2>
+                </div>
+            </div>
         </div>
     </div>
     {% for voting in votings %}
-    <div class="row">
-        <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+    <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
+        <div class="card-body">
+            <h2 class="card-title text-center">Вопрос: {{voting.question}}</h2>
+
+            <div class="row">
+                <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Описание: {{voting.description}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Лайки: {{voting.like_count}}</p>
+                        </div>
+                    </div>
+                    <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+                        <button class="btn btn-outline-success" type="button" data-toggle="collapse"
+                                data-target="#collapseExample_{{voting.id}}" aria-expanded="false"
+                                aria-controls="collapseExample">
+                            Открыть статистику
+                        </button>
+                    </form>
+
+                    <div class="row">
+                        <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
+                            <div class="row card border-success mb-3">
+                            <div class="card-body"><canvas id="myChart_{{voting.id}}"></canvas></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+                        <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success"
+                                style="width: 25%; border-radius: 16px; min-width: 100px">Пройти
+                        </button>
+                        <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success"
+                                style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
+                        </button>
+                    </form>
+
+                    {% if user.id == voting.author_id %}
+
+                    <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+
+                        <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Edit"
+                               style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                    </form>
+
+                    {% endif %}
+
+                </div>
             <hr>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Вопрос: {{voting.question}} | Автор: {{voting.author.username}}</p>
-                </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Описание: {{voting.description}}</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="text-align: center"> Лайки: {{voting.like_count}}</p>
-                </div>
-            </div>
-                <canvas id="myChart_{{voting.id}}"></canvas>
-                <script>
-                         let ctx = document.getElementById('myChart_{{voting.id}}').getContext('2d');
-                         let myChart = new Chart(ctx, {type: 'pie', data: { labels: {{voting.labels}},
-                         datasets: [{label: '# of Votes',data: {{voting.vote_data}},
-                         backgroundColor: [
-                         'rgba(255, 99, 132, 0.2)',
-                         'rgba(54, 162, 235, 0.2)',
-                         'rgba(255, 206, 86, 0.2)',
-                         'rgba(75, 192, 192, 0.2)',
-                         'rgba(153, 102, 255, 0.2)',
-                         'rgba(255, 159, 64, 0.2)'],
-                         borderColor:[
-                         'rgba(255, 99, 132, 1)',
-                         'rgba(54, 162, 235, 1)',
-                         'rgba(255, 206, 86, 1)',
-                         'rgba(75, 192, 192, 1)',
-                         'rgba(153, 102, 255, 1)',
-                         'rgba(255, 159, 64, 1)'],
-                         borderWidth:1}]},
-                         options: {}});
-                </script>
-            <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-                {% csrf_token %}
-                <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-primary"
-                        style="width: 25%; border-radius: 16px; min-width: 100px">Пройти
-                </button>
-                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-primary"
-                        style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
-                </button>
-            </form>
         </div>
-        <hr>
     </div>
+
+    <script>
+        var ctx = document.getElementById('myChart_{{voting.id}}').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels:
+                {{voting.labels}},
+
+        datasets: [{label: '# of Votes', data: {{voting.vote_data}},
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+        ],
+            borderColor:
+        [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ],
+            borderWidth: 1
+                }]
+        },
+            options: {}
+        });
+    </script>
+
+
+    {% endfor %}
 </main>
-{% endfor %}
+
 {% endblock %}
