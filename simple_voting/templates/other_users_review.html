@@ -1,15 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 <main>
-
-
-<h1>Список пользователей сайта</h1>
-
-    <ul class="list-group">
+    <h1>Список пользователей сайта</h1>
+    <div class="row2">
         {% for item in users %}
-        <li class="list-group-item"><a style="color: color:#008761">{{ item }} (количество опросов: {{ votes_count }})</a></li>
+        <li><a href="/user_votes_review/?voting={{ item.id }}"> {{ item.username }} (количество опросов: {{
+            item.votes_count }}) </a></li>
         {% endfor %}
-    </ul>
-
+    </div>
 </main>
 {% endblock %}

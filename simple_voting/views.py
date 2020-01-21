@@ -355,15 +355,39 @@ def edit_voting(request):
 def other_users_review(request):
     clear_session(request)
     context = {}
-    users = User.objects.all()
+    users = []
+    users_dict = {}
+    for i in range(1, int(User.objects.all().count()) + 1):
+        users_dict['username'] = str(User.objects.get(id=i))
+        users_dict['votes_count'] = Voting.objects.filter(author=i).count()
+        users_dict['id'] = i
+        users.append(users_dict.copy())
     context['users'] = users
-    votes_count = 1 #здесь нужно получить от каждого пользователя количество опросов (я пока не знаю, как получить id пользователя)
-    context['votes_count'] = votes_count
     return render(request, 'other_users_review.html', context)
 
+
+@login_required()
+def user_votes_review(request):
+    clear_session(request)
+    context = {'user': User.objects.get(id=request.user.id),
+               'user_review': str(User.objects.get(id=request.GET.get('voting', 0))),
+               'votes_count': Voting.objects.filter(author=request.GET.get('voting', 0)).count(),
+               'data': datetime.datetime.now(), 'votings': Voting.objects.filter(author=request.GET.get('voting', 0))}
+    counting_index = 0
+    for option in Option.objects.all():
+        option.vote_count = option.votes().count()
+        counting_index += 1
+        option.save()
+    counting_index = 0
+    for voting in Voting.objects.all():
+        voting.like_count = voting.likes().count()
+        counting_index += 1
+        voting.save()
+    return render(request, 'user_votes_review.html', context)
+
+
 def recovery_password(request):
-    context = {}
-    context['step'] = '1'
+    context = {'step': '1'}
     user_ip = request.META.get('REMOTE_ADDR', '') or request.META.get('HTTP_X_FORWARDED_FOR', '')
     form = RecoveryPass(request.POST)
     if request.method == 'POST':

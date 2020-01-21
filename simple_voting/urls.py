@@ -32,6 +32,7 @@ urlpatterns = [
     path('edit_voting/', edit_voting),
     path('question/', question),
     path('like_comment/', like_comment),
-    path('other_users_review/', other_users_review),
     path('recovery_password/', recovery_password),
+    path('other_users_review/', other_users_review),
+    path('user_votes_review/', user_votes_review),
 ]

@@ -1,36 +1,22 @@
 {% extends 'base.html' %}
 {% block content %}
 <main style="text-align:center;">
-    <h1 style="font-size: 60px;">Главная страница</h1>
-     {% if username %}
-        <h2>HELLO, {{username}}</h2>
-    {% endif %}
-        <h2>О сайте</h2>
-    <div class="row1" style="text-align:center;">
-        <div class="col-md">
-            "Simple votings" - это сайт, который предоставляет сервис для проведения голосований.
+    <section class="section intro-section">
+        <div class="container">
+            <div class="row">
+                <div class="col col-md-8 text-center text-md-left">
+                    <div class="jumbotron">
+                        <h1 class="display-4">Hello {% if user.is_authenticated %} {{username}} {% endif %}</h1>
+                        <p class="lead">"Simple voting" - сервис, предоставляющий систему проведения опросов.</p>
+                        <hr class="my-4">
+                        <p>"Simple voting" поможет вам работать с опросами</p>
+                        <p class="lead">
+                            <a class="btn btn-lg btn-dark" href="#" role="button">Learn more</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="row2">
-        <div>
-            С помощью него вы можете:
-        </div>
-        <table style="display:inline-block; margin-left:200px">
-            <tr>
-                <td>Создавать и проходить голосования</td>
-            </tr>
-            <tr>
-                <td>Редактировать голосования</td>
-            </tr>
-            <tr>
-                <td>Просматривать результаты голосований</td>
-            </tr>
-        </table>
-    </div>
-    <div class="row3">
-        <div class="col-md">
-            Также, Simple Votings имеет систему авторизации и abuse-систему
-        </div>
-    </div>
+    </section>
 </main>
 {% endblock %}
