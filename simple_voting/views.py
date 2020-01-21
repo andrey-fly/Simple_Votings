@@ -255,6 +255,16 @@ def like_comment(request):
 
 
 @login_required()
+def other_profile(request, id):
+    context = {}
+    voting_items = Voting.objects.filter(author_id=User.objects.get(id=id))
+    likes = Like.objects.filter(author_id=User.objects.get(id=id))
+    context['voting_items'] = voting_items
+    context['user'] = User.objects.get(id=id)
+    context['likes'] = likes
+    return render(request, 'profile.html', context)  # todo: сделать другой шаблончег
+
+@login_required()
 def profile(request):
     clear_session(request)
     context = {}
