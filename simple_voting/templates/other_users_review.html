@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <main>
-    <h1>Список пользователей сайта</h1>
-    <div class="row2">
-        {% for item in users %}
-        <li><a href="/user_votes_review/?voting={{ item.id }}"> {{ item.username }} (количество опросов: {{
-            item.votes_count }}) </a></li>
-        {% endfor %}
+    <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
+        <div class="card-body">
+            <h2 class="card-title text-center">Список пользователей сайта</h2>
+            <hr>
+
+            <div class="row2">
+                {% for item in users %}
+                <li><a href="/user_votes_review/?voting={{ item.id }}"> {{ item.username }} (количество опросов: {{ item.votes_count }}) </a></li>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 </main>
 {% endblock %}

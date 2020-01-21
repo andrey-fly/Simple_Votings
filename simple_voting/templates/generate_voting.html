@@ -5,57 +5,67 @@
 {% block content %}
 <main>
     <div class="container-fluid" style="overflow-x: hidden">
-        <div class="row">
-            <div class="col-md-12" style="text-align: center">
-                <h1>Редактор голосования</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12" style="text-align: center">
-                <h3>Вопрос: {{voting.question}}</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12" style="text-align: center">
-                <h3>Описание: {{voting.description}}</h3>
-            </div>
-        </div>
 
-        {% for opt in option_list %}
-        <div class="row">
-            <div class="col-md-12" style="text-align: center">
-                <h3>Вариант ответа: {{opt.text}}</h3>
+        <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
+            <div class="card-body">
+                <h2 class="card-title text-center">Редактор голосования</h2>
             </div>
-        </div>
-        {% endfor %}
+            <hr>
 
-        <form class="form-group" action='/generate_voting/' method="POST"
-              style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-            {% csrf_token %}
+            <div class="row mb-2">
+                <div class="col-md-12 text-center">
+                    <h3>Вопрос: {{voting.question}}</h3>
+                </div>
+            </div>
+
             <div class="row">
-                <div class="col-md-4" style="text-align: right">
-                    <h3>Добавить ответ:</h3>
-                </div>
-                <div class="col-md-6">
-                    {{option.form.option}}
-                </div>
-                <div class="col-md-2">
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Add"
-                           style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                <div class="col-12">
+                    <form class="form-group" action='/generate_voting/' method="POST"
+                  style="text-align: center; ">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-4" style="text-align: right; margin: auto auto">
+                                <h4 class="text-wrap" style="width: 100%">Добавить ответ:</h4>
+                            </div>
+                            <div class="col-6" style="; margin: auto auto">
+                                {{option.form.option}}
+                            </div>
+                            <div class="col-2" style="; margin: auto auto">
+                                <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Add"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
 
-        <form class="form-group" action='../generate_voting/' method="POST"
-              style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-md-12">
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Save"
-                           style="width: 25%; border-radius: 16px; min-width: 100px"/>
+            <form class="form-group text-center" action='../generate_voting/' method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="submit" class="btn btn-outline-success btn-md text-wrap" name="status" value="Save"/>
+                    </div>
+                </div>
+            </form>
+
+
+            {% for opt in option_list %}
+            <div class="row mb-3">
+                <div class="col-md-12" style="text-align: center">
+                    <h3>Вариант ответа: {{opt.text}}</h3>
                 </div>
             </div>
-        </form>
+            {% endfor %}
+
+            <hr>
+
+            <div class="row mb-2">
+                <div class="col-md-12 text-center">
+                    <h3>Описание: {{voting.description}}</h3>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 </main>
 {% endblock %}

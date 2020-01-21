@@ -141,6 +141,7 @@ def complain(request):
                      (username, email, complain)
         send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
                   fail_silently=False)
+        context['status'] = 'send'
     return render(request, 'complain.html', context)
 
 

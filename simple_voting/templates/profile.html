@@ -4,77 +4,78 @@
 {% endblock %}
 {% block content %}
 <main>
-    <div class="row">
-        <div class="col-12 text-center">
-            <h1>Welcome to your profile, {{ user.username }}!</h1>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-12 text-center">
-            <h2>Информация:</h2>
-        </div>
-        <div class="col-12">
-            <div class="row pr-5 mr-5">
-                <div class="col-6 text-right" style="margin: 0; padding: 0">
-                    <ul style="list-style-type: none">
-                        <li> Последний вход:</li>
-                        <li> Имя:</li>
-                        <li> Фамилия:</li>
-                        <li> email:</li>
-                    </ul>
-                </div>
-                <div class="col-6 text-left" style="margin: 0; padding: 0">
-                    <ul style="list-style-type: none">
-                        <li> {{ user.last_login }}</li>
-                        <li> {{ user.first_name}}</li>
-                        <li> {{ user.last_name}}</li>
-                        <li> {{ user.email}}</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row ">
-                <div class="col-12 ">
-                    <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
-                        {% csrf_token %}
-                        <button type="submit" name="id" class="btn btn-outline-success"
-                                style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-6 mb-3" style="border-right: 1px solid lightgray">
+    <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
+        <div class="card-body">
+            <h2 class="card-title text-center">Welcome to your profile, <span class="font-italic">{{ user.username }}</span>!</h2>
             <hr>
-            <h2 class="text-center">Ваши опросы:</h2>
-            {% for voting in voting_items %}
             <div class="row">
-                <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
+                <div class="col-12">
+                    <div class="row pr-5 mr-5">
+                        <div class="col-6 text-right" style="margin: 0; padding: 0">
+                            <ul style="list-style-type: none">
+                                <li> Последний вход:</li>
+                                <li> Имя:</li>
+                                <li> Фамилия:</li>
+                                <li> email:</li>
+                            </ul>
+                        </div>
+                        <div class="col-6 text-left" style="margin: 0; padding: 0">
+                            <ul style="list-style-type: none">
+                                <li> {{ user.last_login }}</li>
+                                <li> {{ user.first_name}}</li>
+                                <li> {{ user.last_name}}</li>
+                                <li> {{ user.email}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-12 ">
+                            <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
+                                {% csrf_token %}
+                                <button type="submit" name="id" class="btn btn-outline-success"
+                                        style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6 mb-3 text-center" style="margin: auto">
+            <div class="card jumbotron mt-3 mb-3 border-success ml-2 " style="width: 100%; margin: auto; border-radius: 8px; padding-top: 10px; padding-bottom: 10px;">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Ваши опросы:</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6 mb-3">
+            <div class="col-12 mb-3 text-center" style=" margin: auto;">
+                <div class="card jumbotron mt-3 mb-3 border-success mr-2" style="width: 100%; margin: auto; border-radius: 8px; padding-top: 10px; padding-bottom: 10px;">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Избранные опросы:</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-6 mb-3 text-center" style="margin: 0 auto">
+            {% for voting in voting_items %}
+            <div class="card jumbotron mt-3 mb-3 border-success ml-2 " style="width: 100%; margin: 0 auto; border-radius: 8px">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Вопрос: {{voting.question}}</h2>
                     <hr>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Вопрос: {{voting.question}}</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Описание: {{voting.description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Дата создания: {{voting.created}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Дата последнего изменения: {{voting.updated}}</p>
-                        </div>
-                    </div>
+                    <h4 class="card-title text-center">Описание: {{voting.description}}</h4>
+                    <h5 class="card-title text-center">Дата создания: {{voting.created}}</h5>
+                    <h5 class="card-title text-center">Дата последнего изменения: {{voting.updated}}</h5>
+                    <hr>
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
 
@@ -82,60 +83,44 @@
                                style="width: 25%; border-radius: 16px; min-width: 100px"/>
                     </form>
                 </div>
-                <hr>
             </div>
             {% endfor %}
         </div>
+
         <div class="col-6 mb-3">
-            <hr>
-            <h2 class="text-center">Избранные опросы:</h2>
-            {% for like in likes %}
-            <div class="row">
-                <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Вопрос: {{like.voting.question}}</p>
-                        </div>
-                    </div>
+            <div class="col-12 mb-3 text-center" style=" margin: 0 auto;">
+                {% for like in likes %}
+                <div class="card jumbotron mt-3 mb-3 border-success mr-2" style="width: 100%; margin: 0 auto; border-radius: 8px">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Вопрос: {{like.voting.question}}</h2>
+                        <hr>
+                        <h4 class="card-title text-center">Описание: {{like.voting.description}}</h4>
+                        <h5 class="card-title text-center">Дата создания: {{like.voting.created}}</h5>
+                        <h5 class="card-title text-center">Дата последнего изменения: {{like.voting.updated}}</h5>
+                        <hr>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Описание: {{like.voting.description}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Дата создания: {{like.voting.created}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <p style="text-align: center"> Дата последнего изменения: {{like.voting.updated}}</p>
-                        </div>
-                    </div>
-                    <form class="form-group" action='/profile/' method="POST" style="text-align: center">
-                        {% csrf_token %}
+                        <form class="form-group" action='/profile/' method="POST" style="text-align: center">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-outline-success btn-md" name="id_advanced"
+                                            value="{{like.voting.id }}"
+                                            style="width: 25%; border-radius: 16px; min-width: 100px">Open
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-outline-success btn-md" name="link"
+                                            value="{{like.voting.id }}"
+                                            style="width: 25%; border-radius: 16px; min-width: 100px">Link
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
 
-                        <div class="row">
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-outline-success btn-md" name="id_advanced"
-                                        value="{{like.voting.id }}"
-                                        style="width: 25%; border-radius: 16px; min-width: 100px">Open
-                                </button>
-                            </div>
-                            <div class="col-6">
-                                <button type="submit" class="btn btn-outline-success btn-md" name="link"
-                                        value="{{like.voting.id }}"
-                                        style="width: 25%; border-radius: 16px; min-width: 100px">Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-                <hr>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
 </main>
