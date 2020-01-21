@@ -7,12 +7,7 @@
 <main>
     <div class="row" style="text-align: center; margin-top: 2%">
         <div class="col-md-12">
-            <p> Привет, {{ user }}
             <p> У пользователя {{ user_review }} данное количество опросов: {{ votes_count }}
-        </div>
-        <div class="col-md-12">
-            <p> Переход в свой личный кабинет: <a href="/profile"> {{ user }} <a/>
-            <p/>
         </div>
     </div>
     {% for voting in votings %}
