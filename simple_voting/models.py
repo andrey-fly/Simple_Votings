@@ -76,5 +76,5 @@ class Recovery(models.Model):
 
 class UserPhoto(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
-    img = models.ImageField(upload_to='imgs/')
+    img = models.ImageField(upload_to='profile', null=True, default='profile/profile_icon')
 

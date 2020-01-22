@@ -139,3 +139,6 @@ EMAIL_USE_TLS = True                     # использование прото
 DEFAULT_FROM_EMAIL = 'info@example.com'  # email, с которого будет отправлено письмо
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MEDIA_ROOT = os.path.join(BASE_DIR+'/simple_voting/static', 'img')
+MEDIA_URL = '/media/'

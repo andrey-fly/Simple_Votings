@@ -188,3 +188,8 @@ class RecoveryPass(forms.Form):
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
+
+
+class FileForm(forms.Form):
+    file = forms.FileField(label='Select a file', required=False,
+                           widget=forms.FileInput(attrs={'class': 'custom-file-input', 'id': 'inputGroupFile', 'aria-describedby': "inputGroupFileBtn"}))
