@@ -274,6 +274,12 @@ def profile(request):
     context['voting_items'] = voting_items
     context['user'] = User.objects.get(id=request.user.id)
     context['likes'] = likes
+    current_user = User.objects.get(id=request.user.id)
+    if UserPhoto.objects.filter(user=current_user):
+        context['photo'] = UserPhoto.objects.get(user=current_user).img
+    else:
+        context['photo'] = 'profile/profile_icon.png'
+
     if request.method == 'POST':
         if request.POST.get('id_advanced'):
             return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
