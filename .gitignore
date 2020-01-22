@@ -341,3 +341,11 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/venv,linux,macos,python,django,windows,pycharm+all
+
+!profile_icon.png
+!burger-bar.png
+!Logo.png
+!Logo_white.png
+*.png
+
+*.jpg
