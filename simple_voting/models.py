@@ -73,3 +73,8 @@ class Recovery(models.Model):
     code = models.CharField(max_length=10)
     created = models.DateTimeField(auto_now_add=True)
 
+
+class UserPhoto(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    img = models.ImageField(upload_to='imgs/')
+
