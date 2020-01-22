@@ -324,6 +324,8 @@ def change_info(request):
                     current_user.set_password('{}'.format(form.data['new_password2']))
             current_user.save()
             login(request, current_user)
+        else:
+            return render(request, 'change_info.html', context)
         if photo.is_valid():
             if UserPhoto.objects.filter(user=current_user):
                 userphoto = UserPhoto.objects.get(user=current_user)
@@ -332,8 +334,6 @@ def change_info(request):
             if request.FILES.get('file'):
                 userphoto.img = request.FILES.get('file')
                 userphoto.save()
-        # else:
-        #     return render(request, 'change_info.html', context)
     if request.POST.get('status') == 'Save':
         return redirect('/profile')
     return render(request, 'change_info.html', context)
