@@ -12,11 +12,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="row pr-5 mr-5">
-                        <div class="col-4" style="margin: 0; padding: 0">
+                        <div class="col col-2" style="margin: 0; padding: 0; margin: auto">
                             {% load static %}
-                            <img class="rounded float-left mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon" style="width: 100px; height: 100px">
+                            <img class="rounded mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon" style="width: 100px; height: 100px">
                         </div>
-                        <div class="col-4 text-right" style="margin: 0; padding: 0">
+                        <div class="col-4 text-right" style="margin: 0; padding: 0;">
                             <ul style="list-style-type: none">
                                 <li> Последний вход:</li>
                                 <li> Имя:</li>
@@ -24,7 +24,7 @@
                                 <li> email:</li>
                             </ul>
                         </div>
-                        <div class="col-4 text-left" style="margin: 0; padding: 0">
+                        <div class="col-6 text-right" style="margin: 0; padding: 0">
                             <ul style="list-style-type: none">
                                 <li> {{ user.last_login }}</li>
                                 <li> {{ user.first_name}}</li>
