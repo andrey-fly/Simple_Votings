@@ -4,8 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from collections import OrderedDict
-from json import loads, dumps
+from django.core.paginator import Paginator
 
 from simple_voting.forms import *
 from simple_votings_11 import settings
@@ -14,65 +13,39 @@ from .models import *
 
 def index(request):
     clear_session(request)
-    context = {}
-    context['data'] = datetime.datetime.now()
-
+    context = {'data': datetime.datetime.now()}
     return render(request, 'index.html', context)
 
 
 @login_required()
 def available_voting(request):
     clear_session(request)
-    context = {}
-    context['data'] = datetime.datetime.now()
-    # context['votings'] = Voting.objects.all()
-    context['user'] = User.objects.get(id=request.user.id)
-
-    i = 0
-    questions = OrderedDict()
-    authors = OrderedDict()
-    descriptions = OrderedDict()
-    like_counts = OrderedDict()
-    ids = OrderedDict()
-    labels = OrderedDict()
-    vote_datas = OrderedDict()
-    for voting in Voting.objects.all():
-        questions['{}'.format(i)] = voting.question
-        authors['{}'.format(i)] = voting.author.username
-        descriptions['{}'.format(i)] = voting.description
-        like_counts['{}'.format(i)] = voting.like_count
-        ids['{}'.format(i)] = voting.id
-        labels['{}'.format(i)] = voting.labels()
-        vote_datas['{}'.format(i)] = voting.vote_data()
-        i += 1
-    context['questions'] = dumps(list(questions.values()))
-    context['authors'] = dumps(list(authors.values()))
-    context['descriptions'] = dumps(list(descriptions.values()))
-    context['like_counts'] = dumps(list(like_counts.values()))
-    context['ids'] = dumps(list(ids.values()))
-    context['labels'] = dumps(list(labels.values()))
-    context['vote_datas'] = dumps(list(vote_datas.values()))
-
+    context = {'data': datetime.datetime.now(),
+               'user': User.objects.get(id=request.user.id)}
     counting_index = 0
     for option in Option.objects.all():
         option.vote_count = option.votes().count()
         counting_index += 1
         option.save()
-
     counting_index = 0
     for voting in Voting.objects.all():
         voting.like_count = voting.likes().count()
         counting_index += 1
         voting.save()
 
-    if request.method == 'POST':
-        if not(request.POST.get('id')==None):
-            print(request.POST.get('id'))
-            return redirect('/vote?voting={}'.format(request.POST.get('id')))
-        elif not(request.POST.get('id_advanced')==None):
-            print(request.POST.get('id_advanced'))
-            return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
+    votings_list = Voting.objects.all()
+    paginator = Paginator(votings_list, 4)
 
+    if request.method == 'GET':
+        page = request.GET.get('page')
+        votings = paginator.get_page(page)
+        context['votings'] = votings
+        return render(request, 'available_voting.html', context)
+    elif request.method == 'POST':
+        if not (request.POST.get('id') is None):
+            return redirect('/vote?voting={}'.format(request.POST.get('id')))
+        elif not (request.POST.get('id_advanced') is None):
+            return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
     return render(request, 'available_voting.html', context)
 
 
