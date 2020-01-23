@@ -98,18 +98,24 @@
 
 </main>
 {% endfor %}
-<div class="pagination btn-toolbar mb-3">
+<div class="pagination btn-toolbar mb-3 mt-5">
                 <div class="col" role="group" align="right">
                     <div class="btn-group" style="min-height: 100%; min-width: 50%" role="group">
+                        {% if votings.number == 1 %}
+                        <button type="button" class="btn btn-secondary col" >&laquo; FIRST</button>
+                        {% else %}
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page=1'">&laquo; FIRST</button>
+                        {% endif %}
                         {% if votings.has_previous %}
-                        <button type="button" class="btn btn-dark col" onclick="location.href = '?page=1'">&laquo; FIRST</button>
-                        <button type="button" class="btn btn-dark col" onclick="location.href = '?page={{ votings.previous_page_number }}'">PREVIOUS</button>
+                        <button type="button" class="btn btn-success  col" onclick="location.href = '?page={{ votings.previous_page_number }}'">PREVIOUS</button>
+                        {% else %}
+                        <button type="button" class="btn btn-secondary  col">PREVIOUS</button>
                         {% endif %}
                     </div>
                 </div>
 
-                <div class="card text-white bg-secondary col-md-auto">
-                    <div class="card-body">
+                <div class="card text-white bg-success col-md-auto">
+                    <div class="card-body ">
                         Page {{ votings.number }} of {{ votings.paginator.num_pages }}.
                     </div>
                 </div>
@@ -117,8 +123,14 @@
                 <div class="col" role="group">
                     <div class="btn-group" style="min-height: 100%; min-width: 50%" role="group">
                         {% if votings.has_next %}
-                        <button type="button" class="btn btn-dark col" onclick="location.href = '?page={{ votings.next_page_number }}'">NEXT</button>
-                        <button type="button" class="btn btn-dark col" onclick="location.href = '?page={{ votings.paginator.num_pages }}'">LAST &raquo;</button>
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.next_page_number }}'">NEXT</button>
+                        {% else %}
+                        <button type="button" class="btn btn-secondary col">NEXT</button>
+                        {% endif %}
+                        {% if votings.number == votings.paginator.num_pages %}
+                        <button type="button" class="btn btn-secondary col">LAST &raquo;</button>
+                        {% else %}
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.paginator.num_pages }}'">LAST &raquo;</button>
                         {% endif %}
                     </div>
                 </div>
