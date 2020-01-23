@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
+from django.core.paginator import Paginator
 
 from simple_voting.forms import *
 from simple_votings_11 import settings
@@ -20,7 +21,7 @@ def index(request):
 @login_required()
 def available_voting(request):
     clear_session(request)
-    context = {'data': datetime.datetime.now(), 'votings': Voting.objects.all(),
+    context = {'data': datetime.datetime.now(),
                'user': User.objects.get(id=request.user.id)}
     counting_index = 0
     for option in Option.objects.all():
@@ -32,7 +33,16 @@ def available_voting(request):
         voting.like_count = voting.likes().count()
         counting_index += 1
         voting.save()
-    if request.method == 'POST':
+
+    votings_list = Voting.objects.all()
+    paginator = Paginator(votings_list, 4)
+
+    if request.method == 'GET':
+        page = request.GET.get('page')
+        votings = paginator.get_page(page)
+        context['votings'] = votings
+        return render(request, 'available_voting.html', context)
+    elif request.method == 'POST':
         if not (request.POST.get('id') is None):
             return redirect('/vote?voting={}'.format(request.POST.get('id')))
         elif not (request.POST.get('id_advanced') is None):
@@ -43,6 +53,7 @@ def available_voting(request):
 def design(request):
     clear_session(request)
     context = {}
+
     return render(request, 'design.html', context)
 
 
@@ -70,9 +81,11 @@ def create_voting(request):
                     error['question'] = voting_form.data['question']
                     context['error'] = error
                     return render(request, 'create_voting.html', context)
+
             item.save()
             request.session['id_voting'] = item.id
             return generate_voting(request)
+            # return render(request, 'generate_voting.html', context)
     return render(request, 'create_voting.html', context)
 
 
