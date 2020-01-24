@@ -5,89 +5,89 @@
 {% endblock %}
 
 {% block content %}
+<div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
+    <div class="card-body">
+        <h2 class="card-title text-center">Редактирование</h2>
+        <hr>
+        <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
+            <div class="row">
+                <div class="col-4" style="text-align: end; position: relative; padding-top: 5px">
+                    <p class="text-left">{{ voting_form.question.label }}: </p>
+                </div>
+                <div class="col-4">
+                    {{ voting_form.question }}
+                </div>
+                <div class="col-4">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status_question" value="Save"
+                           style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                </div>
+            </div>
+        </form>
 
-<div class="row">
-    <div class="col-12 h1" style="text-align: center; margin-bottom: 8px; margin-top: 8px">
-        <h1>Редактирование</h1>
-    </div>
-</div>
+        <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
+            <div class="row">
+                <div class="col-4" style="text-align: end; position: relative; margin: auto">
+                    <p class="text-left">{{ voting_form.description.label }}: </p>
+                </div>
+                <div class="col-4">
+                    {{ voting_form.description }}
+                </div>
+                <div class="col-4" style="margin: auto">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status_desc" value="Save"
+                           style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                </div>
+            </div>
+        </form>
 
-<form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
-    <div class="row">
-        <div class="col-4" style="text-align: end; position: relative; padding-top: 5px">
-            <p>{{ voting_form.question.label }}</p>
-        </div>
-        <div class="col-4">
-            {{ voting_form.question }}
-        </div>
-        <div class="col-4">
+
+        <form class="form-group" action='/edit_voting/' method="POST"
+              style="text-align: center; margin-top: 2.5%;">
             {% csrf_token %}
-            <input type="submit" class="btn btn-outline-success btn-md" name="status_question" value="Save"
-                   style="width: 25%; border-radius: 16px; min-width: 100px"/>
-        </div>
-    </div>
-</form>
+            <div class="row">
+                <div class="col-4" style="text-align: end; position: relative; margin-top: 5px">
+                    <h5 class="text-left">Добавить ответ:</h5>
+                </div>
+                <div class="col-4" width="50px">
+                    {{option_form.option}}
+                </div>
+                <div class="col-4 text-left">
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Add"
+                           style="width: 25%; border-radius: 16px; min-width: 100px; "/>
+                </div>
+            </div>
+        </form>
+        {% for option in options %}
+        <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
+            <div class="row">
+                <div class="col-6" style="text-align: end; margin-top: 5px">
+                    <p>{{ option.text }}</p>
+                </div>
+                <div class="col-6">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-success btn-md" name="Delete" value="{{option.id}}"
+                            style="width: 25%; border-radius: 16px; min-width: 100px">Delete
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% endfor %}
 
-<form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
-    <div class="row">
-        <div class="col-4" style="text-align: end; position: relative; margin: auto">
-            <p>{{ voting_form.description.label }}</p>
-        </div>
-        <div class="col-4">
-            {{ voting_form.description }}
-        </div>
-        <div class="col-4" style="margin: auto">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-outline-success btn-md" name="status_desc" value="Save"
-                   style="width: 25%; border-radius: 16px; min-width: 100px"/>
-        </div>
+        <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
+            <div class="row">
+                <div class="col-6" style="margin: auto; text-align: right">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="GO BACK"
+                           style="width: 25%; border-radius: 16px; min-width: 100px; padding: 5px"/>
+                </div>
+                <div class="col-6" style="margin: auto; text-align: left">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="DELETE"
+                           style="width: 25%; border-radius: 16px; min-width: 100px"/>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-
-
-<form class="form-group" action='/edit_voting/' method="POST"
-      style="text-align: center; margin-top: 2.5%; margin-left: 25%; margin-right: 25%">
-    {% csrf_token %}
-    <div class="row">
-        <div class="col-4" style="text-align: right; margin-top: 5px">
-            <h5>Добавить ответ:</h5>
-        </div>
-        <div class="col-4">
-            {{option_form.option}}
-        </div>
-        <div class="col-4">
-            <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Add" style="width: 25%; border-radius: 16px; min-width: 100px"/>
-        </div>
     </div>
-</form>
-{% for option in options %}
-<form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
-    <div class="row">
-        <div class="col-6" style="text-align: end; margin-top: 5px">
-            <p>{{ option.text }}</p>
-        </div>
-        <div class="col-6">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success btn-md" name="Delete" value="{{option.id}}"
-                    style="width: 25%; border-radius: 16px; min-width: 100px">Delete
-            </button>
-        </div>
-    </div>
-</form>
-{% endfor %}
-
-<form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
-    <div class="row">
-        <div class="col-6" style="margin: auto; text-align: right">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-outline-success btn-md" name="status" value="GO BACK"
-                   style="width: 25%; border-radius: 16px; min-width: 100px"/>
-        </div>
-        <div class="col-6" style="margin: auto; text-align: left">
-            {% csrf_token %}
-            <input type="submit" class="btn btn-outline-success btn-md" name="status" value="DELETE"
-                   style="width: 25%; border-radius: 16px; min-width: 100px"/>
-        </div>
-    </div>
-</form>
-{% endblock %}
+        {% endblock %}
