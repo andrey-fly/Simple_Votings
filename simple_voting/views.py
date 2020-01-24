@@ -245,6 +245,7 @@ def like_comment(request):
             # context['liked'] = SafeString(str(is_liked).lower())
             context['liked'] = is_liked
             context['voting_id'] = Voting.objects.get(id=voting_id)
+            context['likes_count'] = Voting.objects.get(id=voting_id).like_count
     if request.method == 'POST' and voting_id:
         liked = request.POST.get('like')
         if liked:
