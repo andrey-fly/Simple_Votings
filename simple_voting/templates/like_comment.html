@@ -1,37 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 <title>Comment </title>
 {% endblock %}
 {% block content %}
+
 <main>
-    <div class="row">
+    <div class="row text-center" style="margin: auto">
         <div class="col-6 text-center">
             {% if like_form %}
-            <form action="/like_comment/" method="post">
-                {% csrf_token %}
-                <div class="row  mt-3 text-middle">
-                    <div class="col-12">
-                        <h1>Comment this:</h1>
-                    </div>
-                    <div class="col-12 mt-3 w-50 h-50 pl-5 pr-5">
-                        {{ comment_form.comment }}
-                    </div>
+            <div class="card jumbotron mt-3 mb-3 border-success" style="width: 95%; margin: auto; border-radius: 8px">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Comment this:</h2>
+                    <hr>
+                    <form action="/like_comment/" method="post">
+                        {% csrf_token %}
+                        <div class="row mt-3 text-middle">
+                            <div class="col-12">
+                                {{ comment_form.comment }}
+                            </div>
+                        </div>
+                        <div class="row mt-3" style="margin: auto; ">
+                            <div class="col-6 mt-3">
+                                <input type="submit" class="btn btn-outline-success btn-md btn-block" name="status" value="Send"
+                                       />
+                            </div>
+                            <div class="col-6 text-right" style="margin: auto">
+                                <form action="/like_comment/" method="post" id="liking_form">
+                                    {% csrf_token %}
+                                    {% if liked %}
+                                    <button type="submit" name="like" value="liked" id="like_btn" style="background: none; border: none">
+                                        <img src="{% static 'img/liked.png'%}" width="50" height="50px" id="like_img"/>
+                                    </button>
+                                    {% else %}
+                                    <button type="submit" name="like" value="not_liked" id="like_btn" style="background: none; border: none">
+                                        <img src="{% static 'img/not_liked.png'%}" width="50" height="50px" id="like_img"/>
+                                    </button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
-
-                <div class="row mt-3 ">
-                    <div class="col-6  mt-1">
-                        {{like_form.like.label}}
-                        {{like_form.like}}
-                    </div>
-
-
-                    <div class="col-6">
-                        <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
-                               style="width: 100px; border-radius: 16px"/>
-                    </div>
-                </div>
-            </form>
+            </div>
             {% else %}
             <form action="/like_comment/" method="post">
                 {% csrf_token %}
@@ -46,26 +57,23 @@
             {% endif %}
         </div>
         {% if comments %}
-        <div class="col-6">
-            <div class="row mt-3 text-middle">
-                <div class="col-8 text-center">
-                    <h1>Comments:</h1>
-                </div>
-            </div>
+        <div class="col-6" >
             {% for comment in comments %}
-            <div class="row mt-3">
-                <div class="col-8 alert alert-info text-center" role="alert">
-                    <div class="row mb-3">
-                        <div class="col-6" style="border-bottom: 1px solid lightgray">
-                            <p>{{comment.author}}</p>
+            <div class="row mt-3 mr-3  border-success" style="padding: 0;">
+                <div class="col-12 alert alert-info text-center" role="alert" >
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-6" style="border-bottom: 1px solid lightgray">
+                                <p>{{comment.author}}</p>
+                            </div>
+                            <div class="col-6" style="border-left:1px solid lightgray; border-bottom: 1px solid lightgray">
+                                <p>{{comment.created}}</p>
+                            </div>
                         </div>
-                        <div class="col-6" style="border-left:1px solid lightgray; border-bottom: 1px solid lightgray">
-                            <p>{{comment.created}}</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <p class="text-break">{{comment.text}}</p>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-break">{{comment.text}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,4 +83,20 @@
         {% endif %}
     </div>
 </main>
+
+<script>
+    like_btn.addEventListener('click', function () {
+        if (like_btn.value == 'liked')
+        {
+            like_img.src = "{% static 'img/not_liked.png'%}";
+            like_btn.value = 'not_liked';
+        }
+        else
+        {
+            like_img.src = "{% static 'img/liked.png'%}";
+            like_btn.value = 'liked';
+        }
+    })
+</script>
+
 {% endblock %}

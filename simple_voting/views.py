@@ -227,6 +227,7 @@ def vote(request):
 @login_required()
 def like_comment(request):
     context = {}
+    voting_id = request.session.get('id_voting', None)
     if request.method == 'GET':
         context.update(csrf(request))
         context['like_form'] = LikeForm()
@@ -234,7 +235,16 @@ def like_comment(request):
         voting_id = request.GET.get('voting')
         request.session['id_voting'] = voting_id
         context['comments'] = Comment.objects.filter(voting=Voting.objects.get(id=voting_id))
-    voting_id = request.session.get('id_voting', None)
+        if voting_id:
+            is_liked = False
+            likes = Like.objects.filter(author=User.objects.get(id=request.user.id))
+            for like in likes:
+                if like.voting == Voting.objects.get(id=voting_id):
+                    is_liked = True
+                    break
+            # context['liked'] = SafeString(str(is_liked).lower())
+            context['liked'] = is_liked
+            context['voting_id'] = Voting.objects.get(id=voting_id)
     if request.method == 'POST' and voting_id:
         liked = request.POST.get('like')
         if liked:
@@ -254,7 +264,7 @@ def like_comment(request):
                 like_item.save()
             if already_like:
                 del_like.delete()
-        if len(request.POST.get('comment')) > 0:
+        if request.POST.get('comment'):
             text = request.POST.get('comment')
             comment_item = Comment(
                 text=text,
@@ -264,7 +274,7 @@ def like_comment(request):
             print("COMMENT")
             comment_item.save()
         clear_session(request)
-        return redirect('/available_voting')
+        return redirect('/like_comment/?voting={}'.format(voting_id))
     return render(request, 'like_comment.html', context)
 
 
