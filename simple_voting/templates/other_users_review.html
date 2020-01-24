@@ -1,18 +1,30 @@
 {% extends 'base.html' %}
+{% block title %}
+<title>Other users</title>
+{% endblock %}
 {% block content %}
 <main>
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <h2 class="card-title text-center">Список пользователей сайта</h2>
             <hr>
-
-            <div class="row2">
+            <table class="table table-hover">
+                <thead>
+                <tr class="table-success">
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Колличество опросов</th>
+                </tr>
+                </thead>
+                <tbody class="table-info">
                 {% for item in users %}
-                <li><a href="/user_votes_review/?voting={{ item.id }}"> {{ item.username }} (количество опросов: {{ item.votes_count }}) </a></li>
+                    <tr>
+                        <th scope="row"><a href="/user_votes_review/?voting={{ item.id }}" class="text-success"> {{ item.username }}</a></th>
+                        <td><span class="text-success">{{ item.votes_count }}</span></td>
+                    </tr>
                 {% endfor %}
-            </div>
+                </tbody>
+            </table>
         </div>
-
     </div>
 </main>
 {% endblock %}
