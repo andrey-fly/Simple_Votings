@@ -38,7 +38,7 @@
                                     </button>
                                     {% endif %}
                                 </form>
-                                <div class="badge badge-primary text-wrap" style="vertical-align: bottom">{{likes_count}}</div>
+                                <div class="badge badge-primary text-wrap" id='like_count' style="vertical-align: bottom">{{likes_count}}</div>
                             </div>
                         </div>
                     </form>
@@ -91,11 +91,13 @@
         {
             like_img.src = "{% static 'img/not_liked.png'%}";
             like_btn.value = 'not_liked';
+            // like_count.textContent -= 1;
         }
         else
         {
             like_img.src = "{% static 'img/liked.png'%}";
             like_btn.value = 'liked';
+            // like_count.textContent += 1;
         }
     })
 </script>

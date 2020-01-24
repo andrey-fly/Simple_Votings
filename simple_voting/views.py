@@ -235,6 +235,7 @@ def like_comment(request):
         voting_id = request.GET.get('voting')
         request.session['id_voting'] = voting_id
         context['comments'] = Comment.objects.filter(voting=Voting.objects.get(id=voting_id))
+        context['likes_count'] = Voting.objects.get(id=voting_id).likes().count()
         if voting_id:
             is_liked = False
             likes = Like.objects.filter(author=User.objects.get(id=request.user.id))
@@ -242,10 +243,8 @@ def like_comment(request):
                 if like.voting == Voting.objects.get(id=voting_id):
                     is_liked = True
                     break
-            # context['liked'] = SafeString(str(is_liked).lower())
             context['liked'] = is_liked
             context['voting_id'] = Voting.objects.get(id=voting_id)
-            context['likes_count'] = Voting.objects.get(id=voting_id).like_count
     if request.method == 'POST' and voting_id:
         liked = request.POST.get('like')
         if liked:
@@ -263,6 +262,8 @@ def like_comment(request):
                     author=User.objects.get(id=request.user.id)
                 )
                 like_item.save()
+                voting = Voting.objects.get(id=voting_id)
+                voting.like_count = voting.likes().count()
             if already_like:
                 del_like.delete()
         if request.POST.get('comment'):
