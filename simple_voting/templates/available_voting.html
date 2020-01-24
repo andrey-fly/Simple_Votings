@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
-                        <button class="btn btn-outline-success" type="button" data-toggle="collapse"
+                        <button class="btn btn-outline-success btn-block" type="button" data-toggle="collapse"
                                 data-target="#collapseExample_{{voting.id}}" aria-expanded="false"
                                 aria-controls="collapseExample">
                             Открыть статистику
@@ -59,23 +59,34 @@
 
 
 
-                    <form class="form-group" action='/available_voting/' method="POST" style="text-align: center">
+                    <form class="form-group" action='/available_voting/' method="POST" style="text-align: center; ">
                         {% csrf_token %}
-                        <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success"
-                                style="width: 25%; border-radius: 16px; min-width: 100px">Пройти
+                        <div class="row">
+                            <div class="col-12  mb-3">
+                                 <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success btn-block"
+                                >Пройти
                         </button>
-                        <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success"
-                                style="width: 25%; border-radius: 16px; min-width: 100px">Дополнительно
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success btn-block"
+                                >Дополнительно
                         </button>
+                            </div>
+                        </div>
+
+
                     </form>
 
                     {% if user.id == voting.author_id %}
 
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
+                        <div class="row">
+                            <div class="col-12">
+                                <input type="submit" class="btn btn-outline-success btn-md btn-block" name="{{ voting.id }}" value="Edit"/>
+                            </div>
+                        </div>
 
-                        <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Edit"
-                               style="width: 25%; border-radius: 16px; min-width: 100px"/>
                     </form>
 
                     {% endif %}
