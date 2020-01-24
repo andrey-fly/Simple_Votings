@@ -288,6 +288,7 @@ def other_profile(request, id):
     context['voting_items'] = voting_items
     context['user'] = User.objects.get(id=id)
     context['likes'] = likes
+    context['votes_count'] = likes
     return render(request, 'profile.html', context)  # todo: сделать другой шаблончег
 
 @login_required()
@@ -299,6 +300,7 @@ def profile(request):
     context['voting_items'] = voting_items
     context['user'] = User.objects.get(id=request.user.id)
     context['likes'] = likes
+    context['votes_count'] = voting_items.count()
     current_user = User.objects.get(id=request.user.id)
     if UserPhoto.objects.filter(user=current_user):
         context['photo'] = UserPhoto.objects.get(user=current_user).img
@@ -426,9 +428,11 @@ def other_users_review(request):
 def user_votes_review(request):
     clear_session(request)
     context = {'user': User.objects.get(id=request.user.id),
-               'user_review': str(User.objects.get(id=request.GET.get('voting', 0))),
+               'user_review': User.objects.get(id=request.GET.get('voting', 0)),
                'votes_count': Voting.objects.filter(author=request.GET.get('voting', 0)).count(),
-               'data': datetime.datetime.now(), 'votings': Voting.objects.filter(author=request.GET.get('voting', 0))}
+               'data': datetime.datetime.now(),
+               'votings': Voting.objects.filter(author=request.GET.get('voting', 0)),
+               'photo': UserPhoto.objects.get(user=User.objects.get(id=request.user.id))}
     counting_index = 0
     for option in Option.objects.all():
         option.vote_count = option.votes().count()

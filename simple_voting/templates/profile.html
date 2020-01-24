@@ -4,45 +4,32 @@
 {% endblock %}
 {% block content %}
 <main>
-
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <h2 class="card-title text-center">Welcome to your profile, <span class="font-italic">{{ user.username }}</span>!</h2>
             <hr>
             <div class="row">
-                <div class="col-12">
-                    <div class="row pr-5 mr-5">
-                        <div class="col col-2" style="margin: 0; padding: 0; margin: auto">
-                            {% load static %}
-                            <img class="rounded mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon" style="width: 100px; height: 100px">
-                        </div>
-                        <div class="col-4 text-right" style="margin: 0; padding: 0;">
-                            <ul style="list-style-type: none">
-                                <li> Последний вход:</li>
-                                <li> Имя:</li>
-                                <li> Фамилия:</li>
-                                <li> email:</li>
-                            </ul>
-                        </div>
-                        <div class="col-6 text-right" style="margin: 0; padding: 0">
-                            <ul style="list-style-type: none">
-                                <li> {{ user.last_login }}</li>
-                                <li> {{ user.first_name}}</li>
-                                <li> {{ user.last_name}}</li>
-                                <li> {{ user.email}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="col-12 ">
-                            <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
-                                {% csrf_token %}
-                                <button type="submit" name="id" class="btn btn-outline-success"
-                                        style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                <div class="col-6">
+                    {% load static %}
+                    <img class="rounded mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon" style="width: 100px; height: 100px">
+                </div>
+                <div class="col-6">
+                    <p class="card-title text-left">Количество опросов: <span class="font-weight-bold">{{ votes_count }}</span></p>
+                    <p class="card-title text-left">Имя: <span class="font-weight-bold">{{ user.first_name }}</span></p>
+                    <p class="card-title text-left">Фамилия: <span class="font-weight-bold">{{ user.last_name }}</span></p>
+                    <p class="card-title text-left">Email: <span class="font-weight-bold">{{ user.email }}</span></p>
+                    <p class="card-title text-left">Последний вход: <span class="font-weight-bold">{{ user.last_login }}</span></p>
+                </div>
+            </div>
+            <hr>
+            <div class="row ">
+                <div class="col-12 ">
+                    <form class="form-group" action='/change_info/' method="POST" style="text-align: center">
+                        {% csrf_token %}
+                        <button type="submit" name="id" class="btn btn-outline-success"
+                                style="width: 25%; border-radius: 16px; min-width: 100px">Изменить информацию
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
