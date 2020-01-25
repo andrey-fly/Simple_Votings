@@ -370,9 +370,9 @@ def edit_voting(request):
             new_option = option_form.data['option']
             new_option = Option(text=new_option, voting=Voting.objects.get(id=vote_id))
             new_option.save()
-        if request.POST.get('status') == 'GO BACK':
+        if request.POST.get('status') == 'Удалить':
             return redirect('../profile')
-        if request.POST.get('status') == 'DELETE':
+        if request.POST.get('status') == 'Назад':
             Voting.objects.get(id=vote_id).delete()
             return redirect('/profile/')
     return render(request, 'vote/edit_voting.html', context)

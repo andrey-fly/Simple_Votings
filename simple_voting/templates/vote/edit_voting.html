@@ -48,9 +48,15 @@
                     {{option_form.option}}
                 </div>
                 <div class="col-4 text-left">
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="+"
+                    <input type="submit" id="btn" class="btn btn-outline-success btn-md" name="status" value="+"
                            style="width: 25%; border-radius: 16px; min-width: 100px; "/>
                 </div>
+                <script>
+                    let btn = document.getElementId('btn')
+                    btn.addEventListener('click', function(e) {
+
+                    }
+                </script>
             </div>
         </form>
         {% for option in options %}
