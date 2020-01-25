@@ -36,4 +36,5 @@ urlpatterns = [
     path('recovery_password/', recovery_password),
     path('other_users_review/', other_users_review),
     path('user_votes_review/', user_votes_review),
+    path('about_us/', about_us),
 ]

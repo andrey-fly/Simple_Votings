@@ -10,7 +10,8 @@
         <div class="card-body">
             <div class="row" style="text-align: center; margin-top: 2%">
                 <div class="col-md-12">
-                    <h2 class="card-title text-center">Hello, <span class="font-italic">{{user.username}}</span>, Вот список актуальных вопросов на {{ data }}</h2>
+                    <h2 class="card-title text-center">Привет, <span class="font-italic">{{user.username}}</span></h2>
+                    <h2 class="card-title text-center">Вот список актуальных вопросов на {{ data }}<h2/>
                 </div>
             </div>
         </div>
@@ -83,7 +84,7 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12">
-                                <input type="submit" class="btn btn-outline-success btn-md btn-block" name="{{ voting.id }}" value="Edit"/>
+                                <input type="submit" class="btn btn-outline-success btn-md btn-block" name="{{ voting.id }}" value="Отредактировать"/>
                             </div>
                         </div>
 
@@ -139,35 +140,35 @@
                 <div class="col" role="group" align="right">
                     <div class="btn-group" style="min-height: 100%; min-width: 50%" role="group">
                         {% if votings.number == 1 %}
-                        <button type="button" class="btn btn-secondary col" >&laquo; FIRST</button>
+                        <button type="button" class="btn btn-secondary col" >&laquo;Первый </button>
                         {% else %}
-                        <button type="button" class="btn btn-success col" onclick="location.href = '?page=1'">&laquo; FIRST</button>
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page=1'">&laquo; Первый </button>
                         {% endif %}
                         {% if votings.has_previous %}
-                        <button type="button" class="btn btn-success  col" onclick="location.href = '?page={{ votings.previous_page_number }}'">PREVIOUS</button>
+                        <button type="button" class="btn btn-success  col" onclick="location.href = '?page={{ votings.previous_page_number }}'"> Предыдущий </button>
                         {% else %}
-                        <button type="button" class="btn btn-secondary  col">PREVIOUS</button>
+                        <button type="button" class="btn btn-secondary  col"> Предыдущий </button>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="card text-white bg-success col-md-auto">
                     <div class="card-body ">
-                        Page {{ votings.number }} of {{ votings.paginator.num_pages }}.
+                        Страница {{ votings.number }} из {{ votings.paginator.num_pages }}.
                     </div>
                 </div>
 
                 <div class="col" role="group">
                     <div class="btn-group" style="min-height: 100%; min-width: 50%" role="group">
                         {% if votings.has_next %}
-                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.next_page_number }}'">NEXT</button>
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.next_page_number }}'"> Следующий </button>
                         {% else %}
-                        <button type="button" class="btn btn-secondary col">NEXT</button>
+                        <button type="button" class="btn btn-secondary col"> Следующий </button>
                         {% endif %}
                         {% if votings.number == votings.paginator.num_pages %}
-                        <button type="button" class="btn btn-secondary col">LAST &raquo;</button>
+                        <button type="button" class="btn btn-secondary col"> Последний &raquo;</button>
                         {% else %}
-                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.paginator.num_pages }}'">LAST &raquo;</button>
+                        <button type="button" class="btn btn-success col" onclick="location.href = '?page={{ votings.paginator.num_pages }}'"> Последний &raquo;</button>
                         {% endif %}
                     </div>
                 </div>

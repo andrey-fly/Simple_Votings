@@ -21,17 +21,17 @@ class LoginFormView(FormView):
 
 
 class UserRegistrationForm(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}), min_length=8)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repeat password'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль'}), min_length=8)
+    password2 = forms.CharField(label='Повторите', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Повторите пароль'}))
 
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
         widgets = {
-            'username': Input(attrs={'class': 'form-control', 'placeholder': 'Username', 'autofocus': ''}),
-            'first_name': Input(attrs={'class': 'form-control', 'placeholder': 'First name'}),
-            'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Second name'}),
-            'email': Input(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'username': Input(attrs={'class': 'form-control', 'placeholder': 'Имя пользователя', 'autofocus': ''}),
+            'first_name': Input(attrs={'class': 'form-control', 'placeholder': 'Имя'}),
+            'last_name': Input(attrs={'class': 'form-control', 'placeholder': 'Фамилия'}),
+            'email': Input(attrs={'class': 'form-control', 'placeholder': 'Электронная почта'}),
         }
 
     def clean_password2(self):
@@ -62,7 +62,7 @@ class VotingForm(forms.Form):
         max_length=25,
         required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
+            attrs={'class': 'form-control', 'placeholder': 'Вопрос', 'style': 'border-radius: 8px'})
 
     )
     description = forms.CharField(
@@ -70,7 +70,7 @@ class VotingForm(forms.Form):
         max_length=255,
         required=False,
         widget=forms.Textarea(
-            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
+            attrs={'class': 'form-control', 'placeholder': 'Описание', 'style': 'border-radius: 8px'})
     )
     isSingle = forms.BooleanField(
         label='Один вариант ответа',
@@ -83,7 +83,7 @@ class OptionForm(forms.Form):
         label='Ответ',
         required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px', 'autofocus': ''})
+            attrs={'class': 'form-control', 'placeholder': 'Вопрос', 'style': 'border-radius: 8px', 'autofocus': ''})
     )
 
 
@@ -98,22 +98,22 @@ class LikeForm(forms.Form):
 
 class CommentForm(forms.Form):
     comment = forms.CharField(
-        label='Discuss this voting here:',
+        label='Обсудите опрос здесь:',
         widget=forms.Textarea(
-            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'}),
+            attrs={'class': 'form-control', 'placeholder': 'Описание', 'style': 'border-radius: 8px'}),
         required=False
     )
 
 
 class ChangeInfoForm(forms.Form):
-    username = forms.CharField(label='Username', min_length=3, required=False)
-    first_name = forms.CharField(label='First name', min_length=3, required=False)
-    last_name = forms.CharField(label='Last name', min_length=3, required=False)
-    email = forms.EmailField(label='Email', required=False)
-    old_password = forms.CharField(label='Old password', widget=forms.PasswordInput, required=False, initial=None)
-    new_password = forms.CharField(label='Password', widget=forms.PasswordInput, min_length=8, required=False,
+    username = forms.CharField(label='Имя пользователя', min_length=3, required=False)
+    first_name = forms.CharField(label='Имя', min_length=3, required=False)
+    last_name = forms.CharField(label='Фамилия', min_length=3, required=False)
+    email = forms.EmailField(label='Электронная почта', required=False)
+    old_password = forms.CharField(label='Старый пароль', widget=forms.PasswordInput, required=False, initial=None)
+    new_password = forms.CharField(label='Новый пароль', widget=forms.PasswordInput, min_length=8, required=False,
                                    initial=None)
-    new_password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput, required=False, initial=None)
+    new_password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput, required=False, initial=None)
     old_password_flag = True
 
     def set_old_password_flag(self):
@@ -123,32 +123,32 @@ class ChangeInfoForm(forms.Form):
         old_password = self.cleaned_data.get('old_password')
         if not old_password and self.data.get('new_password'):
             print('Not')
-            raise forms.ValidationError("You must enter your old password.")
+            raise forms.ValidationError("Вы должны ввести Ваш старый пароль.")
         if self.old_password_flag is False:
-            raise forms.ValidationError("The old password that you have entered is wrong.")
+            raise forms.ValidationError("Старый пароль, который Вы ввели, - неверен.")
         return old_password
 
     def clean_new_password2(self):
         new_password = self.cleaned_data.get('new_password')
         new_password2 = self.cleaned_data.get('new_password2')
         if new_password != new_password2:
-            raise forms.ValidationError('New passwords don\'t match.')
+            raise forms.ValidationError('Новые пароли не совпадают.')
         return new_password2
 
 
 class Question(forms.Form):
     name = forms.CharField(
-        label='Your username',
+        label='Имя пользователя',
         widget=forms.TextInput
     )
 
     email = forms.EmailField(
-        label='Your email',
+        label='Электронная почта',
         widget=forms.EmailInput
     )
 
     message = forms.CharField(
-        label='Describe your question',
+        label='Опишите Ваш вопрос',
         widget=forms.Textarea
     )
 
@@ -160,7 +160,7 @@ class EditVotingForm(forms.Form):
         max_length=25,
         required=False,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Question', 'style': 'border-radius: 8px'})
+            attrs={'class': 'form-control', 'placeholder': 'Вопрос', 'style': 'border-radius: 8px'})
 
     )
     description = forms.CharField(
@@ -168,7 +168,7 @@ class EditVotingForm(forms.Form):
         max_length=255,
         required=False,
         widget=forms.Textarea(
-            attrs={'class': 'form-control', 'placeholder': 'Description', 'style': 'border-radius: 8px'})
+            attrs={'class': 'form-control', 'placeholder': 'Описание', 'style': 'border-radius: 8px'})
     )
 
     class Meta:
@@ -176,8 +176,8 @@ class EditVotingForm(forms.Form):
 
 
 class RecoveryPass(forms.Form):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password', 'autofocus': ''}), min_length=8, required=True)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': 'Repeat password'}), required=True)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Пароль', 'autofocus': ''}), min_length=8, required=True)
+    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput(attrs = {'class': 'form-control', 'placeholder': 'Повторите пароль'}), required=True)
 
     class Meta:
         model = User

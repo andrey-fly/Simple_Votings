@@ -25,22 +25,22 @@
      </div>
     {% else %}
     <div class="card jumbotron border-success mb-3 mt-3 text-center" style="max-width: 50%; margin: 0 auto; border-radius: 8px">
-        <h2 class="card-title text-center">Make your complain</h2>
+        <h2 class="card-title text-center">Создайте жалобу</h2>
         <hr>
         <div class="card-body text-success text-center">
             <div class="card-text">
                 <form action="/complain/" method="post">
                     {% csrf_token %}
-                    <label for="Your_username">Your username</label>
+                    <label for="Your_username">Ваше имя пользователя</label>
                     <input class="form-control" type="text" id="Your_username" name="username" value="{{username}}">
                     <br>
-                    <label for="Your_email">Your email</label>
+                    <label for="Your_email">Ваша электронная почта</label>
                     <input class="form-control" type="text" id="Your_email" name="email" value="{{email}}">
                     <br>
-                    <label for="Describe_your_problem">Describe your problem</label>
-                    <textarea class="form-control" type="Textarea" id="Describe_your_problem" name="complain" placeholder="Describe_your_problem" rows="5" style="resize: none "></textarea>
+                    <label for="Describe_your_problem">Опишите Вашу проблему</label>
+                    <textarea class="form-control" type="Textarea" id="Describe_your_problem" name="complain" placeholder="Описание" rows="5" style="resize: none "></textarea>
                     <br>
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Send"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Отправить"
                            style="min-width: 100px; border-radius: 16px"/>
                 </form>
             </div>

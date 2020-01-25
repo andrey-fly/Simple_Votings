@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-4">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status_question" value="Save"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status_question" value="Сохранить"
                            style="width: 25%; border-radius: 16px; min-width: 100px"/>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-4" style="margin: auto">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status_desc" value="Save"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status_desc" value="Сохранить"
                            style="width: 25%; border-radius: 16px; min-width: 100px"/>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     {{option_form.option}}
                 </div>
                 <div class="col-4 text-left">
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Add"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="+"
                            style="width: 25%; border-radius: 16px; min-width: 100px; "/>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                 <div class="col-6">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-success btn-md" name="Delete" value="{{option.id}}"
-                            style="width: 25%; border-radius: 16px; min-width: 100px">Delete
+                            style="width: 25%; border-radius: 16px; min-width: 100px">Удалить
                     </button>
                 </div>
             </div>
@@ -78,12 +78,12 @@
             <div class="row">
                 <div class="col-6" style="margin: auto; text-align: right">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="GO BACK"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Назад"
                            style="width: 25%; border-radius: 16px; min-width: 100px; padding: 5px"/>
                 </div>
                 <div class="col-6" style="margin: auto; text-align: left">
                     {% csrf_token %}
-                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="DELETE"
+                    <input type="submit" class="btn btn-outline-success btn-md" name="status" value="Удалить"
                            style="width: 25%; border-radius: 16px; min-width: 100px"/>
                 </div>
             </div>

@@ -6,7 +6,7 @@
 <main>
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
-            <h2 class="card-title text-center">Welcome to your profile, <span class="font-italic">{{ user.username }}</span>!</h2>
+            <h2 class="card-title text-center">Добро пожаловать в Ваш личный кабинет, <span class="font-italic">{{ user.username }}</span>!</h2>
             <hr>
             <div class="row">
                 <div class="col-6">
@@ -70,7 +70,7 @@
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
 
-                        <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Edit"
+                        <input type="submit" class="btn btn-outline-success btn-md" name="{{ voting.id }}" value="Отредактировать"
                                style="width: 25%; border-radius: 16px; min-width: 100px"/>
                     </form>
                 </div>
@@ -96,13 +96,13 @@
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-outline-success btn-md" name="id_advanced"
                                             value="{{like.voting.id }}"
-                                            style="width: 25%; border-radius: 16px; min-width: 100px">Open
+                                            style="width: 25%; border-radius: 16px; min-width: 100px">Открыть
                                     </button>
                                 </div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-outline-success btn-md" name="link"
                                             value="{{like.voting.id }}"
-                                            style="width: 25%; border-radius: 16px; min-width: 100px">Link
+                                            style="width: 25%; border-radius: 16px; min-width: 100px">Ссылка
                                     </button>
                                 </div>
                             </div>

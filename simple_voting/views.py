@@ -14,8 +14,13 @@ from .models import *
 
 def index(request):
     clear_session(request)
-    context = {'data': datetime.datetime.now()}
+    context = {'data': datetime.datetime.now(), 'username': request.user}
     return render(request, 'index.html', context)
+
+
+def about_us(request):
+    clear_session(request)
+    return render(request, 'about_us.html')
 
 
 @login_required()
@@ -300,6 +305,7 @@ def other_profile(request, id):
         return redirect('/other_users_review/')
 
     return render(request, 'profile.html', context)  # todo: сделать другой шаблончег
+
 
 @login_required()
 def profile(request):
