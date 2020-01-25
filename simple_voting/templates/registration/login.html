@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Log in</title>
 {% endblock %}
@@ -30,7 +30,9 @@
             <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
-                    <button onclick="window.location.href = '../register/';" type="button" class="btn btn-outline-success btn-md btn-block">Еще не зарегистрированы?</button>
+                    <button onclick="window.location.href = '../register/';" type="button"
+                            class="btn btn-outline-success btn-md btn-block">Еще не зарегистрированы?
+                    </button>
                 </div>
             </div>
             <hr>
@@ -41,7 +43,6 @@
             </div>
         </div>
     </div>
-
     <script>
         id_username.classList.add('form-control')
         id_password.classList.add('form-control')

@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% block content %}
-<main style="text-align:center;">
+{% extends 'main/base.html' %}
+{% block content %}
+<main style="text-align:center; overflow-y: hidden;">
     <section style="margin-top: 10%; margin-bottom: 10%">
         <div class="container-fluid">
             <div class="row">
@@ -12,15 +13,18 @@
                             <hr class="my-4">
                             <p>Здесь Вы можете:</p>
                             <div class="list-group">
-                                <a href="/register" class="list-group-item list-group-item-action text-success">Cоздать свой личный
+                                <a href="/register" class="list-group-item list-group-item-action text-success">Cоздать
+                                    свой личный
                                     кабинет с актуальной
                                     информацией по вашему профилю</a>
                                 <a href="/create_voting" class="list-group-item list-group-item-action text-success">Создать
                                     опрос</a>
-                                <a href="/available_voting" class="list-group-item list-group-item-action text-success">Ответить на
+                                <a href="/available_voting" class="list-group-item list-group-item-action text-success">Ответить
+                                    на
                                     свой или опрос другого
                                     пользователя</a>
-                                <a href="/other_users_review" class="list-group-item list-group-item-action text-success">Увидеть
+                                <a href="/other_users_review"
+                                   class="list-group-item list-group-item-action text-success">Увидеть
                                     опросы отдельных пользователей и
                                     количество этих опросов</a>
                                 <a href="/complain" class="list-group-item list-group-item-action text-success"

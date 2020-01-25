@@ -1,12 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Vote </title>
 {% endblock %}
 {% block content %}
 {% if error%}
-<h1 style="color: darkred; margin: auto; text-align: center">{{error}}</h1>
+<div class="card jumbotron mt-3 border-success mt-5 mb-5" style="width: 50%; margin: 0 auto; border-radius: 8px; text-align: center">
+        <div class="card-body">
+            <h2 class="card-title text-center">{{error}}</h2>
+            <hr>
+            <a href="/available_voting" class="btn btn-outline-success" style=" border-radius: 16px; min-width: 100px; padding: 5px">Вы можете вернуться на главную страницу</a>
+            <a href="/other_users_review" class="btn btn-outline-success mt-5" style=" border-radius: 16px; min-width: 100px; padding: 5px">Или посмотреть другие голосования этого пользователя</a>
+</div>
 {% else %}
-
 <div class="card jumbotron mt-3 border-success mt-5 mb-5" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <h2 class="card-title text-center">Голосование</h2>
@@ -42,19 +47,15 @@
                             <div class="row">
                                 <div class="col-md-12" style="text-align: center; ">
                                     <button type="submit" class="btn btn-outline-success btn-lg"
-                                            style="width: 25%; border-radius: 16px; min-width: 100px">Отправить
+                                            style=" border-radius: 16px; min-width: 100px; padding: 5px">Отправить
                                     </button>
                                 </div>
                             </div>
-
                         </form>
                     </div>
                 </div>
         </div>
 </div>
-
-
-
 <script>
     id_items.setAttribute('style', 'list-style-type: none;')
     let single = {{single}}
@@ -65,6 +66,5 @@
         }
     }
 </script>
-
 {% endif %}
 {% endblock %}

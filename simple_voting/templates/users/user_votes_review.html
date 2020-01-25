@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Votings</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -7,19 +7,25 @@
 <main>
     <div class="row" style="text-align: center; margin-top: 2%">
         <div class="col-md-12">
-            <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px; padding-bottom: 10px; padding-top: 10px">
+            <div class="card jumbotron mt-3 mb-3 border-success"
+                 style="width: 50%; margin: 0 auto; border-radius: 8px; padding-bottom: 10px; padding-top: 10px">
                 <div class="card-body">
-                    <h2 class="card-title text-center">Пользователь: <span class="font-italic">{{ user_review }}</span></h2>
+                    <h2 class="card-title text-center">Пользователь: <span class="font-italic">{{ user_review }}</span>
+                    </h2>
                     <hr>
                     <div class="row">
                         <div class="col-6">
                             {% load static %}
-                            <img class="rounded mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon" style="width: 100px; height: 100px">
+                            <img class="rounded mb-3 float-right" src="{% static 'img/'%}{{photo}}" alt="icon"
+                                 style="width: 100px; height: 100px">
                         </div>
                         <div class="col-6">
-                            <p class="card-title text-left">Количество опросов: <span class="font-weight-bold">{{ votes_count }}</span></p>
-                            <p class="card-title text-left">Имя: <span class="font-weight-bold">{{ user_review.first_name }}</span></p>
-                            <p class="card-title text-left">Фамилия: <span class="font-weight-bold">{{ user_review.last_name }}</span></p>
+                            <p class="card-title text-left">Количество опросов: <span class="font-weight-bold">{{ votes_count }}</span>
+                            </p>
+                            <p class="card-title text-left">Имя: <span class="font-weight-bold">{{ user_review.first_name }}</span>
+                            </p>
+                            <p class="card-title text-left">Фамилия: <span class="font-weight-bold">{{ user_review.last_name }}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -52,53 +58,48 @@
                             Открыть статистику
                         </button>
                     </form>
-
                     <div class="row">
                         <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
                             <div class="row card border-success mb-3">
-                            <div class="card-body"><canvas id="myChart_{{voting.id}}"></canvas></div>
+                                <div class="card-body">
+                                    <canvas id="myChart_{{voting.id}}"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-<form class="form-group" action='/available_voting/' method="POST" style="text-align: center; ">
+                    <form class="form-group" action='/available_voting/' method="POST" style="text-align: center; ">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12  mb-3">
-                                 <button type="submit" name="id" value="{{ voting.id }}" class="btn btn-outline-success btn-block"
+                                <button type="submit" name="id" value="{{ voting.id }}"
+                                        class="btn btn-outline-success btn-block"
                                 >Пройти
-                        </button>
+                                </button>
                             </div>
                             <div class="col-12">
-                                <button type="submit" name="id_advanced" value="{{ voting.id }}" class="btn btn-outline-success btn-block"
+                                <button type="submit" name="id_advanced" value="{{ voting.id }}"
+                                        class="btn btn-outline-success btn-block"
                                 >Дополнительно
-                        </button>
+                                </button>
                             </div>
                         </div>
-
-
                     </form>
-
                     {% if user.id == voting.author_id %}
-
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-12">
-                                <input type="submit" class="btn btn-outline-success btn-md btn-block" name="{{ voting.id }}" value="Редактировать"/>
+                                <input type="submit" class="btn btn-outline-success btn-md btn-block"
+                                       name="{{ voting.id }}" value="Редактировать"/>
                             </div>
                         </div>
-
                     </form>
-
                     {% endif %}
-
                 </div>
-            <hr>
+                <hr>
             </div>
         </div>
     </div>
-
     <script>
         var ctx = document.getElementById('myChart_{{voting.id}}').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -131,9 +132,6 @@
             options: {}
         });
     </script>
-
-
     {% endfor %}
 </main>
-
 {% endblock %}

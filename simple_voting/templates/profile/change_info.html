@@ -1,10 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Change information</title>
 {% endblock %}
 {% block content %}
 <main>
-
     <div class="card jumbotron mt-3 border-success mt-5 mb-5" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <h2 class="card-title text-center">Изменение информации</h2>
@@ -14,7 +13,6 @@
                     {{form.errors}}
                 </div>
             </div>
-
             <div class="row">
                 <div class="col col-6">
                     <form action="/change_info/" method="POST">
@@ -36,19 +34,20 @@
                     </form>
                 </div>
                 <div class="col col-6">
-
                     {% load static %}
-                    <img class="rounded float-left mb-3" src="{% static 'img/'%}{{userphoto}}" alt="icon" style="width: 100px; height: 100px">
-
+                    <img class="rounded float-left mb-3" src="{% static 'img/'%}{{userphoto}}" alt="icon"
+                         style="width: 100px; height: 100px">
                     <form enctype="multipart/form-data" action="/change_info/" method="POST">
                         {% csrf_token %}
                         <div class="input-group">
                             <div class="custom-file">
                                 {{photo.file}}
-                                <label class="custom-file-label text-wrap" for="inputGroupFile" id="ididid"><span id="chosed_file" class="text-wrap">Выберите файл</span></label>
+                                <label class="custom-file-label text-wrap" for="inputGroupFile" id="ididid"><span
+                                        id="chosed_file" class="text-wrap">Выберите файл</span></label>
                             </div>
                             <div class="input-group-append">
-                                <input class="btn btn-success" type="submit" id="inputGroupFileBtn" name="status" value="Сохранить"/>
+                                <input class="btn btn-success" type="submit" id="inputGroupFileBtn" name="status"
+                                       value="Сохранить"/>
                             </div>
                         </div>
                     </form>
@@ -56,12 +55,11 @@
             </div>
         </div>
     </div>
-
     <script>
         inputGroupFile.addEventListener('change', function () {
             chosed_file.textContent = inputGroupFile.files[0].name;
         })
-     </script>
 
+    </script>
 </main>
 {% endblock %}

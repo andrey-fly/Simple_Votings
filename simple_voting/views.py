@@ -38,28 +38,19 @@ def available_voting(request):
         voting.like_count = voting.likes().count()
         counting_index += 1
         voting.save()
-
     votings_list = Voting.objects.all()
     paginator = Paginator(votings_list, 4)
-
     if request.method == 'GET':
         page = request.GET.get('page')
         votings = paginator.get_page(page)
         context['votings'] = votings
-        return render(request, 'available_voting.html', context)
+        return render(request, 'vote/available_voting.html', context)
     elif request.method == 'POST':
         if not (request.POST.get('id') is None):
             return redirect('/vote?voting={}'.format(request.POST.get('id')))
         elif not (request.POST.get('id_advanced') is None):
             return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
-    return render(request, 'available_voting.html', context)
-
-
-def design(request):
-    clear_session(request)
-    context = {}
-
-    return render(request, 'design.html', context)
+    return render(request, 'vote/available_voting.html', context)
 
 
 @login_required()
@@ -85,13 +76,11 @@ def create_voting(request):
                     error['message'] = 'Вы уже создали опрос с таким названием'
                     error['question'] = voting_form.data['question']
                     context['error'] = error
-                    return render(request, 'create_voting.html', context)
-
+                    return render(request, 'vote/create_voting.html', context)
             item.save()
             request.session['id_voting'] = item.id
             return generate_voting(request)
-            # return render(request, 'generate_voting.html', context)
-    return render(request, 'create_voting.html', context)
+    return render(request, 'vote/create_voting.html', context)
 
 
 def generate_voting(request):
@@ -115,11 +104,11 @@ def generate_voting(request):
     context['voting'] = voting_context
     context['option'] = option_context
     context['option_list'] = Option.objects.filter(voting=Voting.objects.get(id=id_voting))
-    if request.POST.get('status') == 'Save':
+    if request.POST.get('status'):
         if id_voting > 0:
             del request.session['id_voting']
         return redirect('/available_voting')
-    return render(request, 'generate_voting.html', context)
+    return render(request, 'vote/generate_voting.html', context)
 
 
 def signup(request):
@@ -134,7 +123,7 @@ def signup(request):
             return render(request, 'index.html', {'username': user_form.data['username']})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'register.html', {'user_form': user_form})
+    return render(request, 'profile/register.html', {'user_form': user_form})
 
 
 @login_required()
@@ -145,7 +134,6 @@ def complain(request):
         user = User.objects.get(id=request.user.id)
         context['username'] = user.username
         context['email'] = user.email
-
     elif request.method == 'POST':
         username = request.POST.get('username')
         email = request.POST.get('email')
@@ -160,14 +148,7 @@ def complain(request):
         send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, ['target_email@example.com'],
                   fail_silently=False)
         context['status'] = 'send'
-    return render(request, 'complain.html', context)
-
-
-@login_required()
-def question(request):
-    context = {}
-    # TODO:Здесь нужно реализовать систему вопрос-ответ примерно как в EduApp
-    return render(request, 'question.html', context)
+    return render(request, 'users/complain.html', context)
 
 
 def vote(request):
@@ -184,10 +165,9 @@ def vote(request):
             voting_id = request.session.get('id_voting', None)
             if len(options) > 1 and Voting.objects.get(id=voting_id).single:
                 context['error'] = "You can choose the only one answer!"
-                return render(request, 'vote.html', context)
+                return render(request, 'vote/vote.html', context)
             if len(options) > 0:
                 for option in options:
-                    print(option)
                     item = Vote(
                         option=Option.objects.get(id=option),
                         author=user,
@@ -208,11 +188,11 @@ def vote(request):
                 if not request.user.is_anonymous and jtem.author is not None:
                     if jtem.author.username == User.objects.get(id=request.user.id).username and user_ip == jtem.ip:
                         context['error'] = "You are already voted"
-                        return render(request, 'vote.html', context)
+                        return render(request, 'vote/vote.html', context)
                 else:
                     if user_ip == jtem.ip:
                         context['error'] = "You are already voted"
-                        return render(request, 'vote.html', context)
+                        return render(request, 'vote/vote.html', context)
         voting = Voting.objects.get(id=voting_id)
         context['question'] = voting.question
         context['description'] = voting.description
@@ -226,7 +206,7 @@ def vote(request):
         context['form_vote'] = form_vote
     if len(request.GET) == 0:
         return redirect('/available_voting')
-    return render(request, 'vote.html', context)
+    return render(request, 'vote/vote.html', context)
 
 
 @login_required()
@@ -278,33 +258,10 @@ def like_comment(request):
                 voting=Voting.objects.get(id=voting_id),
                 author=User.objects.get(id=request.user.id)
             )
-            print("COMMENT")
             comment_item.save()
         clear_session(request)
         return redirect('/like_comment/?voting={}'.format(voting_id))
-    return render(request, 'like_comment.html', context)
-
-
-@login_required()
-def other_profile(request, id):
-    context = {}
-    if id:
-        current_user = User.objects.get(id=id)
-        voting_items = Voting.objects.filter(author_id=User.objects.get(id=id))
-        likes = Like.objects.filter(author_id=User.objects.get(id=id))
-        context['voting_items'] = voting_items
-        context['user'] = current_user
-        context['likes'] = likes
-        context['votes_count'] = likes
-
-        if UserPhoto.objects.filter(user=current_user):
-            context['photo'] = UserPhoto.objects.get(user=current_user)
-        else:
-            context['photo'] = 'profile/profile_icon.png'
-    else:
-        return redirect('/other_users_review/')
-
-    return render(request, 'profile.html', context)  # todo: сделать другой шаблончег
+    return render(request, 'vote/like_comment.html', context)
 
 
 @login_required()
@@ -322,13 +279,12 @@ def profile(request):
         context['photo'] = UserPhoto.objects.get(user=current_user).img
     else:
         context['photo'] = 'profile/profile_icon.png'
-
     if request.method == 'POST':
         if request.POST.get('id_advanced'):
             return redirect('/like_comment?voting={}'.format(request.POST.get('id_advanced')))
         if request.POST.get('link'):
             return redirect('/vote?voting={}'.format(request.POST.get('link')))
-    return render(request, 'profile.html', context)
+    return render(request, 'profile/profile.html', context)
 
 
 @login_required()
@@ -342,13 +298,12 @@ def change_info(request):
         context['userphoto'] = UserPhoto.objects.get(user=current_user).img
     else:
         context['userphoto'] = 'profile/profile_icon.png'
-
     if request.method == 'POST':
         if request.POST.get('old_password'):
             old_password = request.POST.get('old_password')
             if current_user.check_password('{}'.format(old_password)) is False:
                 form.set_old_password_flag()
-                return render(request, 'change_info.html', {'form': form})
+                return render(request, 'profile/change_info.html', {'form': form})
         if form.is_valid():
             if request.POST.get('username'):
                 current_user.username = request.POST.get('username')
@@ -362,13 +317,13 @@ def change_info(request):
                 old_password = request.POST.get('old_password')
                 if current_user.check_password('{}'.format(old_password)) is False:
                     form.set_old_password_flag()
-                    return render(request, 'change_info.html', {'form': form})
+                    return render(request, 'profile/change_info.html', {'form': form})
                 else:
                     current_user.set_password('{}'.format(form.data['new_password2']))
             current_user.save()
             login(request, current_user)
         else:
-            return render(request, 'change_info.html', context)
+            return render(request, 'profile/change_info.html', context)
         if photo.is_valid():
             if UserPhoto.objects.filter(user=current_user):
                 userphoto = UserPhoto.objects.get(user=current_user)
@@ -377,9 +332,9 @@ def change_info(request):
             if request.FILES.get('file'):
                 userphoto.img = request.FILES.get('file')
                 userphoto.save()
-    if request.POST.get('status') == 'Save':
+    if request.POST.get('status'):
         return redirect('/profile')
-    return render(request, 'change_info.html', context)
+    return render(request, 'profile/change_info.html', context)
 
 
 @login_required()
@@ -396,7 +351,6 @@ def edit_voting(request):
                 vote_id = vid
             request.session['id_voting'] = vote_id
         vote_id = request.session.get('id_voting', 'error')
-        print(vote_id)
         if voting_form.is_valid():
             new_question = voting_form.cleaned_data.get('question')
             new_desc = voting_form.cleaned_data.get('description')
@@ -420,9 +374,8 @@ def edit_voting(request):
             return redirect('../profile')
         if request.POST.get('status') == 'DELETE':
             Voting.objects.get(id=vote_id).delete()
-            print("DONE")
             return redirect('/profile/')
-    return render(request, 'edit_voting.html', context)
+    return render(request, 'vote/edit_voting.html', context)
 
 
 @login_required()
@@ -437,7 +390,7 @@ def other_users_review(request):
         users_dict['id'] = i
         users.append(users_dict.copy())
     context['users'] = users
-    return render(request, 'other_users_review.html', context)
+    return render(request, 'users/other_users_review.html', context)
 
 
 @login_required()
@@ -464,7 +417,7 @@ def user_votes_review(request):
         voting.like_count = voting.likes().count()
         counting_index += 1
         voting.save()
-    return render(request, 'user_votes_review.html', context)
+    return render(request, 'users/user_votes_review.html', context)
 
 
 def recovery_password(request):
@@ -524,7 +477,7 @@ def recovery_password(request):
                 context['step'] = '3'
                 context['form'] = form
                 context['error'] = 'Ошибка при заполнении полей'
-    return render(request, 'recovery_password.html', context)
+    return render(request, 'profile/recovery_password.html', context)
 
 
 def clear_session(request):

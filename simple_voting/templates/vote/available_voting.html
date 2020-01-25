@@ -1,37 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Votings</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 {% endblock %}
 {% block content %}
 <main>
-
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <div class="row" style="text-align: center; margin-top: 2%">
                 <div class="col-md-12">
                     <h2 class="card-title text-center">Привет, <span class="font-italic">{{user.username}}</span></h2>
-                    <h2 class="card-title text-center">Вот список актуальных вопросов на {{ data }}<h2/>
+                    <h2 class="card-title text-center">Вот список актуальных вопросов на {{ data }}</h2>
                 </div>
             </div>
         </div>
     </div>
-
     {% for voting in votings %}
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
         <div class="card-body">
             <h2 class="card-title text-center">Вопрос: {{voting.question}}</h2>
-
             <div class="row">
                 <div class="col-md-12" style="padding-right: 25%; padding-left: 25%">
                     <hr>
-
                     <div class="row">
                         <div class="col-md-12">
                             <p style="text-align: center">Автор: {{voting.author.username}}</p>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-12">
                             <p style="text-align: center"> Описание: {{voting.description}}</p>
@@ -49,7 +44,6 @@
                             Открыть статистику
                         </button>
                     </form>
-
                     <div class="row">
                         <div class="col-md-12 collapse" id="collapseExample_{{voting.id}}" style="text-align: center">
                             <div class="row card border-success mb-3">
@@ -57,9 +51,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <form class="form-group" action='/available_voting/' method="POST" style="text-align: center; ">
                         {% csrf_token %}
                         <div class="row">
@@ -74,12 +65,8 @@
                         </button>
                             </div>
                         </div>
-
-
                     </form>
-
                     {% if user.id == voting.author_id %}
-
                     <form class="form-group" action='../edit_voting/' method="POST" style="text-align: center">
                         {% csrf_token %}
                         <div class="row">
@@ -87,17 +74,13 @@
                                 <input type="submit" class="btn btn-outline-success btn-md btn-block" name="{{ voting.id }}" value="Отредактировать"/>
                             </div>
                         </div>
-
                     </form>
-
                     {% endif %}
-
                 </div>
             <hr>
             </div>
         </div>
     </div>
-
     <script>
         var ctx = document.getElementById('myChart_{{voting.id}}').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -130,12 +113,8 @@
             options: {}
         });
     </script>
-
-
     {% endfor %}
-
 </main>
-
 <div class="pagination btn-toolbar mb-3 mt-5">
                 <div class="col" role="group" align="right">
                     <div class="btn-group" style="min-height: 100%; min-width: 50%" role="group">
@@ -173,5 +152,4 @@
                     </div>
                 </div>
 </div>
-
 {% endblock %}

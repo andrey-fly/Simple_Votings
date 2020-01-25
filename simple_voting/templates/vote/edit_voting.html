@@ -1,9 +1,7 @@
-{% extends 'base.html' %}
-
+{% extends 'main/base.html' %}
 {% block title %}
 <title>Edit</title>
 {% endblock %}
-
 {% block content %}
 <div class="card jumbotron mt-3 mb-3 border-success" style="width: 50%; margin: 0 auto; border-radius: 8px">
     <div class="card-body">
@@ -24,7 +22,6 @@
                 </div>
             </div>
         </form>
-
         <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
             <div class="row">
                 <div class="col-4" style="text-align: end; position: relative; margin: auto">
@@ -40,8 +37,6 @@
                 </div>
             </div>
         </form>
-
-
         <form class="form-group" action='/edit_voting/' method="POST"
               style="text-align: center; margin-top: 2.5%;">
             {% csrf_token %}
@@ -73,7 +68,6 @@
             </div>
         </form>
         {% endfor %}
-
         <form class="form-group" action='../edit_voting/' method="POST" style="text-align: left">
             <div class="row">
                 <div class="col-6" style="margin: auto; text-align: right">
@@ -90,4 +84,4 @@
         </form>
     </div>
     </div>
-        {% endblock %}
+{% endblock %}
