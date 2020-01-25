@@ -7,21 +7,29 @@
                 <div class="col col-md-8 text-center text-md-left ml-5">
                     <div class="card jumbotron">
                         <div class="card-body">
-                            <h1 class="display-4 card-title">Здравствуйте{% if user.is_authenticated %}, {{username}}{% endif %}</h1>
+                            <h1 class="display-4 card-title">Здравствуйте{% if user.is_authenticated %}, {{username}}
+                                {% endif %}</h1>
                             <p class="lead">"Simple voting" - сервис, предоставляющий систему проведения опросов.</p>
                             <hr class="my-4">
-                            <p>Здесь Вы можете:
-                                <li><a href="profile/">создать свой личный кабинет с актуальной информацией по вашему профилю</a></li>
-                                <li><a href="create_voting/">создать опрос</a></li>
-                                <li><a href="available_voting/">ответить на свой или опрос другого пользователя</a></li>
-                                <li><a href="available_voting/">отредактировать свой опрос</a></li>
-                                <li><a href="available_voting/">лайкнуть свой или опрос другого пользователя</a></li>
-                                <li><a href="available_voting/">прокомментировать свой или опрос другого пользователя</a></li>
-                                <li><a href="other_users_review/">увидеть опросы отдельных пользователей и количество этих опросов</a></li>
-                                <li><a href="complain/">прислать нам жалобу</a></li>
-                            </p>
+                            <p>Здесь Вы можете:</p>
+                            <div class="list-group">
+                                <a href="/register" class="list-group-item list-group-item-action text-success">Cоздать свой личный
+                                    кабинет с актуальной
+                                    информацией по вашему профилю</a>
+                                <a href="/create_voting" class="list-group-item list-group-item-action text-success">Создать
+                                    опрос</a>
+                                <a href="/available_voting" class="list-group-item list-group-item-action text-success">Ответить на
+                                    свой или опрос другого
+                                    пользователя</a>
+                                <a href="/other_users_review" class="list-group-item list-group-item-action text-success">Увидеть
+                                    опросы отдельных пользователей и
+                                    количество этих опросов</a>
+                                <a href="/complain" class="list-group-item list-group-item-action text-success"
+                                   aria-disabled="true">Прислать нам жалобу</a>
+                            </div>
                             <p class="lead">
-                                <a class="btn btn-lg btn-outline-success" href="#" role="button">Узнать больше</a>
+                                <a class="btn btn-lg btn-outline-success" href="/about_us" role="button">Узнать
+                                    больше</a>
                             </p>
                         </div>
                     </div>

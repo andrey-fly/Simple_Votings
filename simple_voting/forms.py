@@ -83,7 +83,7 @@ class OptionForm(forms.Form):
         label='Ответ',
         required=True,
         widget=forms.TextInput(
-            attrs={'class': 'form-control', 'placeholder': 'Вопрос', 'style': 'border-radius: 8px', 'autofocus': ''})
+            attrs={'class': 'form-control', 'placeholder': 'Ответ', 'style': 'border-radius: 8px', 'autofocus': ''})
     )
 
 
