@@ -192,4 +192,4 @@ class RecoveryPass(forms.Form):
 
 class FileForm(forms.Form):
     file = forms.FileField(label='Select a file', required=False,
-                           widget=forms.FileInput(attrs={'class': 'custom-file-input', 'id': 'inputGroupFile', 'aria-describedby': "inputGroupFileBtn"}))
+                           widget=forms.FileInput(attrs={'class': 'custom-file-input', 'id': 'inputGroupFile', 'aria-describedby': "inputGroupFileBtn", 'accept': "image/jpeg, image/png"}))
