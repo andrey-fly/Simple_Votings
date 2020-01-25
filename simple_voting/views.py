@@ -283,12 +283,22 @@ def like_comment(request):
 @login_required()
 def other_profile(request, id):
     context = {}
-    voting_items = Voting.objects.filter(author_id=User.objects.get(id=id))
-    likes = Like.objects.filter(author_id=User.objects.get(id=id))
-    context['voting_items'] = voting_items
-    context['user'] = User.objects.get(id=id)
-    context['likes'] = likes
-    context['votes_count'] = likes
+    if id:
+        current_user = User.objects.get(id=id)
+        voting_items = Voting.objects.filter(author_id=User.objects.get(id=id))
+        likes = Like.objects.filter(author_id=User.objects.get(id=id))
+        context['voting_items'] = voting_items
+        context['user'] = current_user
+        context['likes'] = likes
+        context['votes_count'] = likes
+
+        if UserPhoto.objects.filter(user=current_user):
+            context['photo'] = UserPhoto.objects.get(user=current_user)
+        else:
+            context['photo'] = 'profile/profile_icon.png'
+    else:
+        return redirect('/other_users_review/')
+
     return render(request, 'profile.html', context)  # todo: сделать другой шаблончег
 
 @login_required()
@@ -427,12 +437,17 @@ def other_users_review(request):
 @login_required()
 def user_votes_review(request):
     clear_session(request)
-    context = {'user': User.objects.get(id=request.user.id),
-               'user_review': User.objects.get(id=request.GET.get('voting', 0)),
+    current_user = User.objects.get(id=request.user.id)
+    review_user = User.objects.get(id=request.GET.get('voting', 0))
+    context = {'user': current_user,
+               'user_review': review_user,
                'votes_count': Voting.objects.filter(author=request.GET.get('voting', 0)).count(),
                'data': datetime.datetime.now(),
-               'votings': Voting.objects.filter(author=request.GET.get('voting', 0)),
-               'photo': UserPhoto.objects.get(user=User.objects.get(id=request.user.id))}
+               'votings': Voting.objects.filter(author=request.GET.get('voting', 0))}
+    if UserPhoto.objects.filter(user=review_user):
+        context['photo'] = UserPhoto.objects.get(user=review_user).img
+    else:
+        context['photo'] = 'profile/profile_icon.png'
     counting_index = 0
     for option in Option.objects.all():
         option.vote_count = option.votes().count()
