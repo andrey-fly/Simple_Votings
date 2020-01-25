@@ -115,7 +115,7 @@ def generate_voting(request):
     context['voting'] = voting_context
     context['option'] = option_context
     context['option_list'] = Option.objects.filter(voting=Voting.objects.get(id=id_voting))
-    if request.POST.get('status') == 'Save':
+    if request.POST.get('status'):
         if id_voting > 0:
             del request.session['id_voting']
         return redirect('/available_voting')
