@@ -6,7 +6,7 @@
 <main>
     <div class="card jumbotron mt-3 mb-3 border-success" style="width: 25%; min-width: 300px; margin: 0 auto">
         <div class="card-body">
-            <h2 class="card-title text-center">Log in</h2>
+            <h2 class="card-title text-center">Вход</h2>
             <form action="" method="post">
                 {% csrf_token %}
                 <div class="row">
@@ -25,21 +25,21 @@
                         {{ form.password }}
                     </div>
                 </div>
-                <button type="submit" class="btn btn-outline-success btn-md btn-block mt-3">Log in</button>
+                <button type="submit" class="btn btn-outline-success btn-md btn-block mt-3">Войти</button>
             </form>
             <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
                     <form action="/register/" method="post">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-success btn-md btn-block">Don't have an account yet?</button>
+                        <button type="submit" class="btn btn-outline-success btn-md btn-block">Еще не зарегистрированы?</button>
                     </form>
                 </div>
             </div>
             <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
-                    <a href="../recovery_password/" style="margin: 0">Forgot your password?</a>
+                    <a href="../recovery_password/" style="margin: 0">Забыли пароль?</a>
                 </div>
             </div>
         </div>

@@ -37,13 +37,13 @@ class UserRegistrationForm(forms.ModelForm):
     def clean_password2(self):
         cd = self.data
         if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
+            raise forms.ValidationError('Пароли не совпадают.')
         return cd['password2']
 
     def clean_username(self):
         cd = self.data
         if len(cd['username']) < 6:
-            raise forms.ValidationError('Username must have 6 or more symbols')
+            raise forms.ValidationError('Имя пользователя должно содержать 6 символов и более.')
         return cd['username']
 
     def clean_email(self):
@@ -51,7 +51,7 @@ class UserRegistrationForm(forms.ModelForm):
         users = User.objects.all()
         for user in users:
             if user.email == cd['email']:
-                raise forms.ValidationError('This email is already in use')
+                raise forms.ValidationError('Эта электронная почта уже используется')
         return cd['email']
 
 
