@@ -30,10 +30,7 @@
             <hr>
             <div class="row mt-3">
                 <div class="col-12 text-center">
-                    <form action="/register/" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-success btn-md btn-block">Еще не зарегистрированы?</button>
-                    </form>
+                    <button onclick="window.location.href = '../register/';" type="button" class="btn btn-outline-success btn-md btn-block">Еще не зарегистрированы?</button>
                 </div>
             </div>
             <hr>
